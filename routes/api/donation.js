@@ -4,6 +4,13 @@ const auth = require('../../middleware/auth');
 
 const Donation = require('../../models/Donation');
 
+router.get('/', (req, res) => {
+    Donation.find()
+        .sort({date: -1})
+        .then(donations=> res.json(donations))
+});
+
+
 router.post('/',  (req, res) => {
     const newDonation = new Donation({
         name: req.body.name,
