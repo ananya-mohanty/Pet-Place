@@ -11,35 +11,34 @@ const DonationSchema = new Schema({
     },
     currentAmount:{
         type: String,
-        required: true,
+        // required: true,
         default:"0"
     },
     targetAmount: {
-        type: String,
-        required: true
+        type: String
+        // required: true
     },
     category: {
-        type: String,
-        required: true
+        type: String
+        // required: true
     },
     location: {
-        type: String,
-        required: true
+        type: String
+        // required: true
     },
     startDate: {
-        type: Date,
-        required: true
+        type: Date
+        // required: true
     },
     endDate: {
-        type: Date,
-        required: true
+        type: Date
+        // required: true
     },
     description:{
         type: String,
-        required: true,
+        // required: true,
         default: "" 
     },
 });
 
-module.exports.DonationSchema = DonationSchema
-module.exports.Donation = mongoose.model("Donation", DonationSchema);
+module.exports = Donation = mongoose.model('donation', DonationSchema);

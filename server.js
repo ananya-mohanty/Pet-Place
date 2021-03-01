@@ -21,7 +21,7 @@ mongoose
     .catch(err => console.log(err));
 
    
-app.use('/api/donations', donations);
+app.use('/api/donations', require('./routes/api/donation'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 
