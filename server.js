@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const items = require('./routes/api/donation');
+const donations = require('./routes/api/donation');
 const config = require('config');
 
 const app = express();
