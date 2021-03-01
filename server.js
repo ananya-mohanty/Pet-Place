@@ -1,15 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const donations = require('./routes/api/donation');
-const config = require('config');
 
 const app = express();
 
-//bodyparser middleware
-app.use(express.json());
-
 //DB config
-const db = config.get('mongoURI');
+const db = require('./config/keys').mongoURI;
+// app.set("view engine", "ejs");
 
 //Connect to mongo
 mongoose
@@ -20,11 +16,9 @@ mongoose
     .then(() => console.log("Connected to database"))
     .catch(err => console.log(err));
 
-app.use('/api/post', require('./routes/api/post'));   
-app.use('/api/donations', require('./routes/api/donation'));
+app.use('/api/post', require('./routes/api/post'));
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/auth', require('./routes/api/auth'));
 
-const port = process.env.PORT || 5008;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
