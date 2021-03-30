@@ -11,7 +11,6 @@ function App() {
     <Provider store={store}>
     <div className="App">
       <Navbar />
-      hello wtf
       {/* <Router history={history}>
         <Provider store={store}>
           <Navbar />
