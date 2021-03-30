@@ -4524,7 +4524,7 @@ canvas {
 /*--- responsive header ---*/
 
 .responsive-header {
-  display: none;
+  /* display: none; */
 }
 
 .mh-head {
