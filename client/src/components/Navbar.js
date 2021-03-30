@@ -4,7 +4,7 @@ import '../css/main.min.css'
 import '../css/style.css'
 import '../css/color.css'
 import '../css/responsive.css'
-import $ from 'jquery'
+import logo from '../images/logo_fetch.jpeg'
 
 export class Navbar extends Component {
 
@@ -13,25 +13,25 @@ export class Navbar extends Component {
         <div class="theme-layout">
             <div class="topbar stick">
                 <div class="logo">
-                    <a title="" href="newsfeed.html"><img src="images/logo.png" alt="" /></a>
+                    <a title="" href="#"><img src={logo} style={{marginLeft: -20, marginRight: 40, height: 60}} /></a>
                 </div>
                 
-                <div class="top-area">
+                <div class="top-area" style={{marginLeft: -20}}>
                     <ul class="main-menu">
                         <li>
                             <a href="#" title="">Home</a>
-                            <ul>
+                            {/* <ul>
                                 <li><a href="index-2.html" title="">Home Social</a></li>
                                 <li><a href="index2.html" title="">Home Social 2</a></li>
                                 <li><a href="index-company.html" title="">Home Company</a></li>
                                 <li><a href="landing.html" title="">Login page</a></li>
                                 <li><a href="logout.html" title="">Logout Page</a></li>
                                 <li><a href="newsfeed.html" title="">news feed</a></li>
-                            </ul>
+                            </ul> */}
                         </li>
                         <li>
-                            <a href="#" title="">timeline</a>
-                            <ul>
+                            <a href="#" title="">Donate</a>
+                            {/* <ul>
                                 <li><a href="time-line.html" title="">timeline</a></li>
                                 <li><a href="timeline-friends.html" title="">timeline friends</a></li>
                                 <li><a href="timeline-groups.html" title="">timeline groups</a></li>
@@ -42,49 +42,28 @@ export class Navbar extends Component {
                                 <li><a href="groups.html" title="">groups page</a></li>
                                 <li><a href="page-likers.html" title="">Likes page</a></li>
                                 <li><a href="people-nearby.html" title="">people nearby</a></li>
+                            </ul> */}
+                        </li>
+                        <li>
+                            <a href="#" title="">Adopt a Pet</a>
+                            <ul>
+                                <li><a href="#" title="">Cats</a></li>
+                                <li><a href="#" title="">Dogs</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" title="">account settings</a>
+                            <a href="#" title="">Lost and Found</a>
                             <ul>
-                                <li><a href="create-fav-page.html" title="">create fav page</a></li>
-                                <li><a href="edit-account-setting.html" title="">edit account setting</a></li>
-                                <li><a href="edit-interest.html" title="">edit-interest</a></li>
-                                <li><a href="edit-password.html" title="">edit-password</a></li>
-                                <li><a href="edit-profile-basic.html" title="">edit profile basics</a></li>
-                                <li><a href="edit-work-eductation.html" title="">edit work educations</a></li>
-                                <li><a href="messages.html" title="">message box</a></li>
-                                <li><a href="inbox.html" title="">Inbox</a></li>
-                                <li><a href="notifications.html" title="">notifications page</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" title="">more pages</a>
-                            <ul>
-                                <li><a href="404.html" title="">404 error page</a></li>
-                                <li><a href="about.html" title="">about</a></li>
-                                <li><a href="contact.html" title="">contact</a></li>
-                                <li><a href="faq.html" title="">faq's page</a></li>
-                                <li><a href="insights.html" title="">insights</a></li>
-                                <li><a href="knowledge-base.html" title="">knowledge base</a></li>
-                                <li><a href="widgets.html" title="">Widgts</a></li>
+                                <li><a href="#" title="">Lost a Pet</a></li>
+                                <li><a href="#" title="">Found a Pet</a></li>
                             </ul>
                         </li>
                     </ul>
                     <ul class="setting-area">
-                        <li>
-                            <a href="#" title="Home" data-ripple=""><i class="ti-search"></i></a>
-                            <div class="searched">
-                                <form method="post" class="form-search">
-                                    <input type="text" placeholder="Search Friend" />
-                                    <button data-ripple><i class="ti-search"></i></button>
-                                </form>
-                            </div>
-                        </li>
                         <li><a href="newsfeed.html" title="Home" data-ripple=""><i class="ti-home"></i></a></li>
                         <li>
                             <a href="#" title="Notification" data-ripple="">
-                                <i class="ti-bell"></i><span>20</span>
+                                <i class="ti-bell"></i>
                             </a>
                             <div class="dropdowns">
                                 <span>4 New Notifications</span>
@@ -212,19 +191,21 @@ export class Navbar extends Component {
                                 <a href="messages.html" title="" class="more-mesg">view more</a>
                             </div>
                         </li>
-                        <li><a href="#" title="Languages" data-ripple=""><i class="fa fa-globe"></i></a>
+                        <li><a href="#" title="Languages" data-ripple=""><i class="ti-user"></i></a>
                             <div class="dropdowns languages">
-                                <a href="#" title=""><i class="ti-check"></i>English</a>
-                                <a href="#" title="">Arabic</a>
-                                <a href="#" title="">Dutch</a>
-                                <a href="#" title="">French</a>
+                                <a href="#" title=""><i class="ti-check"></i>View Profile</a>
+                                <a href="#" title="">Edit Profile</a>
+                                <a href="#" title="">View History</a>
                             </div>
+                        </li>
+                        <li>
+                        <a href="#" title=""><i class="ti-power-off"></i></a>
                         </li>
                     </ul>
                     <div class="user-img">
                         <img src="images/resources/admin.jpg" alt="" />
                         <span class="status f-online"></span>
-                        <div class="user-setting">
+                        {/* <div class="user-setting">
                             <a href="#" title=""><span class="status f-online"></span>online</a>
                             <a href="#" title=""><span class="status f-away"></span>away</a>
                             <a href="#" title=""><span class="status f-off"></span>offline</a>
@@ -233,9 +214,9 @@ export class Navbar extends Component {
                             <a href="#" title=""><i class="ti-target"></i>activity log</a>
                             <a href="#" title=""><i class="ti-settings"></i>account setting</a>
                             <a href="#" title=""><i class="ti-power-off"></i>log out</a>
-                        </div>
+                        </div> */}
                     </div>
-                    <span class="ti-menu main-menu" data-ripple=""></span>
+                    {/* <span class="ti-menu main-menu" data-ripple=""></span> */}
                 </div>
             </div>
         </div>
