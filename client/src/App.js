@@ -4,6 +4,7 @@ import store from './store'
 import { Provider } from 'react-redux'
 import history from './history'
 import Navbar from './components/Navbar'
+import Navbar2 from './components/Navbar2'
 import Footer from './components/Footer'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { NewPost } from './components/NewPost';
@@ -14,6 +15,7 @@ function App() {
     <Provider store={store}>
     <div className="App">
       <Navbar />
+      <Navbar2 />
       <NewPost/>
       <FeedPosts/>
       {/* <Router history={history}>
