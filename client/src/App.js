@@ -5,13 +5,16 @@ import { Provider } from 'react-redux'
 import history from './history'
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { NewPost } from './components/NewPost';
+import { FeedPosts } from './components/FeedPosts';
 
 function App() {
   return (
     <Provider store={store}>
     <div className="App">
       <Navbar />
-      hello wtf
+      <NewPost/>
+      <FeedPosts/>
       {/* <Router history={history}>
         <Provider store={store}>
           <Navbar />
