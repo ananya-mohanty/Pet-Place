@@ -1,9 +1,10 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import store from './store'
 import { Provider } from 'react-redux'
 import history from './history'
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             }></Route>
         </Provider>
       </Router> */}
+      <Footer />
     </div>
     </Provider>
   );
