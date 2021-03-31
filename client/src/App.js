@@ -4,20 +4,18 @@ import store from './store'
 import { Provider } from 'react-redux'
 import history from './history'
 import Navbar from './components/Navbar'
-import Navbar2 from './components/Navbar2'
 import Footer from './components/Footer'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { NewPost } from './components/NewPost';
-import { FeedPosts } from './components/FeedPosts';
+import { Feed } from './components/Feed';
 
 function App() {
   return (
     <Provider store={store}>
-    <div className="App">
+    <div className="App" style={{backgroundColor: 'whitesmoke'}}>
       <Navbar />
-      <Navbar2 />
       <NewPost/>
-      <FeedPosts/>
+      <Feed/>
       {/* <Router history={history}>
         <Provider store={store}>
           <Navbar />

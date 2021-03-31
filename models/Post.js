@@ -9,11 +9,17 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    img:
+    file:
     {
         data: Buffer,
         contentType: String
     },
+
+    filetype:
+    {
+        type: String
+    },
+
     likes: {
         type: Number,
         required: true,
@@ -22,6 +28,10 @@ const PostSchema = mongoose.Schema({
         type: Array,
         required: false
     },
+    time:{
+        type: String,
+        required: false
+    }
 });
 
 const Post = module.exports = mongoose.model('Post', PostSchema);

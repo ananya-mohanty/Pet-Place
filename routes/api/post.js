@@ -33,16 +33,19 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', upload.single('image'), (req, res, next) => {
+router.post('/', upload.single('file'), (req, res, next) => {
+    const time= Date.now()
+    const today= new Date(time)
     var post = new Post({
+        filetype: req.body.filetype,
         caption: req.body.caption,
         likes: 0,
-        img: {
+        time: today,
+        file: {
             data: fs.readFileSync(path.join('./uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
     })
     post.save()
-    res.json("Post Uploaded")
 });
 module.exports = router;
