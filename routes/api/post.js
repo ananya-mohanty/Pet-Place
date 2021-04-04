@@ -77,7 +77,6 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
 });
 
 router.get('/image/:filename', function (req, res) {
-    console.log('hii')
     gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
         if (!file || file.length === 0) {
             return res.status(404).json({
@@ -122,6 +121,7 @@ router.get('/video/:filename', function (req, res) {
 })
 
 router.get('/document/:filename', function (req, res) {
+    console.log('hii')
     gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
         if (!file || file.length === 0) {
             return res.status(404).json({

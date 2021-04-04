@@ -16,6 +16,8 @@ DB = mongoose.connection;
 mongoose
     .connect(db, {
         useNewUrlParser: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true,
         useCreateIndex: true
     })
     .then(() => console.log("Connected to database"))

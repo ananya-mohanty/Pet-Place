@@ -13,7 +13,6 @@ const imageStyle = {
     width: 50,
     height: 50,
     borderRadius: 25,
-    overflow: "hidden",
     alignSelf: 'flex-start',
 }
 
@@ -27,13 +26,14 @@ export class NewPost extends Component {
         filetype: []
     }
     onFileChange = e => {
-        this.state.numfiles = e.target.files.length
+        var prev = this.state.numfiles
+        this.state.numfiles += e.target.files.length
         console.log(this.state.numfiles)
         var i=0
-        var src=[]
-        var files=[]
-        var filetype=[]
-        while (i<this.state.numfiles)
+        var src = this.state.filesrc
+        var files=this.state.files
+        var filetype = this.state.filetype
+        while (i<this.state.numfiles-prev)
         {
             files.push(e.target.files[i]);
             filetype.push(e.target.files[i].name.split('.').pop());
@@ -50,7 +50,6 @@ export class NewPost extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData();
-        var file_json = JSON.stringify(this.state.files);
         formData.append('caption', this.state.caption)
         formData.append('filetype', this.state.filetype)
         formData.append('num_files', this.state.numfiles)
@@ -77,7 +76,8 @@ export class NewPost extends Component {
                 paddingTop: '50px',
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                width: '800px'
             }}>
                 <Row>
                     <Col>
@@ -89,12 +89,15 @@ export class NewPost extends Component {
                         }}>
                             <img src={profilepic} style={imageStyle}></img>
                             <form>
-                                <textarea style={{ marginLeft: '5px', position: 'relative', zIndex: '1' }}
+                                <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
                                     placeholder='write something'
                                     rows="5" cols="20"
                                     name='caption'
                                     onChange={this.onTextChange} />
-                                <input type="file" name='files' id="files" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
+                                <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
+                                <input type="file" name='files' id="vid" accept="video/*"style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
+                                <input type="file" name='files' id="doc" accept="application/*, text/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
+
                                 <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
                                     {this.state.filesrc.map((src, idx) => {
                                         return (
@@ -102,15 +105,26 @@ export class NewPost extends Component {
                                             <img src={src} style={{
                                                 width: '30px',
                                                 height: '30px', border: '1px solid black', borderRadius: '5px',
-                                                marginLeft: '5px'
+                                                marginLeft: '5px',
+                                                marginBottom: '20px'
                                             }} /> :
-                                            // this.state.filetype[idx] == 'mp4' || this.state.filetype[idx] == 'ogg' || this.state.filetype[idx] == 'webm' ?
+                                            this.state.filetype[idx] == 'mp4' || this.state.filetype[idx] == 'ogg' || this.state.filetype[idx] == 'webm' ?
                                                 <video 
-                                                    height='30px'><source src={src} /></video>
-                                        
+                                                        style={{
+                                                            width: '30px',
+                                                            height: '30px', border: '1px solid black', borderRadius: '5px',
+                                                            marginLeft: '5px'}}><source src={src} /></video>:
+                                                    <embed style={{
+                                                        width: '30px',
+                                                        height: '30px', border: '1px solid black', borderRadius: '5px',
+                                                        marginLeft: '5px',
+                                                    }}  name="plugin" src={src} type="application/pdf"/>
                                     )})}
                                     <br></br>
-                                    <label for="files"><i class="fa fa-image" /></label>
+                                    <label for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
+                                    <label for="vid"><i class="fa fa-video-camera" /></label>&nbsp;&nbsp;
+                                    <label for="doc"><i class="fa fa-file" /></label>&nbsp;&nbsp;
+
                                     <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
                                 </div>
                             </form>

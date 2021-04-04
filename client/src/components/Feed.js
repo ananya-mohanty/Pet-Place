@@ -9,10 +9,9 @@ export class Feed extends Component {
         files:[]
     }
      
-    componentDidMount() {
+    componentDidMount = ()=> {
         axios.get('api/post')
             .then(res => {
-                console.log(res.data)
                 this.setState({ posts: res.data.items, files: res.data.files })
             });
     }

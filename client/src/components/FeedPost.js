@@ -7,6 +7,8 @@ import {
     Jumbotron
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
+import doc from '../images/document.png'
+import { SRLWrapper } from "simple-react-lightbox"
 
 const imageStyle = {
     width: 50,
@@ -18,12 +20,33 @@ const imageStyle = {
 
 
 export class FeedPost extends Component {
-    arrayBufferToBase64(buffer) {
-        var binary = '';
-        var bytes = [].slice.call(new Uint8Array(buffer));
-        bytes.forEach((b) => binary += String.fromCharCode(b));
-        return window.btoa(binary);
-    };
+    state={
+        data:[]
+    }
+
+    // componentDidMount(){
+    //         this.props.files.map((f, i) => {
+    //             if (f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg')
+    //             {
+    //                 this.state.data.push({ 'src': `http://localhost:5000/api/post/image/${f.filename}`,
+    //                     'caption': 'Lorem ipsum dolor sit amet',
+    //                     'width': '700px',
+    //                     'height': 'auto'})
+    //             }
+
+    //             else if (f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm')
+    //             {
+    //                 this.state.data.push({
+    //                     'src': `http://localhost:5000/api/post/video/${f.filename}`,
+    //                     'thumbnail':
+    //                         `http://localhost:5000/api/post/video/${f.filename}`,
+    //                     'caption': 'Vimeo video',
+    //                     'autoplay': false,
+    //                     'showControls': true
+    //                 })
+    //             }
+    //         })
+    // }
 
     render() {
         return (
@@ -49,23 +72,21 @@ export class FeedPost extends Component {
                             </div>
                             <br></br>
                             <div style={{ padding: '15px', align:'center'}}>
-                                {/* {this.props.post.filetype=='mp4'?
-                                    <video width="700px" controls>
-                                        <source src={this.state.img} type="video/mp4" />
-                                    </video>:
-                                    <img src={this.state.img} style={{ width: '700px' }} ></img>} */}
+                                {/* <SRLWrapper elements={this.state.data} /> */}
                                     {this.props.files.map((f, i) => {
                                         return(
                                             <div>
                                         {f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg'?
-                                        <a href={'api/post/image/' + f.filename}>
+                                        <a href={'http://localhost:5000/api/post/image/' + f.filename}>
                                             <img src={'api/post/image/' + f.filename} style={{ width: '700px' }} ></img>
                                         </a>:
                                         f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm'?
                                         <video width="700px" controls><source src={'api/post/video/' + f.filename}/></video>:
                                         f.contentType === 'application/pdf' || f.contentType === 'application/octet-stream' 
                                         || f.contentType === 'text/plain' || f.contentType === 'application/x-zip-compressed'?
-                                        <a href={'api/post/document/' + f.filename}>{f.metadata}</a>:
+                                        <a href={'http://localhost:5000/api/post/document/' + f.filename}>
+                                                                <img src={doc} width='30px'></img>&nbsp;&nbsp;
+                                        {f.metadata}</a>:
                                         f.metadata}
                                         <br></br>
                                         <br></br>
