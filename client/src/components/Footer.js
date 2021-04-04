@@ -13,7 +13,7 @@ export class Footer extends Component {
             <footer>
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4" style={{marginLeft: 70, marginTop: 165}}>
+                        <div class="col-lg-4 col-md-4" style={{marginLeft: 70/*, marginTop: 165*/}}>
                             <div class="widget">
                                 <div class="foot-logo">
                                     <div class="logo">
@@ -35,7 +35,7 @@ export class Footer extends Component {
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-4" style={{marginTop: 180}}>
+                        <div class="col-lg-2 col-md-4" style={{/*marginTop: 180*/}}>
                             <div class="widget">
                                 <div class="widget-title"><h4>follow</h4></div>
                                 <ul class="list-style">
@@ -45,7 +45,7 @@ export class Footer extends Component {
                                     </ul>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-4" style={{marginTop: 180}}>
+                        <div class="col-lg-2 col-md-4" style={{/*marginTop: 180*/}}>
                             <div class="widget">
                                 <div class="widget-title"><h4>Navigate</h4></div>
                                 <ul class="list-style">
@@ -55,7 +55,7 @@ export class Footer extends Component {
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-4" style={{marginTop: 180}}>
+                        <div class="col-lg-2 col-md-4" style={{/*marginTop: 180*/}}>
                             <div class="widget">
                                 <div class="widget-title"><h4>useful links</h4></div>
                                 <ul class="list-style">

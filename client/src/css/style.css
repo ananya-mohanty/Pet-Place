@@ -2059,15 +2059,15 @@ footer {
 
 footer::before {
   background: rgba(0, 0, 0, 0)
-    linear-gradient(to right, #ffffff 0%, #2fa7cd 50%, #ffffff 100%) repeat
-    scroll 0 0;
+    linear-gradient(to right, #ffffff 0%, /*#2fa7cd*/ #d4af37 50%, #ffffff 100%)
+    repeat scroll 0 0;
   content: "";
   height: 3px;
   position: absolute;
   width: 100%;
   /* top: 500; */
   /* left: 0; */
-  margin-top: 70px;
+  margin-top: -80px;
 }
 
 .widget {
