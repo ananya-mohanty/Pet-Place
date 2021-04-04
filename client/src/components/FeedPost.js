@@ -25,15 +25,6 @@ export class FeedPost extends Component {
         return window.btoa(binary);
     };
 
-    state={
-        img:null
-    }
-    componentDidMount(){
-            var base64Flag = `data:image/${this.props.post.filetype};base64,`;
-            var imageStr = this.arrayBufferToBase64(this.props.post.file.data.data);
-            this.setState({img: base64Flag + imageStr})
-            console.log(this.state.img)
-    }
     render() {
         return (
             <Container style={{
@@ -45,7 +36,8 @@ export class FeedPost extends Component {
                     <Col>
                         <Jumbotron style={{
                             padding: '20px',
-                            backgroundColor: 'white'
+                            backgroundColor: 'white',
+                            width: '750px'
                         }}>
                             <div style={{display:'flex'}}>
                                 <img src={profilepic} style={imageStyle}></img>
@@ -55,14 +47,30 @@ export class FeedPost extends Component {
                                     <span style={{ fontSize: '12px' }}>Published: {this.props.post.time}</span>
                                 </div>
                             </div>
-                            <div style={{ padding: '10px', width: '700px' }}>
-                                {this.props.post.filetype=='mp4'?
+                            <br></br>
+                            <div style={{ padding: '15px', align:'center'}}>
+                                {/* {this.props.post.filetype=='mp4'?
                                     <video width="700px" controls>
                                         <source src={this.state.img} type="video/mp4" />
                                     </video>:
-                                    <img src={this.state.img} style={{ width: '700px' }} ></img>}
-                                <br></br>
-                                <br></br>
+                                    <img src={this.state.img} style={{ width: '700px' }} ></img>} */}
+                                    {this.props.files.map((f, i) => {
+                                        return(
+                                            <div>
+                                        {f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg'?
+                                        <a href={'api/post/image/' + f.filename}>
+                                            <img src={'api/post/image/' + f.filename} style={{ width: '700px' }} ></img>
+                                        </a>:
+                                        f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm'?
+                                        <video width="700px" controls><source src={'api/post/video/' + f.filename}/></video>:
+                                        f.contentType === 'application/pdf' || f.contentType === 'application/octet-stream' 
+                                        || f.contentType === 'text/plain' || f.contentType === 'application/x-zip-compressed'?
+                                        <a href={'api/post/document/' + f.filename}>{f.metadata}</a>:
+                                        f.metadata}
+                                        <br></br>
+                                        <br></br>
+                                        </div>
+                                    )})}
                                 <div>
                                     <ul style={{marginLeft:'-40px'}}>
                                         <li style={{

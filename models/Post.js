@@ -9,10 +9,10 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    file:
+    files:
     {
-        data: Buffer,
-        contentType: String
+        type: Array,
+        required: false
     },
 
     filetype:
