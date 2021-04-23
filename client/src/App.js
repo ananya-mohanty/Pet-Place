@@ -11,6 +11,7 @@ import { Feed } from './components/Feed';
 import { DonationsPage } from './pages/DonationsPage'
 import { NgosPage } from './pages/NgosPage'
 import NewDrive from './components/NewDrive'
+import LoginRegister from './components/LoginRegister'
 import { LostPetPage } from './pages/LostPetPage'
 import LostPet from './components/LostPet'
 import FoundPet from './components/FoundPet'
@@ -21,33 +22,49 @@ function App() {
     <div className="App" style={{backgroundColor: 'whitesmoke'}}>
       <Router history={history}>
         <Provider store={store}>
-        <Navbar />
+        
+          <Route exact path="/login" render={() =>
+            <div style={{backgroundColor: 'white'}}>
+            <LoginRegister />
+            </div>
+          }></Route>
           <Route exact path="/" render={(props) =>
             <div>
+            <Navbar />
             <NewPost />
             <Feed/>
+            <Footer />
             </div>
           }></Route>
           <Route exact path="/donations" render={() =>
           <div>
+            <Navbar />
             <NewDrive/>
             <DonationsPage />
+            <Footer />
           </div>
           }></Route>
           <Route exact path="/ngos" render={() =>
+            <div>
+            <Navbar />
             <NgosPage />
+            <Footer />
+            </div>
           }></Route>
           <Route exact path="/lostpet" render={() =>
           <div>
+            <Navbar />
             <LostPet/>
             <LostPetPage />
-
+            <Footer />
           </div>
           }></Route>
           <Route exact path="/foundpet" render={() =>
             <div>
+              <Navbar />
               <FoundPet />
               <FoundPetPage />
+              <Footer />
             </div>
           }></Route>
           
@@ -61,7 +78,7 @@ function App() {
             }></Route>
         </Provider>
       </Router> */}
-      <Footer />
+      
       </Provider>
       </Router>
     </div>

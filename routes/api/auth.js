@@ -13,8 +13,10 @@ const User = require('../../models/User');
 //@desc Authenticate user
 //@access Public
 router.post('/', (req, res) => {
+    console.log("aa gyaaaaa")
+    console.log(req.body.email)
     const { email, password } = req.body;
-
+    console.log(email)
     //simple validation
     if (!email || !password) {
         return res.status(400).json({ msg: 'Please enter all fields' }); //bad request
@@ -38,6 +40,7 @@ router.post('/', (req, res) => {
                         { expiresIn: 3600 },
                         (err, token) => {
                             if (err) throw err;
+                            console.log("validated")
                             res.json({
                                 token,
                                 user: {
