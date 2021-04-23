@@ -9,6 +9,11 @@ const LostPetSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    status: {
+        type: String,
+        required: true,
+        default: 'lost'
+    },
     lastseen: {
         type: String,
         required: false

@@ -13,6 +13,8 @@ import { NgosPage } from './pages/NgosPage'
 import NewDrive from './components/NewDrive'
 import { LostPetPage } from './pages/LostPetPage'
 import LostPet from './components/LostPet'
+import FoundPet from './components/FoundPet'
+import { FoundPetPage } from './pages/FoundPetPage'
 
 function App() {
   return (
@@ -41,6 +43,12 @@ function App() {
             <LostPetPage />
 
           </div>
+          }></Route>
+          <Route exact path="/foundpet" render={() =>
+            <div>
+              <FoundPet />
+              <FoundPetPage />
+            </div>
           }></Route>
           
         

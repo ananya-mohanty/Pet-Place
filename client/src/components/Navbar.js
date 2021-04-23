@@ -58,7 +58,7 @@ export class Navbar2 extends Component {
                                         <DropdownItem tag={Link} to="/lostpet" >
                                             Lost a Pet
                                         </DropdownItem>
-                                        <DropdownItem>
+                                        <DropdownItem tag={Link} to="/foundpet" >
                                             Found a Pet
                                         </DropdownItem>
                                     </DropdownMenu>

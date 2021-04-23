@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     }
-    LostPet.find({}, (err, items) => {
+    LostPet.find({status: 'lost'}, (err, items) => {
         if (err) {
             console.log(err);
             res.status(500).json("An error occured.");
@@ -75,6 +75,48 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
         description: req.body.description,
         lastseen: req.body.lastseen,
         time: today,
+    })
+
+    req.files.forEach(function (fileobj) {
+        post.files.push(fileobj.id);
+    })
+    ipapi.location(callback)
+
+});
+
+router.get('/found', (req, res) => {
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
+    LostPet.find({status:'found'}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
+router.post('/found', upload.array('files[]', 10), (req, res, next) => {
+    var callback = function (resp) {
+        post.location = resp
+        post.save().then(p => res.json(p));
+    };
+    const time = Date.now()
+    const today = new Date(time)
+    var post = new LostPet({
+        description: req.body.description,
+        lastseen: req.body.lastseen,
+        time: today,
+        status: 'found'
     })
 
     req.files.forEach(function (fileobj) {
