@@ -32,7 +32,7 @@ const JumbotronStyle = {
 };
 
 const divStyle = {
-    width: 300, 
+    width: 250, 
     borderStyle:"solid", 
     borderWidth: 1, 
     borderColor: "rgba(0,0,0,0.1)",
@@ -82,7 +82,7 @@ class DisplayDonation extends Component {
                         <div>
                             {
                                 <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                    <CardImg top width="50" src={'api/post/image/' + f.filename} />
+                                    <CardImg top width="50"  src={'api/post/image/' + f.filename} />
                                 </a>
                             }
                         </div>

@@ -88,7 +88,6 @@ router.post('/', upload.array('files[]', 10),  (req, res, next) => {
         category: req.body.category,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
-        location: loc,
         description: req.body.description
     });
 
