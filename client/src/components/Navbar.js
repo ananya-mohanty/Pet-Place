@@ -12,10 +12,12 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    NavbarText
+    NavbarText,
 } from 'reactstrap';
 import logo from '../images/logo_fetch.jpeg'
 import '../App.css'
+import { Link } from 'react-router-dom';
+
 
 
 export class Navbar2 extends Component {
@@ -53,7 +55,7 @@ export class Navbar2 extends Component {
                                 <DropdownToggle nav caret style={{ fontFamily: 'muli' }}>
                                     Lost and Found
                                     <DropdownMenu right>
-                                        <DropdownItem>
+                                        <DropdownItem tag={Link} to="/lostpet" >
                                             Lost a Pet
                                         </DropdownItem>
                                         <DropdownItem>

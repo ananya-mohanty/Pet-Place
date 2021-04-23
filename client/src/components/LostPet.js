@@ -1,0 +1,149 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import {
+    Modal, ModalBody, ModalHeader, Button, Row, Col
+} from 'reactstrap'
+import profilepic from '../images/resources/friend-avatar10.jpg'
+
+const mainStyle = {
+    position: "relative",
+    marginTop: "4rem",
+    paddingTop: "3rem",
+    paddingLeft: '3rem'
+}
+const imageStyle = {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    alignSelf: 'flex-start',
+}
+
+export class NewPost extends Component {
+    state = {
+        files: [],
+        filesrc: [],
+        ext: null,
+        numfiles: 0,
+        description: '',
+        lastseen: null,
+        filetype: [],
+        isOpen: false,
+    }
+    toggle = () => {
+        this.setState({ isOpen: !this.state.isOpen })
+    }
+    onFileChange = e => {
+        var prev = this.state.numfiles
+        this.state.numfiles += e.target.files.length
+        console.log(this.state.numfiles)
+        var i = 0
+        var src = this.state.filesrc
+        var files = this.state.files
+        var filetype = this.state.filetype
+        while (i < this.state.numfiles - prev) {
+            files.push(e.target.files[i]);
+            filetype.push(e.target.files[i].name.split('.').pop());
+            src.push(URL.createObjectURL(e.target.files[i]))
+            i++
+        }
+        this.setState({ filesrc: src, files: files, filetype: filetype })
+    };
+
+    onTextChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault()
+        const formData = new FormData();
+        formData.append('description', this.state.description)
+        formData.append('lastseen', this.state.lastseen)
+
+
+        for (let i = 0; i < this.state.numfiles; i++) {
+            formData.append('files[]', this.state.files[i])
+        }
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        axios.post('api/lostpet/', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    }
+    render() {
+        return (
+            <div className='container' style={mainStyle}>
+                <Button onClick={this.toggle}>Lost A Pet?</Button>
+                <br></br><br></br>
+                <Modal
+                    isOpen={this.state.isOpen}
+                    toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>Lost Pet Information</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '0px',
+                        display: "flex",
+                        backgroundColor: 'white'
+                    }}>
+                        <img src={profilepic} style={imageStyle}></img>
+                        <form>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Last Seen On</label>
+                                    <br></br>
+                                    <input type='date' name='lastseen' style={{
+                                        marginLeft: '15px', position: 'relative',
+                                        zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                                    }} onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Describe your pet and where it was last seen</label>
+                            <br></br>
+                            <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
+                                placeholder='describe your pet...'
+                                rows="3" cols="20"
+                                name='description'
+                                onChange={this.onTextChange} />
+                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} />
+
+                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                {this.state.filesrc.map((src, idx) => {
+                                    return (
+                                        this.state.filetype[idx] == 'png' || this.state.filetype[idx] == 'jpeg' || this.state.filetype[idx] == 'jpg' ?
+                                            <img src={src} style={{
+                                                width: '30px',
+                                                height: '30px', border: '1px solid black', borderRadius: '5px',
+                                                marginLeft: '5px',
+                                                marginBottom: '20px'
+                                            }} /> :
+                                            this.state.filetype[idx] == 'mp4' || this.state.filetype[idx] == 'ogg' || this.state.filetype[idx] == 'webm' ?
+                                                <video
+                                                    style={{
+                                                        width: '30px',
+                                                        height: '30px', border: '1px solid black', borderRadius: '5px',
+                                                        marginLeft: '5px'
+                                                    }}><source src={src} /></video> :
+                                                <embed style={{
+                                                    width: '30px',
+                                                    height: '30px', border: '1px solid black', borderRadius: '5px',
+                                                    marginLeft: '5px',
+                                                }} name="plugin" src={src} type="application/pdf" />
+                                    )
+                                })}
+                                <br></br>
+                                <label for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
+
+
+                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
+                            </div>
+                        </form>
+                    </ModalBody>
+                </Modal>
+            </div>
+
+        )
+    }
+}
+
+export default connect()(NewPost)

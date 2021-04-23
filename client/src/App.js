@@ -11,6 +11,8 @@ import { Feed } from './components/Feed';
 import { DonationsPage } from './pages/DonationsPage'
 import { NgosPage } from './pages/NgosPage'
 import NewDrive from './components/NewDrive'
+import { LostPetPage } from './pages/LostPetPage'
+import LostPet from './components/LostPet'
 
 function App() {
   return (
@@ -33,6 +35,14 @@ function App() {
           <Route exact path="/ngos" render={() =>
             <NgosPage />
           }></Route>
+          <Route exact path="/lostpet" render={() =>
+          <div>
+            <LostPet/>
+            <LostPetPage />
+
+          </div>
+          }></Route>
+          
         
       {/* <Router history={history}>
         <Provider store={store}>
