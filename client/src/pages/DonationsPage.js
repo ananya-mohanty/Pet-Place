@@ -13,10 +13,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import white from '../images/white.png'
 // import WishModal from '../components/WishModal';
+import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const mainStyle = {
     position: "relative",
-    marginTop: "4rem",
     padding: "3rem"
 }
 
@@ -31,7 +32,7 @@ const JumbotronStyle = {
 };
 
 const divStyle = {
-    width: 250, 
+    width: 300, 
     borderStyle:"solid", 
     borderWidth: 1, 
     borderColor: "rgba(0,0,0,0.1)",
@@ -71,25 +72,33 @@ const spanStyle = {
 class DisplayDonation extends Component {
     render() {
         return (
-            // <div> 
             <div style={divStyle}>
-                {/* <Jumbotron style={JumbotronStyle}> */}
-                    {console.log(this.props.donation)}
-                    {/* <WishModal purpose={'card'} id={this.props.donation._id} /> */}
-                    {/* <Button href={"/toydescription/" + this.props.item._id} style={buttonStyle}>View</Button> */}
-                    {/* <img src={require(`../${this.props.donation.image}`).default} style={imageStyle}></img> */}
-                    {/* <br /><br /><h5>{this.props.donation.description}</h5> */}
-                    {/* <h5 style={{ color: 'hotpink' }}>
-                        &#8377;{this.props.item.price}
-                    </h5><br /> */}
-                {/* </Jumbotron> */}
-               
-                    <CardImg top width="50" src={white} alt="Card image cap" />
+                {this.props.files.length == 1 ? <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
+                    <CardImg top width="50" src={'api/post/image/' + this.props.files[0].filename} />
+                </a>:
+                <AliceCarousel>
+                {this.props.files.map((f, i) => {
+                    return (
+                        <div>
+                            {
+                                <a href={'http://localhost:5000/api/post/image/' + f.filename}>
+                                    <CardImg top width="50" src={'api/post/image/' + f.filename} />
+                                </a>
+                            }
+                        </div>
+                        )})
+                    }
+                    </AliceCarousel>}
                     <CardBody>
-                    <CardTitle tag="h6">Card title</CardTitle>
-                    <CardSubtitle className="mb-2 text-muted">Card subtitle</CardSubtitle>
-                    <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                    <Button>Button</Button>
+                    <CardTitle tag="h5">{this.props.donation.name} <i class="fa fa-map-marker" title={`${this.props.donation.location.city}, ${this.props.donation.location.region}, ${this.props.donation.location.country_name}`}></i></CardTitle>
+                    <CardSubtitle className="mb-2 text-muted" tag="h5">
+                        {this.props.donation.targetAmount}</CardSubtitle>
+                    <CardSubtitle className="mb-2 text-muted">
+                        Starts On: {this.props.donation.startDate}</CardSubtitle>
+                    <CardSubtitle className="mb-2 text-muted">
+                        Ends On: {this.props.donation.endDate}</CardSubtitle>
+                    <CardText>{this.props.donation.description}</CardText>
+                    <Button>Donate</Button>
                     </CardBody>
                 </div>
             // </div>
@@ -101,20 +110,19 @@ class DisplayDonation extends Component {
 export class DonationsPage extends Component {
 
     state = {
-        Donations: []
+        Donations: [],
+        files:[],
     }
 
     componentDidMount() {
-        console.log("yo")
-        axios.get('api/donations')
+        axios.get('api/donations/')
             .then((res) => {
                 // console.log(res.data)
                 // console.log("heloo")
                 // console.log(this.state.Donations)
-                this.setState({Donations: res.data})
+                this.setState({Donations: res.data.items, files:res.data.files})
                 // console.log(this.state.Donations)
                 // this.helper(res.data)
-                console.log(this.state.Donations)
             });
         
     }
@@ -130,13 +138,14 @@ export class DonationsPage extends Component {
                     <Link to="/stuffedanimals" className='link'> Stuffed Animals </Link>| 
                     <Link to="/woodentoys" className='link'> Wooden Toys </Link> */}
                     </span><hr />
+                    
                 <Row>
                 {
-                    
                     this.state.Donations.map((donation, i) => {
+                        var files = this.state.files.filter((f) => donation.files.includes(f._id))
                          return (<div>
                             {
-                                <DisplayDonation donation={donation} key={i} />
+                                <DisplayDonation donation={donation} files={files} key={i} />
                             }
                         </div>)
                     })

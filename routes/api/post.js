@@ -6,8 +6,6 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Post = require('../../models/Post');
 const config = require('config');
 const crypto = require('crypto');
-
-
 // const fs = require('fs');
 // //file upload
 var multer = require('multer');
@@ -68,12 +66,11 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
         likes: 0,
         time: today,
     })
-    
-    
+        
     req.files.forEach(function (fileobj) {
         post.files.push(fileobj.id);
     })
-    post.save()
+    post.save().then(res.redirect('/donations'))
 });
 
 router.get('/image/:filename', function (req, res) {
@@ -119,6 +116,7 @@ router.get('/video/:filename', function (req, res) {
 
 
 })
+
 
 router.get('/document/:filename', function (req, res) {
     console.log('hii')

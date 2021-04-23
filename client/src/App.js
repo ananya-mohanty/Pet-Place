@@ -10,6 +10,7 @@ import { NewPost } from './components/NewPost';
 import { Feed } from './components/Feed';
 import { DonationsPage } from './pages/DonationsPage'
 import { NgosPage } from './pages/NgosPage'
+import NewDrive from './components/NewDrive'
 
 function App() {
   return (
@@ -24,7 +25,10 @@ function App() {
             </div>
           }></Route>
           <Route exact path="/donations" render={() =>
+          <div>
+            <NewDrive/>
             <DonationsPage />
+          </div>
           }></Route>
           <Route exact path="/ngos" render={() =>
             <NgosPage />

@@ -41,23 +41,23 @@ export class Navbar2 extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink href="#" style={{ fontFamily: 'muli', fontWeight:'bold', fontSize: '16px' }}>Home</NavLink>
+                                <NavLink href="/" style={{ fontFamily: 'muli', fontSize: '16px' }}>Home</NavLink>
                             </NavItem>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink href="#" style={{ fontFamily: 'muli' }}><b>Donate</b></NavLink>
+                                <NavLink href="/adopt" style={{ fontFamily: 'muli' }}>Adopt</NavLink>
                             </NavItem>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink href="#" style={{ fontFamily: 'muli' }}><b>Adopt</b></NavLink>
+                                <NavLink href="/donations" style={{ fontFamily: 'muli' }}>Donation Drives</NavLink>
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret style={{ fontFamily: 'muli' }}>
-                                    <b>Lost and Found</b>
+                                    Lost and Found
                                     <DropdownMenu right>
                                         <DropdownItem>
-                                            <b>Lost a Pet</b>
+                                            Lost a Pet
                                         </DropdownItem>
                                         <DropdownItem>
-                                            <b>Found a Pet</b>
+                                            Found a Pet
                                         </DropdownItem>
                                     </DropdownMenu>
                                 </DropdownToggle>

@@ -6,8 +6,9 @@ const DonationSchema = new Schema({
         type: String,
         required: true
     },
-    image: {
-        type: String
+    files: {
+        type: Array,
+        required: false
     },
     currentAmount:{
         type: String,
@@ -23,8 +24,9 @@ const DonationSchema = new Schema({
         required: true
     },
     location: {
-        type: String,
+        type: Object,
         required: true
+        
     },
     startDate: {
         type: String,
