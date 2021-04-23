@@ -3,12 +3,14 @@ const router = express.Router();
 const path = require('path');
 const GridFsStorage = require('multer-gridfs-storage');
 //Post model
-const Post = require('../../models/Post');
+const LostPet = require('../../models/LostPet');
 const config = require('config');
 const crypto = require('crypto');
 // const fs = require('fs');
 // //file upload
 var multer = require('multer');
+var ipapi = require('ipapi.co');
+
 
 // var storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -45,7 +47,7 @@ router.get('/', (req, res) => {
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     }
-    Post.find({}, (err, items) => {
+    LostPet.find({status: 'lost'}, (err, items) => {
         if (err) {
             console.log(err);
             res.status(500).json("An error occured.");
@@ -53,10 +55,9 @@ router.get('/', (req, res) => {
         else {
             global.gfs.files.find().toArray(function (err, files) {
                 if (err) console.log(err);
-                else
-                {
+                else {
                     items.sort(custom_sort)
-                    res.json({'items':items, 'files':files})
+                    res.json({ 'items': items, 'files': files })
                 }
             })
         }
@@ -64,19 +65,65 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', upload.array('files[]', 10), (req, res, next) => {
-    const time= Date.now()
-    const today= new Date(time)
-    var post = new Post({
-        filetype: req.body.filetype,
-        caption: req.body.caption,
-        likes: 0,
+    var callback = function (resp) {
+        post.location = resp
+        post.save().then(p => res.json(p));
+    };
+    const time = Date.now()
+    const today = new Date(time)
+    var post = new LostPet({
+        description: req.body.description,
+        lastseen: req.body.lastseen,
         time: today,
     })
-        
+
     req.files.forEach(function (fileobj) {
         post.files.push(fileobj.id);
     })
-    post.save().then(res.json(post))
+    ipapi.location(callback)
+
+});
+
+router.get('/found', (req, res) => {
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
+    LostPet.find({status:'found'}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
+router.post('/found', upload.array('files[]', 10), (req, res, next) => {
+    var callback = function (resp) {
+        post.location = resp
+        post.save().then(p => res.json(p));
+    };
+    const time = Date.now()
+    const today = new Date(time)
+    var post = new LostPet({
+        description: req.body.description,
+        lastseen: req.body.lastseen,
+        time: today,
+        status: 'found'
+    })
+
+    req.files.forEach(function (fileobj) {
+        post.files.push(fileobj.id);
+    })
+    ipapi.location(callback)
+
 });
 
 router.get('/image/:filename', function (req, res) {
@@ -100,51 +147,4 @@ router.get('/image/:filename', function (req, res) {
     })
 })
 
-router.get('/video/:filename', function (req, res) {
-    gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
-        if (!file || file.length === 0) {
-            return res.status(404).json({
-                err: 'No file exists'
-            })
-        }
-
-        //check if image
-        if (file.contentType === 'video/mp4' || file.contentType === 'video/ogg' || file.contentType === 'video/webm') {
-            //read output to browser
-            const readStream = gfs.createReadStream(file.filename);
-            readStream.pipe(res);
-        } else {
-            return res.status(404).json({
-                err: 'Not a video'
-            })
-        }
-    })
-
-
-})
-
-
-router.get('/document/:filename', function (req, res) {
-    console.log('hii')
-    gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
-        if (!file || file.length === 0) {
-            return res.status(404).json({
-                err: 'No file exists'
-            })
-        }
-        //console.log(file.metadata);
-        //check if image
-        if (file.contentType === 'application/pdf' || file.contentType === 'application/octet-stream' || file.contentType === 'text/plain' || file.contentType === 'application/x-zip-compressed') {
-            //read output to browser
-            const readStream = gfs.createReadStream(file.filename);
-            readStream.pipe(res);
-        } else {
-            return res.status(404).json({
-                err: 'Not a document'
-            })
-        }
-    })
-
-
-})
 module.exports = router;

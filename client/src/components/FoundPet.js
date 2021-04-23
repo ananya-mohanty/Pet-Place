@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import {
-    Modal, ModalBody, ModalHeader,Button, Row, Col
+    Modal, ModalBody, ModalHeader, Button, Row, Col
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
 
@@ -10,7 +10,7 @@ const mainStyle = {
     position: "relative",
     marginTop: "4rem",
     paddingTop: "3rem",
-    paddingLeft:'3rem'
+    paddingLeft: '3rem'
 }
 const imageStyle = {
     width: 50,
@@ -26,14 +26,9 @@ export class NewPost extends Component {
         ext: null,
         numfiles: 0,
         description: '',
-        location: '',
-        category: '',
-        startDate: null,
-        endDate: null,
+        lastseen: null,
         filetype: [],
-        targetAmount: 0,
-        isOpen:false,
-        name: ''
+        isOpen: false,
     }
     toggle = () => {
         this.setState({ isOpen: !this.state.isOpen })
@@ -62,13 +57,8 @@ export class NewPost extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData();
-        formData.append('category', this.state.category)
-        formData.append('name', this.state.name)
-        formData.append('targetAmount', this.state.targetAmount)
-        formData.append('endDate', this.state.endDate)
-        formData.append('startDate', this.state.startDate)
-        formData.append('location', this.state.location)
         formData.append('description', this.state.description)
+        formData.append('lastseen', this.state.lastseen)
 
 
         for (let i = 0; i < this.state.numfiles; i++) {
@@ -78,72 +68,40 @@ export class NewPost extends Component {
         for (var pair of formData.entries()) {
             console.log(pair[0] + ', ' + pair[1]);
         }
-        axios.post('api/donations/', formData, {
+        axios.post('api/lostpet/found', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then(window.location.href='/donations')
+        }).then(window.location.href="/foundpet")
     }
     render() {
         return (
             <div className='container' style={mainStyle}>
-                <Button onClick={this.toggle}>Create a Donation Drive</Button>
+                <Button onClick={this.toggle}>Found A Lost Pet?</Button>
                 <br></br><br></br>
                 <Modal
                     isOpen={this.state.isOpen}
                     toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Start a Donation Drive</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Lost Pet Information</ModalHeader>
                     <ModalBody style={{
                         paddingTop: '20px',
                         paddingBottom: '0px',
                         display: "flex",
-                        backgroundColor: 'white'}}>
+                        backgroundColor: 'white'
+                    }}>
                         <img src={profilepic} style={imageStyle}></img>
                         <form>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Drive</label>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Found On</label>
                             <br></br>
-                            <input type='string' name='name' style={{
+                            <input type='date' name='lastseen' style={{
                                 marginLeft: '15px', position: 'relative',
                                 zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='Pet Donation Drive' onChange={this.onTextChange}></input>
+                            }} onChange={this.onTextChange}></input>
                             <br></br><br></br>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Category</label>
-                            <br></br>
-                            <input type='string' name='category' style={{
-                                marginLeft: '15px', position: 'relative',
-                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='Monetary' onChange={this.onTextChange}></input>
-                            <br></br><br></br>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Target Amount</label>
-                            <br></br>
-                            <input type='string' name='targetAmount' style={{
-                                marginLeft: '15px', position: 'relative',
-                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='100' onChange={this.onTextChange}></input>
-                            <br></br><br></br>
-                            <Row>
-                                <Col>
-                                    <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Start Date</label>
-                                    <br></br>
-                                    <input type='date' name='startDate' style={{
-                                        marginLeft: '15px', position: 'relative',
-                                        zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                                    }} onChange={this.onTextChange}></input>
-                                </Col>
-                                <Col>
-                                    <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>End Date</label>
-                                    <br></br>
-                                    <input type='date' name='endDate' style={{
-                                        marginLeft: '15px', position: 'relative',
-                                        zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                                    }} onChange={this.onTextChange}></input>
-                                </Col>
-                            </Row>
-                            <br></br>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Describe the purpose of the drive</label>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Describe the pet and where you found it.</label>
                             <br></br>
                             <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
-                                placeholder='write something...'
+                                placeholder='describe the pet...'
                                 rows="3" cols="20"
                                 name='description'
                                 onChange={this.onTextChange} />
@@ -175,7 +133,7 @@ export class NewPost extends Component {
                                 })}
                                 <br></br>
                                 <label for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
-                                    
+
 
                                     <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
                             </div>
@@ -183,7 +141,7 @@ export class NewPost extends Component {
                     </ModalBody>
                 </Modal>
             </div>
-           
+
         )
     }
 }

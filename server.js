@@ -8,6 +8,7 @@ const app = express();
 
 app.use(express.json());
 
+
 //DB config
 const db = config.get('mongoURI');
 DB = mongoose.connection;
@@ -16,9 +17,7 @@ DB = mongoose.connection;
 mongoose
     .connect(db, {
         useNewUrlParser: true,
-        useFindAndModify: false,
         useUnifiedTopology: true,
-        useCreateIndex: true
     })
     .then(() => console.log("Connected to database"))
     .catch(err => console.log(err));
@@ -58,6 +57,8 @@ app.use('/api/ngoregister', require('./routes/api/ngo'));
 app.use('/api/donations', require('./routes/api/donation'));
 app.use('/api/contribute', require('./routes/api/contribute'));
 app.use('/api/post', require('./routes/api/post'));
+app.use('/api/lostpet', require('./routes/api/lostpet'));
+
 
 const port = process.env.PORT || 5000;
 

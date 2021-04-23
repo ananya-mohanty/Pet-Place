@@ -46,7 +46,10 @@ export class NewPost extends Component {
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
-
+    
+    sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
     onSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData();
