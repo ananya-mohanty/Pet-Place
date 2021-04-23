@@ -66,8 +66,11 @@ export class NewPost extends Component {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        
+        setTimeout(function() { 
+            window.location.reload()
+        }, 2000)
     }
+
     render() {
         return (
             <Container style={{

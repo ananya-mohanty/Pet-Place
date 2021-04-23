@@ -70,7 +70,7 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
     req.files.forEach(function (fileobj) {
         post.files.push(fileobj.id);
     })
-    post.save().then(res.redirect('/donations'))
+    post.save()
 });
 
 router.get('/image/:filename', function (req, res) {
