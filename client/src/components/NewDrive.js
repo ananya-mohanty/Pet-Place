@@ -82,7 +82,7 @@ export class NewPost extends Component {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        })
+        }).then(window.location.href='/donations')
     }
     render() {
         return (
