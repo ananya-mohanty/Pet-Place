@@ -42,6 +42,9 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 router.get('/', (req, res) => {
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
     Post.find({}, (err, items) => {
         if (err) {
             console.log(err);
@@ -51,7 +54,10 @@ router.get('/', (req, res) => {
             global.gfs.files.find().toArray(function (err, files) {
                 if (err) console.log(err);
                 else
-                res.json({'items':items, 'files':files})
+                {
+                    items.sort(custom_sort)
+                    res.json({'items':items, 'files':files})
+                }
             })
         }
     });
