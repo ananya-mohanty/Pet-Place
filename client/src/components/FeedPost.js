@@ -45,7 +45,7 @@ export class FeedPost extends Component {
                             <div style={{display:'flex'}}>
                                 <img src={profilepic} style={imageStyle}></img>
                                 <div style={{ marginLeft: '10px' }}>
-                                    <a href="">Janice Griffith</a>
+                                    <a href="">{this.props.post.user_name}</a>
                                     <br></br>
                                     <span style={{ fontSize: '12px' }}>Published: {this.props.post.time}</span>
                                 </div>

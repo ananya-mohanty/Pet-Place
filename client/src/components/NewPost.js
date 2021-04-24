@@ -54,9 +54,8 @@ export class NewPost extends Component {
         e.preventDefault()
         const formData = new FormData();
         formData.append('caption', this.state.caption)
-        formData.append('filetype', this.state.filetype)
-        formData.append('num_files', this.state.numfiles)
-        
+        console.log(window.localStorage.getItem('user'))
+        formData.append('user', window.localStorage.getItem('user'))
         for (let i=0; i<this.state.numfiles;i++) {
             formData.append('files[]', this.state.files[i])
         }
@@ -66,7 +65,8 @@ export class NewPost extends Component {
         }
         axios.post('api/post', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'x-auth-token':window.localStorage.getItem('token')
             }
         })
         setTimeout(function() { 

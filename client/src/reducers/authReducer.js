@@ -9,6 +9,7 @@ import {
 
 const initialState = {
     isLoading: false,
+    token:null,
     user: JSON.parse(window.localStorage.getItem('user')),
 }
 
@@ -17,6 +18,7 @@ export default function (state = initialState, action) {
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
             window.localStorage.setItem('user', JSON.stringify(action.payload.user))
+            window.localStorage.setItem('token', action.payload.token)
             return {
                 ...state,
                 isLoading: false,
@@ -26,6 +28,7 @@ export default function (state = initialState, action) {
         case LOGOUT_SUCCESS:
         case REGISTER_FAIL:
             window.localStorage.removeItem('user')
+            window.localStorage.removeItem('token')
             return {
                 ...state,
                 isLoading: false

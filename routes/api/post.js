@@ -11,6 +11,7 @@ const auth = require('../../middleware/auth');
 // const fs = require('fs');
 // //file upload
 var multer = require('multer');
+const User = require('../../models/User');
 
 // var storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -65,11 +66,13 @@ router.get('/', auth, (req, res) => {
     });
 });
 
-router.post('/', upload.array('files[]', 10), (req, res, next) => {
+router.post('/', auth, upload.array('files[]', 10), (req, res, next) => {
     const time= Date.now()
     const today= new Date(time)
+   console.log(req.body.user)
     var post = new Post({
-        filetype: req.body.filetype,
+        user_name: JSON.parse(req.body.user).name,
+        user_id: JSON.parse(req.body.user).id,
         caption: req.body.caption,
         likes: 0,
         time: today,
@@ -82,13 +85,12 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
 });
 
 router.get('/image/:filename', function (req, res) {
-    gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
+    global.gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
         if (!file || file.length === 0) {
             return res.status(404).json({
                 err: 'No file exists'
             })
         }
-        console.log(file.originalname);
         //check if image
         if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
             //read output to browser
@@ -103,7 +105,7 @@ router.get('/image/:filename', function (req, res) {
 })
 
 router.get('/video/:filename', function (req, res) {
-    gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
+    global.gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
         if (!file || file.length === 0) {
             return res.status(404).json({
                 err: 'No file exists'
@@ -127,8 +129,7 @@ router.get('/video/:filename', function (req, res) {
 
 
 router.get('/document/:filename', function (req, res) {
-    console.log('hii')
-    gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
+    global.gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
         if (!file || file.length === 0) {
             return res.status(404).json({
                 err: 'No file exists'

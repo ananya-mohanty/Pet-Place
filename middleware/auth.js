@@ -4,11 +4,10 @@ const jwt = require('jsonwebtoken');
 //middleware function
 function auth(req, res, next) {
     const token = req.header('x-auth-token');
-
     //check for token
     if (!token) {
+        console.log('No token, authorization denied')
         //unauthorized
-        console.log('hiii')
         res.status(401).json({ msg: 'No token, authorization denied' });
     }
 
@@ -22,6 +21,7 @@ function auth(req, res, next) {
             next();
 
         } catch (e) {
+            console.log('Token not valid')
             res.status(400).json({ msg: 'Token not valid' });
         }
 

@@ -59,6 +59,7 @@ export class NewPost extends Component {
         const formData = new FormData();
         formData.append('description', this.state.description)
         formData.append('lastseen', this.state.lastseen)
+        formData.append('user', window.localStorage.getItem('user'))
 
 
         for (let i = 0; i < this.state.numfiles; i++) {
@@ -70,7 +71,8 @@ export class NewPost extends Component {
         }
         axios.post('api/lostpet/', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'x-auth-token': window.localStorage.getItem('token')
             }
         })
         setTimeout(function () {

@@ -10,7 +10,9 @@ export class Feed extends Component {
     }
      
     componentDidMount = ()=> {
-        axios.get('api/post')
+        axios.get('api/post',{headers:{
+            'x-auth-token':window.localStorage.getItem('token')
+        }})
             .then(res => {
                 this.setState({ posts: res.data.items, files: res.data.files })
             }).catch(res=>

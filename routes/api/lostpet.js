@@ -75,6 +75,7 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
         description: req.body.description,
         lastseen: req.body.lastseen,
         time: today,
+        user_id:JSON.parse(req.body.user).id
     })
 
     req.files.forEach(function (fileobj) {

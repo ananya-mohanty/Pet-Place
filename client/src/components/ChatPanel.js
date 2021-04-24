@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { MessageList, Input, Button } from 'react-chat-elements'
 import 'react-chat-elements/dist/main.css'
+import axios from 'axios'
 
 export class ChatPanel extends Component {
 
@@ -36,11 +37,15 @@ export class ChatPanel extends Component {
         this.setState({msgList: [...this.state.msgList, this.state.msg]})
         this.setState({msg: ''})
         this.inputRef.clear()
+        
+        axios.post('/api/chat/addmessage')
     }
 
     inputRef = React.createRef();
 
     render() {
+        console.log(this.props.user1)
+        console.log(this.props.user2)
 
         return (
             <div style={{height: 450, width: 450, overflow: 'scroll', backgroundColor: '#e5e4e2'}}/*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
