@@ -25,7 +25,7 @@ export class Feed extends Component {
         return (
             this.state.posts.map((post, i) => {
                 var files = this.state.files.filter((f) => post.files.includes(f._id))
-                console.log(files)
+                // console.log(files)
                 return (<div>
                     { 
                         <FeedPost post={post} files={files} key={i} />

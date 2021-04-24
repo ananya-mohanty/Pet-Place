@@ -48,9 +48,9 @@ router.post('/orders', (req, res) => {
         receipt: "order_rcptid_11"
       };
       instance.orders.create(options, function(err, order) {
-        console.log(order.id);
+        // console.log(order.id);
         newContribute.order_ID = order.id;
-        console.log(newContribute.order_ID);
+        // console.log(newContribute.order_ID);
         newContribute.save().then(contribute => res.json(contribute));
       });
 

@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+process.removeAllListeners('warning');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');

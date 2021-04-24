@@ -14,9 +14,9 @@ const User = require('../../models/User');
 //@access Public
 router.post('/', (req, res) => {
     console.log("aa gyaaaaa")
-    console.log(req.body.email)
+    // console.log(req.body.email)
     const { email, password } = req.body;
-    console.log(email)
+    // console.log(email)
     //simple validation
     if (!email || !password) {
         return res.status(400).json({ msg: 'Please enter all fields' }); //bad request
