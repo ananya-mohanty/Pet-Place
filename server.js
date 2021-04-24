@@ -62,6 +62,7 @@ app.use('/api/donations', require('./routes/api/donation'));
 app.use('/api/contribute', require('./routes/api/contribute'));
 app.use('/api/post', require('./routes/api/post'));
 app.use('/api/lostpet', require('./routes/api/lostpet'));
+app.use('/api/messages', require('./routes/api/chats'));
 
 
 const port = process.env.PORT || 5000;

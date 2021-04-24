@@ -18,6 +18,7 @@ import {Container, Row, Col} from 'reactstrap'
 import 'react-chat-elements/dist/main.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import {getMessages, addMessage} from '../actions/chatAction'
 
 
 const styleparent = {
@@ -173,4 +174,9 @@ export class ChatPage extends Component {
     }
 }
 
-export default connect()(ChatPage);
+ChatPage.propTypes = {
+    addMessage: PropTypes.func.isRequired,
+    getMessages: PropTypes.func.isRequired
+}
+
+export default connect(null, {getMessages, addMessage})(ChatPage);

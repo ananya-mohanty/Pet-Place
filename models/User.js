@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const {MessageSchema} = require('./Message')
 
 //create schema
 const UserSchema = new Schema({
@@ -19,6 +20,11 @@ const UserSchema = new Schema({
     register_date: {
         type: Date,
         default: Date.now
+    },
+    messages: {
+        type: Map,
+        of: [MessageSchema],
+        default: {}
     }
 });
 

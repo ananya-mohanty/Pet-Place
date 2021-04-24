@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { MessageList, Input, Button } from 'react-chat-elements'
 import 'react-chat-elements/dist/main.css'
 import axios from 'axios'
+import {getMessages, addMessage} from '../actions/chatAction'
 
 export class ChatPanel extends Component {
 
@@ -79,4 +80,9 @@ export class ChatPanel extends Component {
     }
 }
 
-export default connect()(ChatPanel)
+ChatPanel.propTypes = {
+    addMessage: PropTypes.func.isRequired,
+    getMessages: PropTypes.func.isRequired
+}
+
+export default connect(null, {addMessage, getMessages})(ChatPanel)
