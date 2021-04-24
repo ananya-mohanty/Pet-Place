@@ -36,6 +36,7 @@
     "multer-gridfs-storage": "^4.2.0",
     "ngrok": "^4.0.1",
     "razorpay": "^2.0.6",
+    "react-chat-elements": "^10.14.0",
     "react-image-gallery": "^1.0.9",
     "react-image-video-lightbox": "^2.0.4",
     "react-slideshow-image": "^3.4.5",

@@ -24,6 +24,8 @@ export const register = ({ name, email, password }) => dispatch => {
                 type: REGISTER_SUCCESS,
                 payload: res.data
             })
+            history.push('/')
+            history.go(0)
             
         })
         .catch(err => {
@@ -47,6 +49,8 @@ export const registerngo = ({ name, email, password, contact, address }) => disp
                 type: REGISTER_SUCCESS,
                 payload: res.data
             })
+            history.push('/')
+            history.go(0)
         })
         .catch(err => {
             dispatch({

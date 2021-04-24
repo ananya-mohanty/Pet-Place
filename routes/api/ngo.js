@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
                                     if (err) throw err;
                                     res.json({
                                         token,
-                                        ngo: {
+                                        user: {
                                             id: ngo.id,
                                             name: ngo.name,
                                             email: ngo.email
