@@ -4,8 +4,9 @@ import logo from '../images/logo_fetch.jpeg'
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap'
 import PropTypes from 'prop-types'
 import { login } from '../actions/authAction'
+import {Link} from 'react-router-dom'
 
-export class LoginRegister extends Component {
+export class Login extends Component {
 
     state = {
         email: '',
@@ -36,7 +37,7 @@ export class LoginRegister extends Component {
                         <FormGroup>
                             <Label for="password">Password</Label>
                             <Input onChange={this.onChange} style={{borderStyle:"solid", borderWidth: 1, borderColor: "rgba(0,0,0,0.1)",}} type="password" name="password" id="password" placeholder="password" />
-                        </FormGroup>
+                        </FormGroup><div><Link to="/register" style={{fontSize: 12, float: 'right', color: '#DAA520'}}>Not a user? Signup!</Link></div>
                         <Button style={{marginTop: 30, marginLeft: "40%"}} onClick={this.onSubmit}>Login</Button>
                         </Form></div>
                     </Col>
@@ -46,8 +47,8 @@ export class LoginRegister extends Component {
     }
 }
 
-LoginRegister.propTypes = {
+Login.propTypes = {
     login: PropTypes.func.isRequired,
 }
 
-export default connect(null, { login })(LoginRegister)
+export default connect(null, { login })(Login)

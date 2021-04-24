@@ -11,7 +11,8 @@ import { Feed } from './components/Feed';
 import { DonationsPage } from './pages/DonationsPage'
 import { NgosPage } from './pages/NgosPage'
 import NewDrive from './components/NewDrive'
-import LoginRegister from './components/LoginRegister'
+import Login from './components/Login'
+import Register from './components/Register'
 import { LostPetPage } from './pages/LostPetPage'
 import LostPet from './components/LostPet'
 import FoundPet from './components/FoundPet'
@@ -25,7 +26,12 @@ function App() {
         
           <Route exact path="/login" render={() =>
             <div style={{backgroundColor: 'white'}}>
-            <LoginRegister />
+            <Login />
+            </div>
+          }></Route>
+          <Route exact path="/register" render={() =>
+            <div style={{backgroundColor: 'white'}}>
+            <Register />
             </div>
           }></Route>
           <Route exact path="/" render={(props) =>
