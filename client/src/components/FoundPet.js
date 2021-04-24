@@ -72,7 +72,10 @@ export class NewPost extends Component {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then(window.location.href="/foundpet")
+        })
+        setTimeout(function () {
+            window.location.reload()
+        }, 2000)
     }
     render() {
         return (
