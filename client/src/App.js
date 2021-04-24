@@ -17,7 +17,9 @@ import { LostPetPage } from './pages/LostPetPage'
 import LostPet from './components/LostPet'
 import FoundPet from './components/FoundPet'
 import { FoundPetPage } from './pages/FoundPetPage'
+import { ChatPage } from './pages/ChatPage'
 import backgroud from './images/resources/background1.jpg'
+import { Nav } from 'reactstrap'
 
 
 function App() {
@@ -25,6 +27,13 @@ function App() {
     <div className="App" style={{backgroundColor: 'whitesmoke'}}>
       <Router history={history}>
         <Provider store={store}>
+        <Route exact path="/chats" render={() =>
+            <div style={{backgroundColor: 'white'}}>
+            <Navbar />
+            <ChatPage />
+            {/* <Footer /> */}
+            </div>
+          }></Route>
           <Route exact path="/login" render={() =>
             <div style={{backgroundColor: 'white'}}>
             <Login />

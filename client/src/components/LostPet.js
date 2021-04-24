@@ -36,7 +36,7 @@ export class NewPost extends Component {
     onFileChange = e => {
         var prev = this.state.numfiles
         this.state.numfiles += e.target.files.length
-        console.log(this.state.numfiles)
+        // console.log(this.state.numfiles)
         var i = 0
         var src = this.state.filesrc
         var files = this.state.files
@@ -66,7 +66,7 @@ export class NewPost extends Component {
         }
 
         for (var pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
+            // console.log(pair[0] + ', ' + pair[1]);
         }
         axios.post('api/lostpet/', formData, {
             headers: {

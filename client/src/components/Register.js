@@ -37,7 +37,7 @@ export class Register extends Component {
     userReg = (e) =>{
         e.preventDefault()
         const {username, email, password}=this.state
-        console.log(username, email, password)
+        // console.log(username, email, password)
         this.props.register({'name':username, 'email':email, 'password':password})
     }
 

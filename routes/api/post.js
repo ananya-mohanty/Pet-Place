@@ -86,7 +86,7 @@ router.get('/image/:filename', function (req, res) {
                 err: 'No file exists'
             })
         }
-        console.log(file.originalname);
+        // console.log(file.originalname);
         //check if image
         if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
             //read output to browser

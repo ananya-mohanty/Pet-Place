@@ -74,7 +74,7 @@ class DisplayDonation extends Component {
             // <div> 
             <div style={divStyle}>
                 {/* <Jumbotron style={JumbotronStyle}> */}
-                    {console.log(this.props.ngo)}
+                    {/* {console.log(this.props.ngo)} */}
                     {/* <WishModal purpose={'card'} id={this.props.donation._id} /> */}
                     {/* <Button href={"/toydescription/" + this.props.item._id} style={buttonStyle}>View</Button> */}
                     {/* <img src={require(`../${this.props.donation.image}`).default} style={imageStyle}></img> */}
