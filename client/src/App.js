@@ -17,6 +17,8 @@ import { LostPetPage } from './pages/LostPetPage'
 import LostPet from './components/LostPet'
 import FoundPet from './components/FoundPet'
 import { FoundPetPage } from './pages/FoundPetPage'
+import backgroud from './images/resources/background1.jpg'
+
 
 function App() {
   return (
@@ -29,7 +31,11 @@ function App() {
             </div>
           }></Route>
           <Route exact path="/register" render={() =>
-            <div style={{backgroundColor: 'white'}}>
+            <div style={{
+              backgroundImage: `url(${backgroud})`,
+              backgroundSize: 'cover',
+              overflow: 'hidden',
+              height: window.innerHeight}}>
             <Register />
             </div>
           }></Route>

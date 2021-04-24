@@ -16,6 +16,14 @@ const NgoSchema = new Schema({
         type: String,
         required: true
     },
+    contact:{
+        type: String,
+        required:true
+    },
+    address:{
+        type:Object,
+        required:true
+    },
     register_date: {
         type: Date,
         default: Date.now

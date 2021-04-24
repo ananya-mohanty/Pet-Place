@@ -9,10 +9,12 @@ const Ngo = require('../../models/Ngo');
 //@desc Register new ngo
 //@access Public
 router.post('/', (req, res) => {
-    const { name, email, password } = req.body;
+    console.log('hiiii')
+    const { name, email, password, contact, address } = req.body;
+    console.log(name, email, password, contact, address)
 
     //simple validation
-    if (!name || !email || !password) {
+    if (!name || !email || !password|| !contact||!address) {
         return res.status(400).json({ msg: 'Please enter all fields' }); //bad request
 
     }
@@ -26,7 +28,9 @@ router.post('/', (req, res) => {
             const newNgo = new Ngo({
                 name,
                 email,
-                password
+                password, 
+                contact, 
+                address
             });
 
             //create salt & hash
@@ -45,7 +49,7 @@ router.post('/', (req, res) => {
                                     if (err) throw err;
                                     res.json({
                                         token,
-                                        ngo: {
+                                        user: {
                                             id: ngo.id,
                                             name: ngo.name,
                                             email: ngo.email

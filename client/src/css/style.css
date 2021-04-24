@@ -10072,6 +10072,27 @@ aside.sidebar.full-style {
   animation-duration: 1.5s;
 }
 
+.register{
+  margin-top: 20px;
+  display: inline-block;
+  padding: 1em 2em;
+  border-radius: 35px;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 0px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  background: linear-gradient(45deg, rgba(119,195,231,1) 0%, rgba(244,202,49,0.9700922605370274) 71%);
+}
+ 
+.register:hover{
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15);
+    transform: scale(1.1,1.1);
+    -ms-transform: scale(1.1,1.1);
+    -webkit-transform: scale(1.1,1.1);
+}
+
 @-webkit-keyframes fade {
   from {opacity: .4}
   to {opacity: 1}
