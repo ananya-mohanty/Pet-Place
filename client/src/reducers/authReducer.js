@@ -9,7 +9,7 @@ import {
 
 const initialState = {
     isLoading: false,
-    user: JSON.parse(window.localStorage.getItem('user'))
+    user: JSON.parse(window.localStorage.getItem('user')),
 }
 
 export default function (state = initialState, action) {

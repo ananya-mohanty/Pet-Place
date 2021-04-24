@@ -13,7 +13,11 @@ export class Feed extends Component {
         axios.get('api/post')
             .then(res => {
                 this.setState({ posts: res.data.items, files: res.data.files })
-            });
+            }).catch(res=>
+                {
+                    window.location.href='/login'
+                }
+            );
     }
     render() {
         return (

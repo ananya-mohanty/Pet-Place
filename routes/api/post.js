@@ -6,6 +6,8 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Post = require('../../models/Post');
 const config = require('config');
 const crypto = require('crypto');
+const auth = require('../../middleware/auth');
+
 // const fs = require('fs');
 // //file upload
 var multer = require('multer');
@@ -41,7 +43,7 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     }
