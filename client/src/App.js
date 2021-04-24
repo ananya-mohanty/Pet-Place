@@ -25,7 +25,6 @@ function App() {
     <div className="App" style={{backgroundColor: 'whitesmoke'}}>
       <Router history={history}>
         <Provider store={store}>
-        
           <Route exact path="/login" render={() =>
             <div style={{backgroundColor: 'white'}}>
             <Login />
