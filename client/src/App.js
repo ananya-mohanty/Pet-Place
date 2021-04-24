@@ -49,12 +49,13 @@ function App() {
             </div>
           }></Route>
           <Route exact path="/" render={(props) =>
+          store.getState().auth.user!=null?
             <div>
             <Navbar />
             <NewPost />
             <Feed/>
             <Footer />
-            </div>
+            </div>:window.location.href='/login'
           }></Route>
           <Route exact path="/donations" render={() =>
           <div>
