@@ -28,10 +28,10 @@ function App() {
       <Router history={history}>
         <Provider store={store}>
         <Route exact path="/chats" render={() =>
-            <div style={{backgroundColor: 'white'}}>
+            <div style={{backgroundColor: 'black'}}>
             <Navbar />
             <ChatPage />
-            {/* <Footer /> */}
+            <Footer />
             </div>
           }></Route>
           <Route exact path="/login" render={() =>

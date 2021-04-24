@@ -51,7 +51,7 @@ export class ChatPanel extends Component {
                 // downButtonBadge={10}
                 // toBottomHeight={'50%'}
                 dataSource={this.state.msgList} />
-                <div style={{marginTop: 340}}>
+                <div style={{marginTop: 340, position:'sticky'}}>
                      <Input
         
                         placeholder="Write a message.."
