@@ -4,6 +4,7 @@ import { MessageList, Input, Button } from 'react-chat-elements'
 import 'react-chat-elements/dist/main.css'
 import axios from 'axios'
 import {getMessages, addMessage} from '../actions/chatAction'
+import PropTypes from 'prop-types'
 
 export class ChatPanel extends Component {
 

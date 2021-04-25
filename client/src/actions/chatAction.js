@@ -31,7 +31,7 @@ export const addMessage = (text, position, id_user2) => (dispatch, getState) => 
       })
       .then(res => {
         dispatch({
-            type: ADD_ITEM,
+            type: ADD_MESSAGE,
             payload: res.data
         })}
     )

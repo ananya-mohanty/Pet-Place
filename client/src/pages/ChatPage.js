@@ -19,7 +19,7 @@ import 'react-chat-elements/dist/main.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {getMessages, addMessage} from '../actions/chatAction'
-
+import PropTypes from 'prop-types'
 
 const styleparent = {
     width: 400,
