@@ -44,6 +44,7 @@ router.post('/:id/:id2', (req, res) => {
             }
             temp.push(newMessage)
             user.messages.set(req.params.id2, temp)
+            user.markModified('messages')
             user.save()
             .then(res.json(user))
             .catch(err => console.log(err)) 

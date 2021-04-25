@@ -40,7 +40,7 @@ export class FeedPost extends Component {
                         <Jumbotron style={{
                             padding: '20px',
                             backgroundColor: 'white',
-                            width: '750px'
+                            width: '680px'
                         }}>
                             <div style={{display:'flex'}}>
                                 <img src={profilepic} style={imageStyle}></img>

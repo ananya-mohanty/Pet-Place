@@ -26,7 +26,7 @@ const styleparent = {
     overflow: 'hidden',
     position: 'absolute',
     marginRight: 20,
-    height: 500,
+    height: 540,
     marginRight: 10
 }
 
@@ -34,7 +34,7 @@ const styleparent1 = {
     width: 450,
     overflow: 'hidden',
     position: 'absolute',
-    height: 500,
+    height: 540,
     
 }
 
@@ -148,7 +148,7 @@ export class ChatPage extends Component {
 
                 <Col><div style={styleparent1}><div style={stylechild}
                     className='right-panel'>
-                    <div style={{height: 50, backgroundColor: 'white', marginBottom: 20}}></div><MessageList
+                    <div style={{height: 45, backgroundColor: 'white', marginBottom: 20}}></div><MessageList
                         className='message-list'
                         lockable={true}
                         downButtonBadge={10}
