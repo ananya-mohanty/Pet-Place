@@ -91,7 +91,7 @@ class LostPet extends Component {
                     <Button onClick={this.onClick}>Found?</Button>
                 </CardBody>
                 <Modal
-                    style={{ float: 'right' }}
+                    style={{}}
                     isOpen={this.state.chatPanel}
                     toggle={this.toggle}>
                     <ModalBody>

@@ -18,8 +18,10 @@ import {Container, Row, Col} from 'reactstrap'
 import 'react-chat-elements/dist/main.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import avatar_img from '../images/resources/forum-author1.png'
 import {getMessages, addMessage, getMessageList} from '../actions/chatAction'
 import PropTypes from 'prop-types'
+import  ChatPanel  from '../components/ChatPanel';
 
 const styleparent = {
     width: 400,
@@ -56,46 +58,8 @@ const stylechild = {
 export class ChatPage extends Component {
 
     state = {
-        chatSource: [{
-            avatar: 'https://facebook.github.io/react/img/logo.svg',
-            alt: 'Reactjs',
-            title: 'Facebook',
-            subtitle: 'What are you doing?',
-            date: new Date(),
-            unread: 0,
-        },
-        {
-            avatar: 'https://facebook.github.io/react/img/logo.svg',
-            alt: 'Reactjs',
-            title: 'Facebook',
-            subtitle: 'What are you doing?',
-            date: new Date(),
-            unread: 0,
-        },
-        {
-            avatar: 'https://facebook.github.io/react/img/logo.svg',
-            alt: 'Reactjs',
-            title: 'Facebook',
-            subtitle: 'What are you doing?',
-            date: new Date(),
-            unread: 0,
-        },
-        {
-            avatar: 'https://facebook.github.io/react/img/logo.svg',
-            alt: 'Reactjs',
-            title: 'Facebook',
-            subtitle: 'What are you doing?',
-            date: new Date(),
-            unread: 0,
-        },
-        {
-            avatar: 'https://facebook.github.io/react/img/logo.svg',
-            alt: 'Reactjs',
-            title: 'Facebook',
-            subtitle: 'What are you doing?',
-            date: new Date(),
-            unread: 0,
-        }],
+        chatopen: null,
+        chatSource: [],
 
         messageList: [{
             position: 'right',
@@ -118,26 +82,40 @@ export class ChatPage extends Component {
         msg: ''
     }
 
-    onChange = (e) => {
-        this.setState({msg: {
-            position: 'right',
-            type: 'text',
-            text: e.target.value,
-            date: new Date()
-        }})
-    }
-
     componentDidMount=()=>{
         this.props.getMessageList()
+        const messageList=this.props.chat.messageList
+        this.state.chatSource = []
+        for (var key in messageList) {
+            const arr = messageList[key].filter((m)=>{return m.position=='left'})
+            const { title, subtitle } = arr[arr.length - 1]
+            var date = arr[arr.length - 1].updatedAt
+            var avatar = `url(${avatar_img})`
+            const alt = key
+            const unread = 0
+            this.state.chatSource.push({ title, subtitle, avatar,alt, unread , date})
+        }
+    }
+
+    componentDidUpdate = () => {
+        this.props.getMessageList()
         const messageList = this.props.chat.messageList
-        console.log(messageList)
-        // this.state.msgList = []
-        // userMessages.map((msg) => {
-        //     const { position, type, text } = msg
-        //     const date = new Date(msg.updatedAt)
-        //     this.state.msgList.push({ position, type, text, date })
-        // })
-        // console.log(this.state.msgList)
+        this.state.chatSource=[]
+        for(var key in messageList)
+        {
+            const arr = messageList[key].filter((m) => { return m.position == 'left' })
+            const { title, subtitle } = arr[arr.length - 1]
+            var date = new Date(arr[arr.length - 1].updatedAt)
+            var avatar = `url(${avatar_img})`
+            const alt = key
+            const unread = 0
+            this.state.chatSource.push({ title, subtitle, avatar,alt, unread, date })
+        }
+    }
+
+    onClick=(e)=>{
+        console.log('hii')
+        console.log(e.target)
     }
 
     addMessage = (e) => {
@@ -156,31 +134,13 @@ export class ChatPage extends Component {
                         <div style={stylechild}>
                         <div style={{height: 45, width: '100%', position:'sticky', padding: 10, backgroundColor: '#009ACD', color: 'white'}}>&nbsp; All chats</div>
                             <ChatList
-                                dataSource={this.state.chatSource} />
+                                dataSource={this.state.chatSource} onClick={(e)=>{this.setState({chatopen:e.alt})}}/>
                         </div></div></Col>
 
                 <Col><div style={styleparent1}><div style={stylechild}
                     className='right-panel'>
-                    <div style={{height: 45, backgroundColor: 'white', marginBottom: 20}}></div><MessageList
-                        className='message-list'
-                        lockable={true}
-                        downButtonBadge={10}
-                        dataSource={this.state.messageList} />
-                    <div style={{marginTop: 330, width: '100%', position:'sticky'}}>
-                    <Input
-                        placeholder="Write a message.."
-                        defaultValue=""
-                        ref='input'
-                        multiline={true}
-                        name='msg'
-                        ref={el => (this.inputRef = el)}
-                        onChange = {this.onChange}
-                        rightButtons={
-                            <Button
-                                text='Send'
-                                onClick={this.addMessage} />
-                        } />
-                </div></div></div></Col>
+                        <ChatPanel user1={this.state.chatopen}/>
+                    </div></div></Col>
             </Row>
             </Container>
         );
@@ -191,7 +151,7 @@ ChatPage.propTypes = {
     addMessage: PropTypes.func.isRequired,
     getMessages: PropTypes.func.isRequired,
     getMessageList: PropTypes.func.isRequired,
-    chat:PropTypes.object.isRequired
+    chat: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({

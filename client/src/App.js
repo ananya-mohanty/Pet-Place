@@ -17,7 +17,7 @@ import { LostPetPage } from './pages/LostPetPage'
 import LostPet from './components/LostPet'
 import FoundPet from './components/FoundPet'
 import { FoundPetPage } from './pages/FoundPetPage'
-import { ChatPage } from './pages/ChatPage'
+import  ChatPage  from './pages/ChatPage'
 import backgroud from './images/resources/background1.jpg'
 import { Nav } from 'reactstrap'
 

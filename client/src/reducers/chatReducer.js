@@ -2,7 +2,7 @@ import {ADD_MESSAGE, DELETE_MESSAGE, GET_MESSAGES, GET_MESSAGE_LIST} from '../ac
 
 const initialState = {
     userMessages: [],
-    messageList:[]
+    messageList: []
 }
 
 export default function(state = initialState, action) {
