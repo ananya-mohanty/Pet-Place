@@ -2,11 +2,14 @@ import {ADD_MESSAGE, DELETE_MESSAGE, GET_MESSAGES} from './types'
 import axios from 'axios'
 
 export const getMessages = (id_user2) => dispatch => {
+    console.log('in getMessages', id_user2)
+
     const user = JSON.parse(window.localStorage.getItem('user'))
     if(user == null)
     return;
     axios.get(`../api/messages/${user.id}/${id_user2}`)
         .then(res => {
+            console.log(res.data)
             dispatch({
                 type: GET_MESSAGES,
                 payload: res.data
@@ -14,11 +17,13 @@ export const getMessages = (id_user2) => dispatch => {
         }
         )
         .catch(err => console.log(err));
-    
 };
 
 export const addMessage = (text, position, id_user2) => (dispatch, getState) => {
+    console.log('I am in addMessage')
+    
     const user = JSON.parse(window.localStorage.getItem('user'));
+    console.log(user.id, text, id_user2)
     if(user == null)
     return;
     axios({
