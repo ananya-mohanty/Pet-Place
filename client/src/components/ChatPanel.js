@@ -10,21 +10,21 @@ export class ChatPanel extends Component {
 
     state= {
         msg: {},
-        msgList: [
-            {
-                position: 'right',
-                type: 'text',
-                text: 'Lorem',
-                date: new Date(),
-            },
-            {
-                position: 'right',
-                type: 'text',
-                text: 'Lorem ipsum',
-                date: new Date(),
-            },
-           ]
+        msgList: []
     }
+
+    componentDidMount=()=>{
+        this.props.getMessages(this.props.user1)
+        const userMessages = this.props.chat.userMessages
+        console.log(userMessages)
+        userMessages.map((msg)=>{
+            const{position, type, text}=msg
+            const date=new Date(msg.updatedAt)
+            this.state.msgList.push({position, type, text, date})
+        })
+        console.log(this.state.msgList)
+    }
+    
 
     onChange = (e) => {
         this.setState({msg: {
@@ -39,16 +39,13 @@ export class ChatPanel extends Component {
         this.setState({msgList: [...this.state.msgList, this.state.msg]})
         this.setState({msg: ''})
         this.inputRef.clear()
-        
-        axios.post('/api/chat/addmessage')
+        console.log(this.props.user1)
+        this.props.addMessage(this.state.msg.text, this.state.position, this.props.user1)
     }
 
     inputRef = React.createRef();
 
     render() {
-        console.log(this.props.user1)
-        console.log(this.props.user2)
-
         return (
             <div style={{height: 450, width: 450, overflow: 'scroll', backgroundColor: '#e5e4e2'}}/*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
             <div style={{height: 50, marginBottom: 10, backgroundColor: 'white'}}></div>
@@ -83,7 +80,11 @@ export class ChatPanel extends Component {
 
 ChatPanel.propTypes = {
     addMessage: PropTypes.func.isRequired,
-    getMessages: PropTypes.func.isRequired
+    getMessages: PropTypes.func.isRequired,
+    chat: PropTypes.object.isRequired
 }
 
-export default connect(null, {addMessage, getMessages})(ChatPanel)
+const mapStateToProps = (state) => ({
+    chat: state.chat,
+})
+export default connect(mapStateToProps, {addMessage, getMessages})(ChatPanel)

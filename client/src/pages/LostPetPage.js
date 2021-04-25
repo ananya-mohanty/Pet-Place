@@ -95,8 +95,7 @@ class LostPet extends Component {
                     isOpen={this.state.chatPanel}
                     toggle={this.toggle}>
                     <ModalBody>
-                        <ChatPanel user1={this.props.lostpet.user_id} 
-                        user2={JSON.parse(window.localStorage.getItem('user')).id}/>
+                        <ChatPanel user1={this.props.lostpet.user_id} />
                     </ModalBody>
                 </Modal>
             </div>

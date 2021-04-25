@@ -10,16 +10,17 @@ const User = require('../../models/User');
 //@desc   Get all messages between this user and user2
 //@access Private
 router.get('/:id/:id2', (req, res) => {
+    console.log(req.params.id, req.params.id2)
     User.findById(req.params.id)
         .then(user => {
             // res.json(user)
-            if(user.messages.has(req.params.id2)){
-                var msgs = user.messages.get(req.params.id2);
-                res.json(msgs);
+            var msgs=[]
+            if(user.messages.has(req.params.id2))
+            {
+                msgs = user.messages.get(req.params.id2);
             }
-            else {
-                res.json([])
-            }
+            
+                    res.json(msgs)
         });
 });
 
@@ -27,28 +28,55 @@ router.get('/:id/:id2', (req, res) => {
 //@desc   add a message in chats of this user and user2
 //@access Private
 router.post('/:id/:id2', (req, res) => {
-    User.findById(req.params.id)
+    console.log('now here')
+    console.log(req.params.id, req.params.id2)
+    console.log('now here')
+    User.findById(req.params.id2)
         .then(user => {
             const { text, position } = req.body
             const newMessage = new Message({
                 title: "title here",
                 text: text,
-                position: position,
+                position: 'left',
                 subtitle: "text.substring(0, min(text.length, 10)) "
             });
             newMessage.save()
             temp = []
-            
-            if(user.messages.has(req.params.id2)) {
-                temp = user.messages.get(req.params.id2)
+
+            if (user.messages.has(req.params.id)) {
+                temp = user.messages.get(req.params.id)
             }
             temp.push(newMessage)
-            user.messages.set(req.params.id2, temp)
+            user.messages.set(req.params.id, temp)
+            console.log(user.messages)
+            user.markModified('messages')
             user.save()
-            .then(res.json(user))
-            .catch(err => console.log(err)) 
+                .then(User.findById(req.params.id)
+                    .then(user => {
+                        const { text, position } = req.body
+                        const newMessage = new Message({
+                            title: "title here",
+                            text: text,
+                            position: 'right',
+                            subtitle: "text.substring(0, min(text.length, 10)) "
+                        });
+                        newMessage.save()
+                        temp = []
+
+                        if (user.messages.has(req.params.id2)) {
+                            temp = user.messages.get(req.params.id2)
+                        }
+                        temp.push(newMessage)
+                        user.messages.set(req.params.id2, temp)
+                        console.log(user.messages)
+                        user.markModified('messages')
+                        user.save()
+                            .then(console.log(user))
+                            .catch(err => console.log(err))}))
+                .catch(err => console.log(err))
 
         })
+
 });
 
 //@route  DELETE api/items/:id1/:id2
