@@ -6,9 +6,10 @@ import NewPost from '../components/NewPost'
 import {Container, Row, Col, Jumbotron,
     Button,
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle} from 'reactstrap'
+    CardTitle, CardSubtitle, Modal, ModalBody} from 'reactstrap'
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
+import ChatPanel from '../components/ChatPanel';
 
 
 const mainStyle = {
@@ -27,11 +28,11 @@ const JumbotronStyle = {
 };
 
 const divStyle = {
-    width: 250, 
+    width: 230, 
     borderStyle:"solid", 
     borderWidth: 1, 
     borderColor: "rgba(0,0,0,0.1)",
-    marginTop: "3.5rem",
+    marginTop: "2rem",
     marginLeft: "3.5rem",
     padding: "10px",
     textAlign: "center",
@@ -64,6 +65,63 @@ const spanStyle = {
     float: "right",
     marginTop: "-1.5rem"
 }
+
+class LostPet extends Component {
+    state = {
+        chatPanel: false
+    }
+    toggle = () => {
+        this.setState({ chatPanel: !this.state.chatPanel });
+    }
+    onClick = (e) => {
+        this.setState({ chatPanel: !this.state.chatPanel })
+    }
+    render() {
+        return (
+            <div style={divStyle}>
+                {this.props.files.length == 1 ? <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
+                    <CardImg top width="50" src={'api/post/image/' + this.props.files[0].filename} />
+                </a> :
+                    <AliceCarousel>
+                        {this.props.files.map((f, i) => {
+                            return (
+                                <div>
+                                    {
+                                        <a href={'http://localhost:5000/api/post/image/' + f.filename}>
+                                            <CardImg top width="50" src={'api/post/image/' + f.filename} />
+                                        </a>
+                                    }
+                                </div>
+                            )
+                        })
+                        }
+                    </AliceCarousel>}
+                <CardBody>
+                    <CardText>Lost Animal: {`${this.props.lostpet.location.city}, ${this.props.lostpet.location.region}`}
+                    <div>
+                        Last Seen: {this.props.lostpet.lastseen}</div></CardText>
+                    <CardText>
+                    <div style={{fontSize: 13, lineHeight: 'normal', textAlign: 'left', marginLeft: 15, width: 165}}>
+                        {this.props.lostpet.description}
+                    </div>
+                    </CardText>
+                    
+                    <Button onClick={this.onClick} color='success' size='sm'>Found?</Button>
+                </CardBody>
+                <Modal
+                    style={{ float: 'right' }}
+                    isOpen={this.state.chatPanel}
+                    toggle={this.toggle}>
+                    <ModalBody>
+                        <ChatPanel user1={this.props.lostpet.user_id} />
+                    </ModalBody>
+                </Modal>
+            </div>
+            // </div>
+        )
+    }
+}
+
 
 class DisplayDonation extends Component {
     render() {
@@ -110,7 +168,9 @@ export class Feed extends Component {
         posts:[],
         files:[],
         Donations: [],
-        filesDonations: []
+        filesDonations: [],
+        LostPets: [],
+        fileslostpets: []
     }
      
     componentDidMount = ()=> {
@@ -134,14 +194,31 @@ export class Feed extends Component {
                 // console.log(this.state.Donations)
                 // this.helper(res.data)
             });
+
+            axios.get('api/lostpet/')
+            .then((res) => {
+
+                this.setState({ LostPets: res.data.items, fileslostpets: res.data.files })
+
+            });
+
     }
     render() {
         return (
-            <Container style={{marginLeft: 130}}><Row>
-                <Col>
-                
-                </Col>
-                <Col><div style={{marginLeft: -90}}>
+            <Container /*style={{marginLeft: 130, height: 100}}*/><Row>
+                <Col style={{width: 30}}><div style={{marginLeft: -135, marginTop: 90}}><div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div>
+                {
+                                this.state.LostPets.map((lostpet, i) => {
+                                    var files = this.state.fileslostpets.filter((f) => lostpet.files.includes(f._id))
+                                    return (<div>
+                                        {
+                                            <LostPet lostpet={lostpet} files={files} key={i} onClick={this.onClick} />
+                                        }
+                                    </div>)
+                                })
+                            }
+                </div></Col>
+                <Col xs={6}><div style={{marginLeft: -90}}>
             <NewPost />
             {this.state.posts.map((post, i) => {
                 var files = this.state.files.filter((f) => post.files.includes(f._id))
@@ -151,17 +228,21 @@ export class Feed extends Component {
                         <FeedPost post={post} files={files} key={i} />
                     }
                 </div>)
-            })}</div></Col><Col><div style={{marginTop: 35}}>
+            })}
+            </div>
+            </Col>
+            <Col><div style={{marginTop: 55, marginRight: -100}}><div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div>
                 {
                     this.state.Donations.map((donation, i) => {
-                        var files = this.state.files.filter((f) => donation.files.includes(f._id))
+                        var files = this.state.filesDonations.filter((f) => donation.files.includes(f._id))
                          return (<div><Row>
                             {
                                 <DisplayDonation donation={donation} files={files} key={i} />
                             }
                         </Row></div>)
                     })
-                }</div>
+                }
+                </div>
             </Col>
             </Row></Container>
          

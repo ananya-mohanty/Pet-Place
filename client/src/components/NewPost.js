@@ -83,7 +83,8 @@ export class NewPost extends Component {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                width: '710px'
+                width: '610px',
+                marginBottom: -10
             }}>
                 <Row>
                     <Col>
@@ -97,7 +98,7 @@ export class NewPost extends Component {
                             <form>
                                 <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
                                     placeholder='write something'
-                                    rows="5" cols="20"
+                                    rows="3" cols="20"
                                     name='caption'
                                     onChange={this.onTextChange} />
                                 <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
