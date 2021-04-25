@@ -32,8 +32,8 @@ const divStyle = {
     borderStyle:"solid", 
     borderWidth: 1, 
     borderColor: "rgba(0,0,0,0.1)",
-    marginTop: "2rem",
-    marginLeft: "3.5rem",
+    // marginTop: "2rem",
+    // marginLeft: "3.5rem",
     padding: "10px",
     textAlign: "center",
     backgroundColor: 'white'
@@ -101,7 +101,7 @@ class LostPet extends Component {
                     <div>
                         Last Seen: {this.props.lostpet.lastseen}</div></CardText>
                     <CardText>
-                    <div style={{fontSize: 13, lineHeight: 'normal', textAlign: 'left', marginLeft: 15, width: 165}}>
+                    <div style={{fontSize: 13, lineHeight: 'normal', textAlign: 'left', /*marginLeft: 15,*/ width: 165}}>
                         {this.props.lostpet.description}
                     </div>
                     </CardText>
@@ -208,8 +208,10 @@ export class Feed extends Component {
     }
     render() {
         return (
-            <Container /*style={{marginLeft: 130, height: 100}}*/><Row>
-                <Col ><div style={{marginLeft: '-20%', marginTop: 90}}>
+            <Container style={{marginLeft: 50}}><Row>
+                <Col xs={'auto'}/*style={{width: 30}}*/>
+                    <div style={{/*marginLeft: -135, */marginTop: 90,/* marginLeft: -80*/ marginRight: -20}}>
+                        {/* <div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div> */}
                 {
                                 this.state.LostPets.map((lostpet, i) => {
                                     var files = this.state.fileslostpets.filter((f) => lostpet.files.includes(f._id))
@@ -221,7 +223,7 @@ export class Feed extends Component {
                                 })
                             }
                 </div></Col>
-                <Col><div style={{marginLeft:'-80%'}}>
+                <Col xs={'auto'}><div /*style={{marginLeft: -90}}*/>
             <NewPost />
             {this.state.posts.map((post, i) => {
                 var files = this.state.files.filter((f) => post.files.includes(f._id))
@@ -234,7 +236,8 @@ export class Feed extends Component {
             })}
             </div>
             </Col>
-                <Col><div style={{ marginLeft: '80%', marginTop:'-101%' }}>
+            <Col xs={'auto'}><div style={{marginTop: 90}}>
+                {/* <div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div> */}
                 {
                     this.state.Donations.map((donation, i) => {
                         var files = this.state.filesDonations.filter((f) => donation.files.includes(f._id))
