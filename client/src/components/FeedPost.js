@@ -34,7 +34,6 @@ export class FeedPost extends Component {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                marginRight: -35
                 }}>
                 <Row>
                     <Col>
@@ -52,14 +51,13 @@ export class FeedPost extends Component {
                                 </div>
                             </div>
                             <br></br>
-                            {this.props.files.length > 1?
                             <AliceCarousel>
                                 {this.props.files.map((f, i) => {
                                         return(
                                             <div style={{width: '700px', textAlign:'center'}}>
                                         {f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg'?
                                         <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                            <img src={'api/post/image/' + f.filename}></img>
+                                            <img  src={'api/post/image/' + f.filename}></img>
                                         </a>:
                                         f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm'?
                                         <video width="700px" controls><source src={'api/post/video/' + f.filename}/></video>:
@@ -73,30 +71,7 @@ export class FeedPost extends Component {
                                         <br></br>
                                         </div>
                                     )})}
-                                 </AliceCarousel>:
-                                    this.props.files.map((f, i) => {
-                                        return (
-                                            <div style={{ width: '700px', textAlign: 'center' }}>
-                                                {f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg' ?
-                                                    <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                                        <img src={'api/post/image/' + f.filename}></img>
-                                                    </a> :
-                                                    f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm' ?
-                                                        <video width="700px" controls><source src={'api/post/video/' + f.filename} /></video> :
-                                                        f.contentType === 'application/pdf' || f.contentType === 'application/octet-stream'
-                                                            || f.contentType === 'text/plain' || f.contentType === 'application/x-zip-compressed' ?
-                                                            <a href={'http://localhost:5000/api/post/document/' + f.filename}>
-                                                                <img src={doc} width='30px'></img>&nbsp;&nbsp;
-                                        {f.metadata}</a> :
-                                                            f.metadata}
-                                                <br></br>
-                                                <br></br>
-                                            </div>
-                                        )
-                                    })
-                                }
-                                 
-
+                                 </AliceCarousel>
                             <div style={{ padding: '15px', align:'center'}}>
                                 <div>
                                     <ul style={{marginLeft:'-40px'}}>
