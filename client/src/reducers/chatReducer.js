@@ -1,7 +1,8 @@
-import {ADD_MESSAGE, DELETE_MESSAGE, GET_MESSAGES} from '../actions/types'
+import {ADD_MESSAGE, DELETE_MESSAGE, GET_MESSAGES, GET_MESSAGE_LIST} from '../actions/types'
 
 const initialState = {
-    userMessages: []
+    userMessages: [],
+    messageList:[]
 }
 
 export default function(state = initialState, action) {
@@ -10,6 +11,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 userMessages: action.payload
+            };
+        
+        case GET_MESSAGE_LIST:
+            return{
+                ...state,
+                messageList: action.payload
             };
         // case DELETE_MESSAGE:
         //     const ind = state.cartItems.findIndex(item => item._id === action.payload)

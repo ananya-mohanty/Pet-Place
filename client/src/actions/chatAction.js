@@ -1,4 +1,4 @@
-import {ADD_MESSAGE, DELETE_MESSAGE, GET_MESSAGES} from './types'
+import {ADD_MESSAGE, DELETE_MESSAGE, GET_MESSAGES, GET_MESSAGE_LIST} from './types'
 import axios from 'axios'
 
 export const getMessages = (id_user2) => dispatch => {
@@ -12,6 +12,22 @@ export const getMessages = (id_user2) => dispatch => {
             console.log(res.data)
             dispatch({
                 type: GET_MESSAGES,
+                payload: res.data
+            })
+        }
+        )
+        .catch(err => console.log(err));
+};
+
+export const getMessageList = () => dispatch => {
+    const user = JSON.parse(window.localStorage.getItem('user'))
+    if (user == null)
+        return;
+    axios.get(`../api/messages/${user.id}/`)
+        .then(res => {
+            console.log(res.data)
+            dispatch({
+                type: GET_MESSAGE_LIST,
                 payload: res.data
             })
         }

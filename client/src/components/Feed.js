@@ -137,7 +137,11 @@ export class Feed extends Component {
     }
     render() {
         return (
-            <Container style={{marginLeft: 130}}><Row><Col><div style={{marginLeft: -90}}>
+            <Container style={{marginLeft: 130}}><Row>
+                <Col>
+                
+                </Col>
+                <Col><div style={{marginLeft: -90}}>
             <NewPost />
             {this.state.posts.map((post, i) => {
                 var files = this.state.files.filter((f) => post.files.includes(f._id))

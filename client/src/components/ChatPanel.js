@@ -60,8 +60,8 @@ export class ChatPanel extends Component {
 
     render() {
         return (
-            <div style={{height: 450, width: 450, overflow: 'scroll', backgroundColor: '#e5e4e2'}}/*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
-            <div style={{height: 50, marginBottom: 10, backgroundColor: 'white'}}></div>
+            <div style={{ backgroundColor: '#e5e4e2'}}/*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
+            <div style={{height: 50, marginBottom: 10, backgroundColor: 'white'}} overflow='scroll'></div>
             <MessageList
                 className='message-list'
                 // lockable={true}

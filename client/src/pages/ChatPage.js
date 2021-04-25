@@ -18,7 +18,7 @@ import {Container, Row, Col} from 'reactstrap'
 import 'react-chat-elements/dist/main.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import {getMessages, addMessage} from '../actions/chatAction'
+import {getMessages, addMessage, getMessageList} from '../actions/chatAction'
 import PropTypes from 'prop-types'
 
 const styleparent = {
@@ -127,6 +127,19 @@ export class ChatPage extends Component {
         }})
     }
 
+    componentDidMount=()=>{
+        this.props.getMessageList()
+        const messageList = this.props.chat.messageList
+        console.log(messageList)
+        // this.state.msgList = []
+        // userMessages.map((msg) => {
+        //     const { position, type, text } = msg
+        //     const date = new Date(msg.updatedAt)
+        //     this.state.msgList.push({ position, type, text, date })
+        // })
+        // console.log(this.state.msgList)
+    }
+
     addMessage = (e) => {
         this.setState({messageList: [...this.state.messageList, this.state.msg]})
         this.setState({msg: ''})
@@ -176,7 +189,12 @@ export class ChatPage extends Component {
 
 ChatPage.propTypes = {
     addMessage: PropTypes.func.isRequired,
-    getMessages: PropTypes.func.isRequired
+    getMessages: PropTypes.func.isRequired,
+    getMessageList: PropTypes.func.isRequired,
+    chat:PropTypes.object.isRequired
 }
 
-export default connect(null, {getMessages, addMessage})(ChatPage);
+const mapStateToProps = (state) => ({
+    chat: state.chat,
+})
+export default connect(mapStateToProps, {getMessages, addMessage, getMessageList})(ChatPage);
