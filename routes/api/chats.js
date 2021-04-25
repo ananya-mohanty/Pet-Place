@@ -23,10 +23,10 @@ router.get('/:id/:id2', (req, res) => {
         });
 });
 
-router.get('/id', (req, res)=>{
+router.get('/:id', (req, res)=>{
     User.findById(req.params.id)
         .then(user => {
-            var msgs = user.msgs
+            var msgs = user.messages
             res.json(msgs)
         });
 })

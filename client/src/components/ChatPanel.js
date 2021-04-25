@@ -16,41 +16,24 @@ export class ChatPanel extends Component {
     componentDidMount=()=>{
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
-        console.log(userMessages)
         userMessages.map((msg)=>{
             const{position, type, text}=msg
             const date=new Date(msg.updatedAt)
             this.state.msgList.push({position, type, text, date})
         })
-        console.log(this.state.msgList)
         this.scrollRef.scrollIntoView({ behavior: 'smooth' })
-    }
-
-    componentDidUpdate = () => {
-        this.props.getMessages(this.props.user1)
-        const userMessages = this.props.chat.userMessages
-        console.log(userMessages)
-        this.state.msgList=[]
-        userMessages.map((msg) => {
-            const { position, type, text } = msg
-            const date = new Date(msg.updatedAt)
-            this.state.msgList.push({ position, type, text, date })
-        })
-        console.log(this.state.msgList)
     }
     
     componentDidUpdate = () => {
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
-        console.log(userMessages)
         this.state.msgList=[]
         userMessages.map((msg) => {
             const { position, type, text } = msg
             const date = new Date(msg.updatedAt)
             this.state.msgList.push({ position, type, text, date })
         })
-        console.log(this.state.msgList)
-        this.scrollRef.scrollIntoView({ behavior: 'smooth' })
+        // this.scrollRef.scrollIntoView({ behavior: 'smooth' })
     }
 
     onChange = (e) => {
@@ -66,7 +49,6 @@ export class ChatPanel extends Component {
         this.setState({msgList: [...this.state.msgList, this.state.msg]})
         this.setState({msg: ''})
         this.inputRef.clear()
-        console.log(this.props.user1)
         this.props.addMessage(this.state.msg.text, this.state.position, this.props.user1)
     }
 
@@ -76,17 +58,15 @@ export class ChatPanel extends Component {
     render() {
         return (
             // <div style={{overflow: 'hidden'}}>
-            <div style={{height: 420, width: 450, overflow: 'scroll', backgroundColor: '#e5e4e2'}}/*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
-            <div style={{height: 50, marginBottom: 10, backgroundColor: 'white'}}></div>
+            <div style={{ backgroundColor: '#e5e4e2',}} overflow='hidden' /*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
+            <div style={{height: 20, marginBottom: 10, backgroundColor: 'white'}}></div>
             <MessageList
                 className='message-list'
-                lockable={true}
                 // downButtonBadge={10}
                 toBottomHeight={'100%'}
                 dataSource={this.state.msgList} />
-                <div style={{marginTop: 340, position:'sticky'}} ref={el => (this.scrollRef = el)}>
+                <div style={{marginTop: 350, position:'sticky'}} ref={el => (this.scrollRef = el)}>
                      <Input
-        
                         placeholder="Write a message.."
                         value=""
                         ref='input'
@@ -100,7 +80,6 @@ export class ChatPanel extends Component {
                                 text='Send'
                                 onClick={this.addMessage} />
                         } />
-                
                 </div>
             </div>
             // </div>
