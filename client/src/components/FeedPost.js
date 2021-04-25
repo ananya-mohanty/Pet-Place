@@ -34,13 +34,14 @@ export class FeedPost extends Component {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                // marginRight: -35
                 }}>
                 <Row>
                     <Col>
                         <Jumbotron style={{
                             padding: '20px',
                             backgroundColor: 'white',
-                            width: '580px'
+                            width: '550px'
                         }}>
                             <div style={{display:'flex'}}>
                                 <img src={profilepic} style={imageStyle}></img>
