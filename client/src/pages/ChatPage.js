@@ -87,8 +87,10 @@ export class ChatPage extends Component {
         const messageList=this.props.chat.messageList
         this.state.chatSource = []
         for (var key in messageList) {
-            const arr = messageList[key].filter((m)=>{return m.position=='left'})
-            const { title, subtitle } = arr[arr.length - 1]
+            const arr1 = messageList[key].filter((m)=>{return m.position=='left'})
+            const { title } = arr1[arr1.length - 1]
+            const arr = messageList[key]
+            const { subtitle } = arr[arr.length - 1]
             var date = arr[arr.length - 1].updatedAt
             var avatar = `url(${avatar_img})`
             const alt = key
@@ -103,8 +105,10 @@ export class ChatPage extends Component {
         this.state.chatSource=[]
         for(var key in messageList)
         {
-            const arr = messageList[key].filter((m) => { return m.position == 'left' })
-            const { title, subtitle } = arr[arr.length - 1]
+            const arr1 = messageList[key].filter((m) => { return m.position == 'left' })
+            const { title } = arr1[arr1.length - 1]
+            const arr = messageList[key]
+            const { subtitle } = arr[arr.length - 1]
             var date = new Date(arr[arr.length - 1].updatedAt)
             var avatar = `url(${avatar_img})`
             const alt = key
