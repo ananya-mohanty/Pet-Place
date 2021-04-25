@@ -23,6 +23,7 @@ export class ChatPanel extends Component {
             this.state.msgList.push({position, type, text, date})
         })
         console.log(this.state.msgList)
+        this.scrollRef.scrollIntoView({ behavior: 'smooth' })
     }
 
     componentDidUpdate = () => {
@@ -38,6 +39,19 @@ export class ChatPanel extends Component {
         console.log(this.state.msgList)
     }
     
+    componentDidUpdate = () => {
+        this.props.getMessages(this.props.user1)
+        const userMessages = this.props.chat.userMessages
+        console.log(userMessages)
+        this.state.msgList=[]
+        userMessages.map((msg) => {
+            const { position, type, text } = msg
+            const date = new Date(msg.updatedAt)
+            this.state.msgList.push({ position, type, text, date })
+        })
+        console.log(this.state.msgList)
+        this.scrollRef.scrollIntoView({ behavior: 'smooth' })
+    }
 
     onChange = (e) => {
         this.setState({msg: {
@@ -57,18 +71,20 @@ export class ChatPanel extends Component {
     }
 
     inputRef = React.createRef();
+    scrollRef = React.createRef();
 
     render() {
         return (
-            <div style={{ backgroundColor: '#e5e4e2'}}/*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
-            <div style={{height: 50, marginBottom: 10, backgroundColor: 'white'}} overflow='scroll'></div>
+            // <div style={{overflow: 'hidden'}}>
+            <div style={{height: 420, width: 450, overflow: 'scroll', backgroundColor: '#e5e4e2'}}/*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
+            <div style={{height: 50, marginBottom: 10, backgroundColor: 'white'}}></div>
             <MessageList
                 className='message-list'
-                // lockable={true}
+                lockable={true}
                 // downButtonBadge={10}
-                // toBottomHeight={'50%'}
+                toBottomHeight={'100%'}
                 dataSource={this.state.msgList} />
-                <div style={{marginTop: 340, position:'sticky'}}>
+                <div style={{marginTop: 340, position:'sticky'}} ref={el => (this.scrollRef = el)}>
                      <Input
         
                         placeholder="Write a message.."
@@ -87,6 +103,7 @@ export class ChatPanel extends Component {
                 
                 </div>
             </div>
+            // </div>
          )
     }
 }
