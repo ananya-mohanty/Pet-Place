@@ -24,6 +24,19 @@ export class ChatPanel extends Component {
         })
         console.log(this.state.msgList)
     }
+
+    componentDidUpdate = () => {
+        this.props.getMessages(this.props.user1)
+        const userMessages = this.props.chat.userMessages
+        console.log(userMessages)
+        this.state.msgList=[]
+        userMessages.map((msg) => {
+            const { position, type, text } = msg
+            const date = new Date(msg.updatedAt)
+            this.state.msgList.push({ position, type, text, date })
+        })
+        console.log(this.state.msgList)
+    }
     
 
     onChange = (e) => {
