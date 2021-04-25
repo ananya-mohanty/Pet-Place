@@ -106,7 +106,7 @@ class LostPet extends Component {
                     </div>
                     </CardText>
                     
-                    <Button onClick={this.onClick} color='success' size='sm'>Found?</Button>
+                    <Button onClick={this.onClick} color='info' size='sm'>Found?</Button>
                 </CardBody>
                 <Modal
                     style={{ float: 'right' }}
@@ -144,11 +144,14 @@ class DisplayDonation extends Component {
                     }
                     </AliceCarousel>}
                     <CardBody>
-                    <CardTitle tag="h6">{this.props.donation.name} <i class="fa fa-map-marker" title={`${this.props.donation.location.city}, ${this.props.donation.location.region}, ${this.props.donation.location.country_name}`}></i></CardTitle>
+                    {/* <CardTitle tag="h6">{this.props.donation.name} <i class="fa fa-map-marker" title={`${this.props.donation.location.city}, ${this.props.donation.location.region}, ${this.props.donation.location.country_name}`}></i></CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        Target Amount: {this.props.donation.targetAmount}</CardSubtitle>
+                        Target Amount: {this.props.donation.targetAmount}</CardSubtitle> */}
                     {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
-                        <CardText>Starts On: {this.props.donation.startDate}
+                        <CardText>
+                            <div>{this.props.donation.name} <i class="fa fa-map-marker" title={`${this.props.donation.location.city}, ${this.props.donation.location.region}, ${this.props.donation.location.country_name}`}></i></div>
+                            <div>Target Amount: {this.props.donation.targetAmount}</div>
+                            Starts On: {this.props.donation.startDate}
                     {/* </CardSubtitle> */}
                     {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
                     <div>Ends On: {this.props.donation.endDate}</div>
@@ -206,7 +209,9 @@ export class Feed extends Component {
     render() {
         return (
             <Container /*style={{marginLeft: 130, height: 100}}*/><Row>
-                <Col style={{width: 30}}><div style={{marginLeft: -135, marginTop: 90}}><div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div>
+                <Col style={{width: 30}}>
+                    <div style={{marginLeft: -135, marginTop: 90}}>
+                        {/* <div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div> */}
                 {
                                 this.state.LostPets.map((lostpet, i) => {
                                     var files = this.state.fileslostpets.filter((f) => lostpet.files.includes(f._id))
@@ -231,7 +236,8 @@ export class Feed extends Component {
             })}
             </div>
             </Col>
-            <Col><div style={{marginTop: 55, marginRight: -100}}><div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div>
+            <Col><div style={{marginTop: 55, marginRight: -100}}>
+                {/* <div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div> */}
                 {
                     this.state.Donations.map((donation, i) => {
                         var files = this.state.filesDonations.filter((f) => donation.files.includes(f._id))
