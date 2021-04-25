@@ -83,7 +83,7 @@ export class NewPost extends Component {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                width: '530px',
+                width: '580px',
                 marginBottom: -10
             }}>
                 <Row>
