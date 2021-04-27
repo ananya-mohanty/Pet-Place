@@ -14,20 +14,21 @@ export class ChatPanel extends Component {
     }
 
     componentDidMount=()=>{
+        this.state.msgList = []
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
         userMessages.map((msg)=>{
             const{position, type, text}=msg
-            const date=new Date(msg.updatedAt)
+            const date = new Date(msg.updatedAt)
             this.state.msgList.push({position, type, text, date})
         })
         this.scrollRef.scrollIntoView({ behavior: 'smooth' })
     }
     
     componentDidUpdate = () => {
+        this.state.msgList = []
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
-        this.state.msgList=[]
         userMessages.map((msg) => {
             const { position, type, text } = msg
             const date = new Date(msg.updatedAt)
@@ -41,7 +42,6 @@ export class ChatPanel extends Component {
             position: 'right',
             type: 'text',
             text: e.target.value,
-            date: new Date()
         }})
     }
 

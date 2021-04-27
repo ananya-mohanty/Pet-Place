@@ -208,7 +208,7 @@ export class Feed extends Component {
     }
     render() {
         return (
-            <Container style={{marginLeft: 20}}><Row>
+            <Container style={{justifyContent:'center', alignItems:'center'}}><Row>
                 <Col xs={'auto'}/*style={{width: 30}}*/>
                     <div style={{/*marginLeft: -135, */marginTop: 90,/* marginLeft: -80*/ marginRight: -20}}>
                         {/* <div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div> */}

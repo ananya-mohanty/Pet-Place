@@ -117,11 +117,7 @@ export class ChatPage extends Component {
         }
     }
 
-    onClick=(e)=>{
-        console.log('hii')
-        console.log(e.target)
-    }
-
+    
     addMessage = (e) => {
         this.setState({messageList: [...this.state.messageList, this.state.msg]})
         this.setState({msg: ''})
