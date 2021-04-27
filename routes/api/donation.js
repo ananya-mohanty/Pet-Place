@@ -77,12 +77,15 @@ router.get('/:id', (req, res) => {
 
 
 router.post('/', upload.array('files[]', 10),  (req, res, next) => {
+    console.log('in donation post')
     var callback = function (resp) {
         newDonation.location = resp
         newDonation.save().then(donation => res.json(donation));
     };
     
     const newDonation = new Donation({
+        user_name: req.body.user_name,
+        user_id:req.body.user_id,
         name: req.body.name,
         targetAmount: req.body.targetAmount,
         category: req.body.category,

@@ -66,9 +66,7 @@ class LostPet extends Component {
     render() {
         return (
             <div style={divStyle}>
-                {this.props.files.length == 1 ? <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
-                    <CardImg top width="50" src={'api/post/image/' + this.props.files[0].filename} />
-                </a> :
+                
                     <AliceCarousel>
                         {this.props.files.map((f, i) => {
                             return (
@@ -82,7 +80,7 @@ class LostPet extends Component {
                             )
                         })
                         }
-                    </AliceCarousel>}
+                    </AliceCarousel>
                 <CardBody>
                     <CardTitle tag="h6">Lost Animal: {`${this.props.lostpet.location.city}, ${this.props.lostpet.location.region}`}</CardTitle>
                     <CardSubtitle className="mb-2 text-muted">

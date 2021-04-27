@@ -69,14 +69,30 @@ const spanStyle = {
     marginTop: "-1.5rem"
 }
 
+const dpStyle = {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    overflow: "hidden",
+    alignSelf: 'flex-start',
+}
+
 class DisplayDonation extends Component {
     render() {
        
         return (
             <div style={divStyle}>
-                {this.props.files.length == 1 ? <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
-                    <CardImg top width="50" src={'api/post/image/' + this.props.files[0].filename} />
-                </a>:
+                <div style={{ display: 'flex' }}>
+                    <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.donation.user_id}>
+                        <img src={'api/users/image/ngo/' + this.props.donation.user_id} style={dpStyle}></img>
+                    </a>
+                    <div style={{ marginLeft: '5px', marginTop:'15px' }}>
+                        <a style={{}} href=""><h6>{this.props.donation.user_name}</h6></a>
+                    </div>
+                </div>
+                
+                <div style={{marginTop:'5px'}}>
+                
                 <AliceCarousel>
                 {this.props.files.map((f, i) => {
                     return (
@@ -89,9 +105,10 @@ class DisplayDonation extends Component {
                         </div>
                         )})
                     }
-                    </AliceCarousel>}
+                    </AliceCarousel>
+                    </div>
                     <CardBody>
-                    <CardTitle tag="h5">{this.props.donation.name} <i class="fa fa-map-marker" title={`${this.props.donation.location.city}, ${this.props.donation.location.region}, ${this.props.donation.location.country_name}`}></i></CardTitle>
+                    <CardTitle tag="h5">{this.props.donation.name} </CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h5">
                         {this.props.donation.targetAmount}</CardSubtitle>
                     <CardSubtitle className="mb-2 text-muted">
@@ -101,7 +118,7 @@ class DisplayDonation extends Component {
                     <CardText>{this.props.donation.description}</CardText>
                     
                     <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name="+ this.props.donation.name}>
-                    <Button>Donate</Button>
+                    <Button className="hover active">Donate</Button>
                     </a>
  
                     <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_H2oWQW41mxnLsz" async> </script> </form>

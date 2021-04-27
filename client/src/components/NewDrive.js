@@ -13,9 +13,8 @@ const mainStyle = {
     paddingLeft:'3rem'
 }
 const imageStyle = {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 100,
+    borderRadius: 50,
     alignSelf: 'flex-start',
 }
 
@@ -69,6 +68,8 @@ export class NewPost extends Component {
         formData.append('startDate', this.state.startDate)
         formData.append('location', this.state.location)
         formData.append('description', this.state.description)
+        formData.append('user_id', JSON.parse(window.localStorage.getItem('user')).id)
+        formData.append('user_name', JSON.parse(window.localStorage.getItem('user')).name)
 
 
         for (let i = 0; i < this.state.numfiles; i++) {
@@ -78,7 +79,7 @@ export class NewPost extends Component {
         for (var pair of formData.entries()) {
             console.log(pair[0] + ', ' + pair[1]);
         }
-        axios.post('api/donations/', formData, {
+        axios.post('/api/donations/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -90,7 +91,7 @@ export class NewPost extends Component {
     render() {
         return (
             <div className='container' style={mainStyle}>
-                <Button onClick={this.toggle}>Create a Donation Drive</Button>
+                <Button className="active hover" onClick={this.toggle}>Create a Donation Drive</Button>
                 <br></br><br></br>
                 <Modal
                     isOpen={this.state.isOpen}
@@ -101,8 +102,9 @@ export class NewPost extends Component {
                         paddingBottom: '0px',
                         display: "flex",
                         backgroundColor: 'white'}}>
-                        <img src={profilepic} style={imageStyle}></img>
-                        <form>
+                        <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                            <img src={'api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                        </a>                        <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Drive</label>
                             <br></br>
                             <input type='string' name='name' style={{
@@ -150,7 +152,7 @@ export class NewPost extends Component {
                                 rows="3" cols="20"
                                 name='description'
                                 onChange={this.onTextChange} />
-                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} />
+                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
 
                             <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
                                 {this.state.filesrc.map((src, idx) => {
@@ -178,9 +180,7 @@ export class NewPost extends Component {
                                 })}
                                 <br></br>
                                 <label for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
-                                    
-
-                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
+                                    <button  className="hover active" style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
                             </div>
                         </form>
                     </ModalBody>

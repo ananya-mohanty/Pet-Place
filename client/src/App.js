@@ -71,7 +71,8 @@ function App() {
           <Route exact path="/donations" render={() =>
             <div>
               <Navbar />
-              <NewDrive />
+             { window.localStorage.getItem('user_type') == 'ngo' ?
+              <NewDrive />:null}
               <DonationsPage />
               <Footer />
             </div>

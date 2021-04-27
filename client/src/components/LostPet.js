@@ -110,7 +110,7 @@ export class NewPost extends Component {
                                 rows="3" cols="20"
                                 name='description'
                                 onChange={this.onTextChange} />
-                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} />
+                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
 
                             <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
                                 {this.state.filesrc.map((src, idx) => {
