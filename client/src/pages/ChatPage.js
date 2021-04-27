@@ -24,35 +24,22 @@ import PropTypes from 'prop-types'
 import  ChatPanel  from '../components/ChatPanel';
 
 const styleparent = {
-    width: 400,
+    marginLeft:'180px',
     overflow: 'hidden',
     position: 'absolute',
-    marginRight: 20,
-    height: 540,
-    marginRight: 10
-}
-
-const styleparent1 = {
-    width: 450,
-    overflow: 'hidden',
-    position: 'absolute',
-    height: 540,
-    
+    height: 570,
+    width:'100%'
 }
 
 const stylechild = {
+    height:'570px',
+    width:'800px',
     backgroundColor: '#e5e4e2',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: -20,
-    right: -20, 
+    marginTop:'100px',
     overflow: 'scroll',
-    marginTop: 120, 
     borderStyle:"solid", 
     borderWidth: 1, 
     borderColor: "rgba(0,0,0,0.1)",
-    marginLeft: 20
 }
 
 export class ChatPage extends Component {
@@ -134,13 +121,13 @@ export class ChatPage extends Component {
                         <div style={stylechild}>
                         <div style={{height: 45, width: '100%', position:'sticky', top: 0, padding: 10, backgroundColor: '#009ACD', color: 'white'}}>&nbsp; All chats</div>
                             <ChatList
-                                dataSource={this.state.chatSource} onClick={(e)=>{this.setState({chatopen:e.alt})}}/>
+                            dataSource={this.state.chatSource} onClick={(e) => { window.location.href = `/chat/${e.alt}`}}/>
                         </div></div></Col>
 
-                <Col><div style={styleparent1}><div style={stylechild}
+                {/* <Col><div style={styleparent1}><div style={stylechild}
                     className='right-panel'>
                         <ChatPanel user1={this.state.chatopen}/>
-                    </div></div></Col>
+                    </div></div></Col> */}
             </Row>
             </Container>
         );

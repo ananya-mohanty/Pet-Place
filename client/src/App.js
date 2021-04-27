@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import history from './history'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, useParams } from 'react-router-dom'
 import { NewPost } from './components/NewPost';
 import { Feed } from './components/Feed';
 import { DonationsPage } from './pages/DonationsPage'
@@ -20,6 +20,7 @@ import { FoundPetPage } from './pages/FoundPetPage'
 import  ChatPage  from './pages/ChatPage'
 import backgroud from './images/resources/background1.jpg'
 import { Nav } from 'reactstrap'
+import  ChatPanel  from './components/ChatPanel'
 
 
 function App() {
@@ -88,8 +89,12 @@ function App() {
               <Footer />
             </div>
           }></Route>
-          
-        
+          <Route exact path="/chat/:id" render={(props) =>
+          <div style={{padding:'100px', marginTop:'20px'}}>
+              <Navbar />
+              <ChatPanel user1={props.match.params.id} />
+          </div>
+          }></Route>
       {/* <Router history={history}>
         <Provider store={store}>
           <Navbar />

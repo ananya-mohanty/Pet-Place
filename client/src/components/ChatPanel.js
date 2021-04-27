@@ -8,57 +8,35 @@ import PropTypes from 'prop-types'
 
 export class ChatPanel extends Component {
 
+    i=0
     state= {
         msg: {},
-        msgList: [],
-        flag: false
+        msgList: []
     }
 
-    prevuser = null
-    // msgList = []
-
     componentDidMount=()=>{
-        this.state.msgList = []
+        console.log(this.props.user1)
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
         userMessages.map((msg)=>{
             const{position, type, text}=msg
             const date = new Date(msg.updatedAt)
             this.state.msgList.push({position, type, text, date})
-            // this.msgList.push({position, type, text, date})
         })
-        // console.log("called")
-        // this.scrollRef.scrollIntoView({ behavior: 'smooth' })
-        // setTimeout(() => {
-        //     this.state.flag = true
-        //   }, 10000);
-        // this.interval = setInterval(() => this.setState({flag: true}), 12000);
+        
     }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
-      }    
     
     componentDidUpdate = () => {
-        this.interval = null
-        console.log(this.props.user1)
+        this.i++
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
         this.state.msgList=[]
-        // this.msgList = []
         userMessages.map((msg) => {
             const { position, type, text } = msg
             const date = new Date(msg.updatedAt)
             this.state.msgList.push({ position, type, text, date })
-            // this.msgList.push({position, type, text, date})
         })
-        console.log("called")
-        // this.scrollRef.scrollIntoView({ behavior: 'smooth' })
-        if(this.prevuser != this.props.user1) {
-            this.setState({flag: false})
-            this.interval = setInterval(() => this.setState({flag: true}), 25000);
-        }
-        this.prevuser = this.props.user1
+        if (this.i < 5) this.scrollRef.scrollIntoView({ behavior: 'smooth' })
     }
 
     onChange = (e) => {
@@ -71,7 +49,6 @@ export class ChatPanel extends Component {
 
     addMessage = (e) => {
         this.setState({msgList: [...this.state.msgList, this.state.msg]})
-        // this.msgList.push(this.state.msg)
         this.setState({msg: ''})
         this.inputRef.clear()
         this.props.addMessage(this.state.msg.text, this.state.position, this.props.user1)
@@ -84,9 +61,7 @@ export class ChatPanel extends Component {
         return (
             // <div style={{overflow: 'hidden'}}>
             <div style={{ backgroundColor: '#e5e4e2',}} overflow='hidden' /*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
-            {this.props.user1!=null ? <div>
-            {this.state.flag ? (<div>
-            <div style={{height: 45, marginBottom: 10, backgroundColor: 'white', position: 'sticky', top: 0, zIndex: 10}}></div>
+            <div style={{height: 20, marginBottom: 10, backgroundColor: 'white'}}></div>
             <MessageList
                 className='message-list'
                 // downButtonBadge={10}
@@ -96,7 +71,7 @@ export class ChatPanel extends Component {
                      <Input
                         placeholder="Write a message.."
                         value=""
-                        // ref='input'
+                        ref='input'
                         multiline={true}
                         name='msg'
                         ref={el => (this.inputRef = el)}
@@ -108,9 +83,6 @@ export class ChatPanel extends Component {
                                 onClick={this.addMessage} />
                         } />
                 </div>
-                </div>
-                ) : <div>Please wait while we load your messages</div>}
-                </div> : null}
             </div>
             // </div>
          )
