@@ -54,6 +54,7 @@ const storage = new GridFsStorage({
 });
 global.upload = multer({ storage });
 
+
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/ngo', require('./routes/api/auth2'));
@@ -63,6 +64,9 @@ app.use('/api/contribute', require('./routes/api/contribute'));
 app.use('/api/post', require('./routes/api/post'));
 app.use('/api/lostpet', require('./routes/api/lostpet'));
 app.use('/api/messages', require('./routes/api/chats'));
+app.use('/api/adoption', require('./routes/api/adoption'));
+
+app.use(express.json());
 
 
 const port = process.env.PORT || 5000;

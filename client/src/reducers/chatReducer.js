@@ -2,15 +2,18 @@ import {ADD_MESSAGE, DELETE_MESSAGE, GET_MESSAGES, GET_MESSAGE_LIST} from '../ac
 
 const initialState = {
     userMessages: [],
-    messageList: []
+    messageList: [],
+    // files: []
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
         case GET_MESSAGES:
+            // console.log(action.payload)
             return {
                 ...state,
-                userMessages: action.payload
+                userMessages: action.payload,
+                // files: action.payload.files
             };
         
         case GET_MESSAGE_LIST:
