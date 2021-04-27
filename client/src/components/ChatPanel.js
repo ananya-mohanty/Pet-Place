@@ -1,27 +1,55 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { MessageList, Input, Button } from 'react-chat-elements'
+import { MessageList } from 'react-chat-elements'
+import {Input, InputGroup, InputGroupAddon, InputGroupText, Button, Row, Col, Container} from 'reactstrap'
 import 'react-chat-elements/dist/main.css'
 import axios from 'axios'
 import {getMessages, addMessage} from '../actions/chatAction'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router'
+import history from '../history'
 
 export class ChatPanel extends Component {
 
     i=0
     state= {
         msg: {},
-        msgList: []
+        msgList: [],
+        files: [],
+        filesrc: [],
+        ext: null,
+        numfiles: 0,
+        caption: '',
+        filetype: []
     }
 
+    onFileChange = e => {
+        var prev = this.state.numfiles
+        this.state.numfiles += e.target.files.length
+        // console.log(this.state.numfiles)
+        var i=0
+        var src = this.state.filesrc
+        var files=this.state.files
+        var filetype = this.state.filetype
+        while (i<this.state.numfiles-prev)
+        {
+            files.push(e.target.files[i]);
+            filetype.push(e.target.files[i].name.split('.').pop());
+            src.push(URL.createObjectURL(e.target.files[i]))
+            // src.push(`https://localhost:5000/api/messages/${e.target.files[i].name}`)
+            i++
+        }
+        this.setState({filesrc:src, files:files, filetype:filetype})
+    };
+
     componentDidMount=()=>{
-        console.log(this.props.user1)
+        // console.log(this.props.user1)
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
         userMessages.map((msg)=>{
-            const{position, type, text}=msg
+            const{position, type, text, data}=msg
             const date = new Date(msg.updatedAt)
-            this.state.msgList.push({position, type, text, date})
+            this.state.msgList.push({position, type, text, date, data})
         })
         
     }
@@ -30,11 +58,12 @@ export class ChatPanel extends Component {
         this.i++
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
+        // console.log(userMessages)
         this.state.msgList=[]
         userMessages.map((msg) => {
-            const { position, type, text } = msg
+            const { position, type, text, data } = msg
             const date = new Date(msg.updatedAt)
-            this.state.msgList.push({ position, type, text, date })
+            this.state.msgList.push({ position, type, text, date, data })
         })
         if (this.i < 5) this.scrollRef.scrollIntoView({ behavior: 'smooth' })
     }
@@ -49,43 +78,118 @@ export class ChatPanel extends Component {
 
     addMessage = (e) => {
         e.preventDefault()
-        this.setState({msgList: [...this.state.msgList, this.state.msg]})
-        this.setState({msg: ''})
-        this.inputRef.clear()
-        this.props.addMessage(this.state.msg.text, this.state.position, this.props.user1)
+        this.formRef.reset()
+        if(this.state.files.length == 0 )
+        {
+            this.setState({msgList: [...this.state.msgList, this.state.msg]})
+            this.setState({msg: ''})
+            // this.inputRef.clear()
+            this.props.addMessage(this.state.msg.text, this.state.position, 'text', null, null, this.props.user1)
+        }
+        else
+        {
+            var msglistnew = []
+            var i = 0
+            while(i<this.state.files.length)
+            {
+                if(this.state.filetype[i] == 'png' || this.state.filetype[i] == 'jpeg' || this.state.filetype[i] == 'jpg')
+                {
+                    msglistnew.push({position: this.state.msg.position, type: 'photo', text: this.state.msg.text, uri: this.state.filesrc[i], file: this.state.files[i]})
+                }
+                else if(this.state.filetype[i] == 'mp4' || this.state.filetype[i] == 'ogg' || this.state.filetype[i] == 'webm')
+                {
+                    msglistnew.push({position: this.state.msg.position, type: 'video', text: this.state.msg.text, uri: this.state.filesrc[i], file: this.state.files[i]})
+                }
+                else
+                {
+                    msglistnew.push({position: this.state.msg.position, type: 'file', text: this.state.msg.text, uri: this.state.filesrc[i], file: this.state.files[i]})
+                }
+                i++
+            }
+            this.setState({msgList: [...this.state.msgList, msglistnew], files: [], filesrc: [], filetype: [], msg: ''})
+            // this.setState({})
+            // this.setState({})
+            // this.inputRef.clear()
+            i = 0
+            while(i<msglistnew.length)
+            {
+                this.props.addMessage(msglistnew[i].text, msglistnew[i].position, msglistnew[i].type, msglistnew[i].uri, msglistnew[i].file, this.props.user1)
+                i++
+            }
+            
+        }
+        
     }
 
-    inputRef = React.createRef();
+    formRef = React.createRef();
     scrollRef = React.createRef();
 
     render() {
         return (
             // <div style={{overflow: 'hidden'}}>
+            <div>
             <div style={{ backgroundColor: '#e5e4e2',}} overflow='hidden' /*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
             <div style={{height: 20, marginBottom: 10, backgroundColor: 'white'}}></div>
             <MessageList
                 className='message-list'
                 // downButtonBadge={10}
                 toBottomHeight={'100%'}
-                dataSource={this.state.msgList} />
-                <div style={{marginTop: 350, position:'sticky'}} ref={el => (this.scrollRef = el)}>
-                     <Input
-                        placeholder="Write a message.."
-                        value=""
-                        ref='input'
-                        multiline={true}
-                        name='msg'
-                        ref={el => (this.inputRef = el)}
-                        onChange = {this.onChange}
-                        // buttonsFloat='left'
-                        rightButtons={
-                            <Button
-                                text='Send'
-                                onClick={this.addMessage} />
-                        } />
-                </div>
+                dataSource={this.state.msgList} 
+                // onClick={(msg) => console.log(msg)}
+                onClick={(msg) => {
+                    console.log(msg.data.uri)
+                        history.push(msg.data.uri)
+                        // history.go(0)
+                    
+                }}/>
+                
+                <div style={{marginTop: 700, position:'sticky'}} ref={el => (this.scrollRef = el)}><form ref={el => (this.formRef = el)}>
+                <InputGroup>
+                    <Input defaultValue="" placeholder="Write something..." onChange={this.onChange}/>
+                    <InputGroupAddon addonType="append" style={{backgroundColor: 'white'}}>
+                            <label for="img" style={{marginTop: 8, marginLeft: 8}}>
+                                <i class="fa fa-image" />
+                            </label>&nbsp;&nbsp;&nbsp;
+                            <label for="vid" style={{marginTop: 8}}>
+                               <i class="fa fa-video-camera" />
+                            </label>&nbsp;&nbsp;&nbsp;
+                            <label for="doc" style={{marginTop: 8}}>
+                                <i class="fa fa-file" />
+                            </label>&nbsp;&nbsp;&nbsp;
+                    <Button color='success' onClick={this.addMessage}>Send</Button>
+                    </InputGroupAddon></InputGroup></form>
+
+                        
+                        <div style={{ float: 'right', position: 'relative', marginTop: '-35px', marginRight: '170px', zIndex: '5' }} >
+                                    {this.state.filesrc.map((src, idx) => {
+                                        return (
+                                        this.state.filetype[idx] == 'png' || this.state.filetype[idx] == 'jpeg' || this.state.filetype[idx] == 'jpg' ?
+                                            <img src={src} style={{
+                                                width: '30px',
+                                                height: '30px', border: '1px solid black', borderRadius: '5px',
+                                                marginLeft: '5px',
+                                                marginBottom: '20px'
+                                            }} /> :
+                                            this.state.filetype[idx] == 'mp4' || this.state.filetype[idx] == 'ogg' || this.state.filetype[idx] == 'webm' ?
+                                                <video 
+                                                        style={{
+                                                            width: '30px',
+                                                            height: '30px', border: '1px solid black', borderRadius: '5px',
+                                                            marginLeft: '5px'}}><source src={src} /></video>:
+                                                    <embed style={{
+                                                        width: '30px',
+                                                        height: '30px', border: '1px solid black', borderRadius: '5px',
+                                                        marginLeft: '5px',
+                                                    }}  name="plugin" src={src} type="application/pdf"/>
+                                    )})}
+                
             </div>
-            // </div>
+            </div></div><div style={{backgroundColor: 'transparent'}}>
+                <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
+                <input type="file" name='files' id="vid" accept="video/*"style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
+                <input type="file" name='files' id="doc" accept="application/*, text/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
+                </div>
+             </div>
          )
     }
 }
