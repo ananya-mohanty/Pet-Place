@@ -71,6 +71,7 @@ const spanStyle = {
 
 class DisplayDonation extends Component {
     render() {
+       
         return (
             <div style={divStyle}>
                 {this.props.files.length == 1 ? <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
@@ -98,15 +99,19 @@ class DisplayDonation extends Component {
                     <CardSubtitle className="mb-2 text-muted">
                         Ends On: {this.props.donation.endDate}</CardSubtitle>
                     <CardText>{this.props.donation.description}</CardText>
-                    <a href="https://rzp.io/l/zX6KGfygB0">
+                    
+                    <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name="+ this.props.donation.name}>
                     <Button>Donate</Button>
                     </a>
+ 
                     <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_H2oWQW41mxnLsz" async> </script> </form>
                     </CardBody>
                 </div>
             // </div>
         )
+        
     }
+    
 }
 
 
