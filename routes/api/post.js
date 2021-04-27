@@ -150,4 +150,21 @@ router.get('/document/:filename', function (req, res) {
 
 
 })
+
+router.post('/like/:id', auth, (req, res) => {
+    Post.findById(req.params.id, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else 
+        {
+            items[0].likes++;
+            items.save()
+            res.json({'items':items})
+        }
+        }
+    );
+});
+
 module.exports = router;

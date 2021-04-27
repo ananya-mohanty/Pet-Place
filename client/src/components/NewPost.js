@@ -5,7 +5,7 @@ import {
     Container,
     Row,
     Col,
-    Jumbotron
+    Jumbotron, Modal, ModalHeader
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
 
@@ -23,7 +23,8 @@ export class NewPost extends Component {
         ext: null,
         numfiles: 0,
         caption: '',
-        filetype: []
+        filetype: [],
+        upload:false
     }
     onFileChange = e => {
         var prev = this.state.numfiles
@@ -69,6 +70,7 @@ export class NewPost extends Component {
                 'x-auth-token':window.localStorage.getItem('token')
             }
         })
+        this.setState({ upload: true })
         setTimeout(function() { 
             window.location.reload()
         }, 2000)
@@ -76,6 +78,12 @@ export class NewPost extends Component {
 
     render() {
         return (
+            <div>
+                <Modal isOpen={this.state.upload}>
+                    <ModalHeader style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+                        Uploading Post...
+                    </ModalHeader>
+                </Modal>
             <Container style={{
                 marginTop: '40px',
                 paddingBottom: '10px',
@@ -98,14 +106,14 @@ export class NewPost extends Component {
                             <form>
                                 <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
                                     placeholder='write something'
-                                    rows="3" cols="20"
+                                    rows="6" cols="20"
                                     name='caption'
                                     onChange={this.onTextChange} />
                                 <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
                                 <input type="file" name='files' id="vid" accept="video/*"style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
                                 <input type="file" name='files' id="doc" accept="application/*, text/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
 
-                                <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                <div style={{ float: 'right', position: 'relative', marginTop: '-90px', marginRight: '20px', zIndex: '2' }} >
                                     {this.state.filesrc.map((src, idx) => {
                                         return (
                                         this.state.filetype[idx] == 'png' || this.state.filetype[idx] == 'jpeg' || this.state.filetype[idx] == 'jpg' ?
@@ -128,17 +136,17 @@ export class NewPost extends Component {
                                                     }}  name="plugin" src={src} type="application/pdf"/>
                                     )})}
                                     <br></br>
-                                    <label for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
-                                    <label for="vid"><i class="fa fa-video-camera" /></label>&nbsp;&nbsp;
-                                    <label for="doc"><i class="fa fa-file" /></label>&nbsp;&nbsp;
-
-                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
+                                        <label for="img" className='hover' style={{fontSize:'20px'}}><i class="fa fa-image" /></label>&nbsp;&nbsp;
+                                    <label for="vid" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-video-camera" /></label>&nbsp;&nbsp;
+                                    <label for="doc" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-file" /></label>&nbsp;&nbsp;
+                                    <button className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#f4ca31f7', borderRadius:'5px' }} type="submit" onClick={this.onSubmit}>Post</button>
                                 </div>
                             </form>
                         </Jumbotron>
                     </Col>
                 </Row>
             </Container>
+            </div>
         )
     }
 }
