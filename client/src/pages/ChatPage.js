@@ -132,7 +132,7 @@ export class ChatPage extends Component {
             <Container style={{marginBottom: 650}}><Row><Col>
                     <div style={styleparent}>
                         <div style={stylechild}>
-                        <div style={{height: 45, width: '100%', position:'sticky', padding: 10, backgroundColor: '#009ACD', color: 'white'}}>&nbsp; All chats</div>
+                        <div style={{height: 45, width: '100%', position:'sticky', top: 0, padding: 10, backgroundColor: '#009ACD', color: 'white'}}>&nbsp; All chats</div>
                             <ChatList
                                 dataSource={this.state.chatSource} onClick={(e)=>{this.setState({chatopen:e.alt})}}/>
                         </div></div></Col>
