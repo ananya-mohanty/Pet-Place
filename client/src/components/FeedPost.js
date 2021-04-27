@@ -11,6 +11,7 @@ import doc from '../images/document.png'
 import { SRLWrapper } from "simple-react-lightbox"
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
+import axios from 'axios'
 
 
 const imageStyle = {
@@ -40,7 +41,9 @@ function getDifferenceInMinutes(date1, date2) {
 export class FeedPost extends Component {
     state={
         data:[],
-        time:'just now'
+        time:'just now',
+        likes:0,
+        liked:false
     }
 
     componentDidMount=()=>{
@@ -65,6 +68,13 @@ export class FeedPost extends Component {
         else if (days > 1)
             this.state.time = `${days} days ago`
 
+        
+        axios.get(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+            headers: {
+                'x-auth-token': window.localStorage.getItem('token')
+            }
+        }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
+
     }
 
     componentDidUpdate = () => {
@@ -88,7 +98,35 @@ export class FeedPost extends Component {
 
         else if (days > 1)
             this.state.time = `${days} days ago`
+       
+    }
 
+    onLike=()=>
+    {
+        var l
+        if(this.state.liked)
+        l=this.state.likes-1
+
+        else l = this.state.likes + 1
+        if(!this.state.liked)
+        {
+            axios.post(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            })
+        }
+
+        else
+        {
+            axios.post(`/api/post/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            })
+        }
+        
+        this.setState({ likes: l, liked: !this.state.liked })
     }
 
     render() {
@@ -116,10 +154,10 @@ export class FeedPost extends Component {
                                 </div>
                             </div>
                             <br></br>
-                            <AliceCarousel>
+                            <AliceCarousel style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                 {this.props.files.map((f, i) => {
                                         return(
-                                            <div style={{width: '700px', textAlign:'center'}}>
+                                            <div>
                                         {f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg'?
                                         <a href={'http://localhost:5000/api/post/image/' + f.filename}>
                                             <img  src={'api/post/image/' + f.filename}></img>
@@ -132,46 +170,39 @@ export class FeedPost extends Component {
                                                                 <img src={doc} width='30px'></img>&nbsp;&nbsp;
                                         {f.metadata}</a>:
                                         f.metadata}
-                                        <br></br>
-                                        <br></br>
                                         </div>
                                     )})}
                                  </AliceCarousel>
-                            <div style={{ padding: '15px', align:'center'}}>
+                            <div style={{ paddingLeft: '10px', paddingRight: '10px', marginTop:'-15px'}}>
+                                <p>
+                                    {this.props.post.caption}
+                                </p>
                                 <div>
-                                    <ul style={{marginLeft:'-40px'}}>
+                                    <ul>
                                         <li style={{
+                                            float:'left',
                                             display: 'inline',
-                                            marginRight: '20px'
+                                            marginRight: '20px',
+                                            marginLeft:'-40px'
                                         }}>
-                                            <span title='Views'>
-                                                <i class="fa fa-eye"></i>
-                                                <ins style={{fontSize:'10px'}}>1.2k</ins>
-                                            </span>
+                                            {
+                                                this.state.liked ?<div><button onClick={this.onLike} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor:'#E74C3C', color:'white' }}>
+                                                <i class="fa fa-heart"></i>
+                                                </button><span> {this.state.likes}</span></div> :<div><button onClick={this.onLike} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor:'#E74C3C', color:'white' }}>
+                                                <i class="fa fa-heart-o"></i>
+                                                    </button><span> {this.state.likes}</span></div>
+                                            }
                                         </li>
                                         <li style={{
                                             display: 'inline',
                                             marginRight: '20px'
                                         }}>
-                                            <span title="like">
-                                                <i class="ti-heart"></i>
-                                                <ins style={{ fontSize: '10px' }}>2.2k</ins>
-                                            </span>
-                                        </li>
-                                        <li style={{
-                                            display: 'inline',
-                                            marginRight: '20px'
-                                        }}>
-                                            <span title="Applications">
+                                            <button title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
                                                 <i class="fa fa-user"></i>
-                                                <ins style={{ fontSize: '10px' }}>52</ins>
-                                            </span>
+                                            </button><span>0</span>
                                         </li>
                                     </ul>
                                 </div>
-                                <p>
-                                    {this.props.post.caption}
-								</p>
                             </div>
                         </Jumbotron>
                     </Col>

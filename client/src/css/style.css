@@ -10083,7 +10083,7 @@ aside.sidebar.full-style {
   border: 0px;
   font-family: 'Open Sans', sans-serif;
   font-size: 20px;
-  background: linear-gradient(45deg, rgba(119,195,231,1) 0%, rgba(244,202,49,0.9700922605370274) 71%);
+  background: linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%);
 }
  
 .register:hover{
@@ -10091,6 +10091,16 @@ aside.sidebar.full-style {
     transform: scale(1.1,1.1);
     -ms-transform: scale(1.1,1.1);
     -webkit-transform: scale(1.1,1.1);
+}
+
+.hover:hover{
+    transform: scale(1.1,1.1);
+    -ms-transform: scale(1.1,1.1);
+    -webkit-transform: scale(1.1,1.1);
+}
+
+.active:active{
+  transform: translateY(4px);
 }
 
 @-webkit-keyframes fade {
@@ -10102,3 +10112,4 @@ aside.sidebar.full-style {
   from {opacity: .4}
   to {opacity: 1}
 }
+

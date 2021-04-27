@@ -25,6 +25,11 @@ const UserSchema = new Schema({
         type: Map,
         of: [MessageSchema],
         default: {}
+    },
+    liked_posts: {
+        type: Array,
+        required:false,
+        default:[]       
     }
 });
 
