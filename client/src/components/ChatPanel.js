@@ -6,13 +6,15 @@ import axios from 'axios'
 import {getMessages, addMessage} from '../actions/chatAction'
 import PropTypes from 'prop-types'
 
-export class ChatPanel extends Component {
 
+export class ChatPanel extends Component {
+    
     i=0
     state= {
         msg: {},
         msgList: []
     }
+    
 
     componentDidMount=()=>{
         console.log(this.props.user1)
@@ -27,6 +29,7 @@ export class ChatPanel extends Component {
     }
     
     componentDidUpdate = () => {
+        console.log('hello')
         this.i++
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
@@ -40,6 +43,7 @@ export class ChatPanel extends Component {
     }
 
     onChange = (e) => {
+        
         this.setState({msg: {
             position: 'right',
             type: 'text',
