@@ -21,10 +21,74 @@ const imageStyle = {
     alignSelf: 'flex-start',
 }
 
+function getDifferenceInDays(date1, date2) {
+    const diffInMs = Math.abs(date2 - date1);
+    return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+}
+
+function getDifferenceInHours(date1, date2) {
+    const diffInMs = Math.abs(date2 - date1);
+    return Math.floor(diffInMs / (1000 * 60 * 60));
+}
+
+function getDifferenceInMinutes(date1, date2) {
+    const diffInMs = Math.abs(date2 - date1);
+    return Math.floor(diffInMs / (1000 * 60));
+}
+
 
 export class FeedPost extends Component {
     state={
-        data:[]
+        data:[],
+        time:'just now'
+    }
+
+    componentDidMount=()=>{
+        const nowTime= new Date(Date.now())
+        const postTime = new Date(this.props.post.time)
+        const minutes = getDifferenceInMinutes(postTime, nowTime)
+        const hours = getDifferenceInHours(postTime, nowTime)
+        const days = getDifferenceInDays(postTime, nowTime)
+        console.log(minutes, hours, days)
+        if (minutes<60&&minutes>1)
+            this.state.time = `${minutes} minutes ago`
+
+        else if(hours==1)
+            this.state.time = `${hours} hour ago`
+
+        else if(hours>1&&hours<24)
+        this.state.time = `${hours} hours ago`
+
+        else if(days==1)
+        this.state.time= `${days} day ago`
+
+        else if (days > 1)
+            this.state.time = `${days} days ago`
+
+    }
+
+    componentDidUpdate = () => {
+        const nowTime = new Date(Date.now())
+        const postTime = new Date(this.props.post.time)
+        const minutes = getDifferenceInMinutes(postTime, nowTime)
+        const hours = getDifferenceInHours(postTime, nowTime)
+        const days = getDifferenceInDays(postTime, nowTime)
+        console.log(minutes, hours, days)
+        if (minutes < 60 && minutes > 1)
+            this.state.time = `${minutes} minutes ago`
+
+        else if (hours == 1)
+            this.state.time = `${hours} hour ago`
+
+        else if (hours > 1 && hours < 24)
+            this.state.time = `${hours} hours ago`
+
+        else if (days == 1)
+            this.state.time = `${days} day ago`
+
+        else if (days > 1)
+            this.state.time = `${days} days ago`
+
     }
 
     render() {
@@ -48,7 +112,7 @@ export class FeedPost extends Component {
                                 <div style={{ marginLeft: '10px' }}>
                                     <a href="">{this.props.post.user_name}</a>
                                     <br></br>
-                                    <span style={{ fontSize: '12px' }}>Published: {this.props.post.time}</span>
+                                    <span style={{ fontSize: '12px' }}>Published: {this.state.time}</span>
                                 </div>
                             </div>
                             <br></br>

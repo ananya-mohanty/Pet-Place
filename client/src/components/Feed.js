@@ -208,9 +208,9 @@ export class Feed extends Component {
     }
     render() {
         return (
-            <Container style={{justifyContent:'center', alignItems:'center'}}><Row>
+            <Container style={{justifyContent:'center', alignItems:'center', marginLeft:'90px'}}><Row>
                 <Col xs={'auto'}/*style={{width: 30}}*/>
-                    <div style={{/*marginLeft: -135, */marginTop: 90,/* marginLeft: -80*/}}>
+                    <div style={{/*marginLeft: -135, */marginTop: 90,/* marginLeft: -80*/ marginRight: -20}}>
                         {/* <div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div> */}
                 {
                                 this.state.LostPets.map((lostpet, i) => {
@@ -218,7 +218,9 @@ export class Feed extends Component {
                                     return (<div>
                                         {
                                             <LostPet lostpet={lostpet} files={files} key={i} onClick={this.onClick} />
+                                            
                                         }
+                                        <br></br>
                                     </div>)
                                 })
                             }
@@ -237,7 +239,7 @@ export class Feed extends Component {
             </div>
             </Col>
             <Col xs={'auto'}>
-                <div style={{marginTop: 90,  position: 'absolute'}}>
+                <div style={{marginTop: 90 }}>
                 {/* <div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div> */}
                 {
                     this.state.Donations.map((donation, i) => {
@@ -246,7 +248,8 @@ export class Feed extends Component {
                             {
                                 <DisplayDonation donation={donation} files={files} key={i} />
                             }
-                        </Row></div>)
+                        </Row>
+                             <br></br></div>)
                     })
                 }
                 </div>
