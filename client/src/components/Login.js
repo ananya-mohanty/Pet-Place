@@ -1,54 +1,126 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import logo from '../images/logo_fetch.jpeg'
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap'
 import PropTypes from 'prop-types'
-import { login } from '../actions/authAction'
-import {Link} from 'react-router-dom'
+
+import { connect } from 'react-redux'
+import { login, loginngo } from '../actions/authAction'
+
+import logo from '../images/logo_fetch.jpeg'
+
+const InputStyle = {
+    borderStyle: "solid", borderWidth: 1, borderColor: "rgba(0,0,0,0.1)", backgroundColor: "white", opacity: '80%', color: 'black'
+}
+
+const divStyle = {
+    padding: 15, marginTop: '1%', borderRadius: '20px', borderStyle: "solid", borderWidth: 1, borderColor: "rgba(0,0,0,0.1)", backgroundColor: "rgba(255, 255, 255,0.8)"
+}
+
+const btnStyle = {
+    opacity: '90%', borderRadius: '25px', height: '40px', width: '100px', padding: '0px'
+}
+
+const centerStyle = {
+    display: 'flex', alignContent: 'center', justifyContent: 'center'
+}
 
 export class Login extends Component {
-
     state = {
-        email: '',
-        password: '',
+        userform: false, ngoform: false, showform: false,
+        password: null, email: null,
     }
+
+
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    onSubmit = (e) => {
+    userLogin = (e) => {
         e.preventDefault()
-        this.props.login(this.state)
+        const { email, password } = this.state
+        // console.log(username, email, password)
+        this.props.login({ email, password })
     }
-    
+
+    ngoLogin = (e) => {
+        e.preventDefault()
+        const { email, password } = this.state
+        // console.log(username, email, password)
+        this.props.loginngo({ email, password })
+    }
+
     render() {
         return (
-            <Container>
+            <Container style={{
+                alignSelf: 'center',
+                justifyContent: "center",
+                alignItems: "center",
+            }}>
                 <Row>
-                    <Col style={{textAlign: 'center'}}>
-                    <img src={logo} style={{height: 100, marginTop: "40%"}}></img>
+                    <Col>
                     </Col>
-                    <Col><div style={{padding:20, marginTop: "25%", borderStyle:"solid", borderWidth: 1, borderColor: "rgba(0,0,0,0.1)",}}>
-                    <Form onSubmit={this.onSubmit}>
-                        <FormGroup>
-                            <Label for="email">Email</Label>
-                            <Input onChange={this.onChange} style={{borderStyle:"solid", borderWidth: 1, borderColor: "rgba(0,0,0,0.1)",}} type="email" name="email" id="email" placeholder="e-mail" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="password">Password</Label>
-                            <Input onChange={this.onChange} style={{borderStyle:"solid", borderWidth: 1, borderColor: "rgba(0,0,0,0.1)",}} type="password" name="password" id="password" placeholder="password" />
-                        </FormGroup><div><Link to="/register" style={{fontSize: 12, float: 'right', color: '#DAA520'}}>Not a user? Signup!</Link></div>
-                        <Button style={{marginTop: 30, marginLeft: "40%"}} onClick={this.onSubmit}>Login</Button>
-                        </Form></div>
+                    <Col>
+                        <div style={centerStyle}>
+                            <img src={logo} style={{ height: 110, marginTop: '2%' }}></img><br></br>
+
+                        </div>
+                        {!this.state.showForm ?
+                            <div>
+                                <div style={centerStyle}>
+                                    <Button onClick={() => this.setState({ showForm: true, userForm: true })} className='register' >
+                                        Login As User</Button>
+                                </div>
+                                <div style={centerStyle}>
+                                    <Button onClick={() => this.setState({ showForm: true, ngoForm: true })} className='register' >Login As NGO</Button>
+                                </div>
+                            </div>
+                            : null}
+                        {this.state.userForm ? <div style={divStyle}>
+                            <Form onSubmit={this.onSubmit}>
+                                <FormGroup>
+                                    <Label for="email">Email</Label>
+                                    <Input onChange={this.onChange} style={InputStyle} type="email" name="email" id="email" placeholder="jdoe@gmail.com" />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="password">Password</Label>
+                                    <Input onChange={this.onChange} style={InputStyle} type="password" name="password" id="password" placeholder="********" />
+                                </FormGroup>
+                                <Row style={{ alignContent: 'center', justifyContent: 'center' }}>
+                                    <Button className='register' style={btnStyle} onClick={this.userLogin}>Login</Button>
+                                </Row>
+                            </Form>
+                        </div> : this.state.ngoForm ? <div style={divStyle}>
+                            <Form  onSubmit={this.onSubmit} >
+                                <Row>
+                                        <FormGroup>
+                                            <Label for="email">Email</Label>
+                                            <Input onChange={this.onChange} style={InputStyle} type="email" name="email" id="email" placeholder="jdoe@gmail.com" />
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <Label for="password">Password</Label>
+                                            <Input onChange={this.onChange} style={InputStyle} type="password" name="password" id="password" placeholder="********" />
+                                        </FormGroup>
+                                </Row>
+                                <Row style={{ alignContent: 'center', justifyContent: 'center' }}>
+
+                                    <Button className='register' style={btnStyle} onClick={this.ngoLogin}>Login</Button>
+
+                                </Row>
+                            </Form>
+                        </div> : null}
+                    </Col>
+                    <Col>
                     </Col>
                 </Row>
+
             </Container>
-         )
+
+        )
     }
 }
 
 Login.propTypes = {
     login: PropTypes.func.isRequired,
+    loginngo: PropTypes.func.isRequired,
 }
 
-export default connect(null, { login })(Login)
+export default connect(null, { login, loginngo })(Login)

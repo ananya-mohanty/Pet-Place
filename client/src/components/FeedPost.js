@@ -43,10 +43,12 @@ export class FeedPost extends Component {
         data:[],
         time:'just now',
         likes:0,
-        liked:false
+        liked:false,
+        user_type: null
     }
 
     componentDidMount=()=>{
+
         const nowTime= new Date(Date.now())
         const postTime = new Date(this.props.post.time)
         const minutes = getDifferenceInMinutes(postTime, nowTime)
@@ -68,13 +70,23 @@ export class FeedPost extends Component {
         else if (days > 1)
             this.state.time = `${days} days ago`
 
-        
-        axios.get(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+        this.state.user_type=window.localStorage.getItem('user_type')
+        if (this.state.user_type=='user')
+        {
+            axios.get(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
             headers: {
                 'x-auth-token': window.localStorage.getItem('token')
             }
         }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
+    }
 
+        else{
+                axios.get(`/api/post/ngo/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                    headers: {
+                        'x-auth-token': window.localStorage.getItem('token')
+                    }
+                }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
+        }
     }
 
     componentDidUpdate = () => {
@@ -110,24 +122,47 @@ export class FeedPost extends Component {
         else l = this.state.likes + 1
         if(!this.state.liked)
         {
-            axios.post(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
-                headers: {
-                    'x-auth-token': window.localStorage.getItem('token')
-                }
-            })
+
+            if (this.state.user_type == 'user') {
+                axios.get(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                    headers: {
+                        'x-auth-token': window.localStorage.getItem('token')
+                    }
+                })
+            }
+
+            else {
+                axios.get(`/api/post/ngo/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                    headers: {
+                        'x-auth-token': window.localStorage.getItem('token')
+                    }
+                })
+            }
         }
 
         else
         {
-            axios.post(`/api/post/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
-                headers: {
-                    'x-auth-token': window.localStorage.getItem('token')
-                }
-            })
+            if (this.state.user_type == 'user') {
+                axios.get(`/api/post/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                    headers: {
+                        'x-auth-token': window.localStorage.getItem('token')
+                    }
+                })
+            }
+
+            else {
+                axios.get(`/api/post/ngo/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                    headers: {
+                        'x-auth-token': window.localStorage.getItem('token')
+                    }
+                })
+            }
         }
         
         this.setState({ likes: l, liked: !this.state.liked })
     }
+
+    
 
     render() {
 
@@ -146,7 +181,14 @@ export class FeedPost extends Component {
                             width: '550px'
                         }}>
                             <div style={{display:'flex'}}>
-                                <img src={profilepic} style={imageStyle}></img>
+                                {/* <img src={profilepic} style={imageStyle}></img> */}
+                                {console.log(this.props.post.user_type)}
+                                {this.props.post.user_type == 'user' ? <a href={'http://localhost:5000/api/users/image/' + this.props.post.user_id}>
+                                    <img src={'api/users/image/' + this.props.post.user_id} style={imageStyle}></img>
+                                </a> : <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.post.user_id}>
+                                    <img src={'api/users/image/ngo/' + this.props.post.user_id} style={imageStyle}></img>
+                                </a>}
+                                
                                 <div style={{ marginLeft: '10px' }}>
                                     <a href="">{this.props.post.user_name}</a>
                                     <br></br>

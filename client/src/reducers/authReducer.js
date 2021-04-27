@@ -10,7 +10,7 @@ import {
 const initialState = {
     isLoading: false,
     token:null,
-    user: JSON.parse(window.localStorage.getItem('user')),
+    // user: JSON.parse(window.localStorage.getItem('user')),
 }
 
 export default function (state = initialState, action) {
@@ -19,6 +19,7 @@ export default function (state = initialState, action) {
         case LOGIN_SUCCESS:
             window.localStorage.setItem('user', JSON.stringify(action.payload.user))
             window.localStorage.setItem('token', action.payload.token)
+            window.localStorage.setItem('user_type', action.payload.user_type)
             return {
                 ...state,
                 isLoading: false,
@@ -29,6 +30,7 @@ export default function (state = initialState, action) {
         case REGISTER_FAIL:
             window.localStorage.removeItem('user')
             window.localStorage.removeItem('token')
+            window.localStorage.removeItem('user_type')
             return {
                 ...state,
                 isLoading: false

@@ -28,10 +28,17 @@ const NgoSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    verified: {
-        type: Boolean,
+    license: {
+        type: String,
         required: true,
-        default: false
+    },
+    profile_pic:{
+        type:String,
+        required:false
+    },
+    liked_post:{
+        type:Array,
+        required:false
     }
 });
 

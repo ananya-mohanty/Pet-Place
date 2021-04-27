@@ -64,9 +64,13 @@ router.get('/user', auth, (req, res) => {
     User.findById(req.user.id)
         .select('-password')
         .then(user => {
-            res.json(user)
-        });
-});
-
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'user': user, 'files': files })
+                }
+        })
+})});
 
 module.exports = router;

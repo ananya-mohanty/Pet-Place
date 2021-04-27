@@ -17,27 +17,37 @@ import { LostPetPage } from './pages/LostPetPage'
 import LostPet from './components/LostPet'
 import FoundPet from './components/FoundPet'
 import { FoundPetPage } from './pages/FoundPetPage'
-import  ChatPage  from './pages/ChatPage'
+import ChatPage from './pages/ChatPage'
 import backgroud from './images/resources/background1.jpg'
 import { Nav } from 'reactstrap'
-import  ChatPanel  from './components/ChatPanel'
+import ChatPanel from './components/ChatPanel'
 
 
 function App() {
   return (
-    <div className="App" style={{backgroundColor: 'whitesmoke'}}>
+    <div className="App" style={{ backgroundColor: 'whitesmoke' }}>
       <Router history={history}>
         <Provider store={store}>
-        <Route exact path="/chats" render={() =>
-            <div style={{backgroundColor: 'black'}}>
-            <Navbar />
-            <ChatPage />
-            <Footer />
+          <Route exact path="/logout" render={() => {
+            window.localStorage.clear()
+            window.location.href = '/login'
+          }}>
+          </Route>
+          <Route exact path="/chats" render={() =>
+            <div style={{ backgroundColor: 'black' }}>
+              <Navbar />
+              <ChatPage />
+              <Footer />
             </div>
           }></Route>
           <Route exact path="/login" render={() =>
-            <div style={{backgroundColor: 'white'}}>
-            <Login />
+            <div style={{
+              backgroundImage: `url(${backgroud})`,
+              backgroundSize: 'cover',
+              overflow: 'hidden',
+              height: window.innerHeight
+            }}>
+              <Login />
             </div>
           }></Route>
           <Route exact path="/register" render={() =>
@@ -45,40 +55,41 @@ function App() {
               backgroundImage: `url(${backgroud})`,
               backgroundSize: 'cover',
               overflow: 'hidden',
-              height: window.innerHeight}}>
-            <Register />
+              height: window.innerHeight
+            }}>
+              <Register />
             </div>
           }></Route>
           <Route exact path="/" render={(props) =>
-          store.getState().auth.user!=null?
-            <div>
-            <Navbar />
-            <Feed/>
-            <Footer />
-            </div>:window.location.href='/login'
+            window.localStorage.getItem('user')?
+              <div>
+                <Navbar />
+                <Feed />
+                <Footer />
+              </div> :window.location.href='/login'
           }></Route>
           <Route exact path="/donations" render={() =>
-          <div>
-            <Navbar />
-            <NewDrive/>
-            <DonationsPage />
-            <Footer />
-          </div>
+            <div>
+              <Navbar />
+              <NewDrive />
+              <DonationsPage />
+              <Footer />
+            </div>
           }></Route>
           <Route exact path="/ngos" render={() =>
             <div>
-            <Navbar />
-            <NgosPage />
-            <Footer />
+              <Navbar />
+              <NgosPage />
+              <Footer />
             </div>
           }></Route>
           <Route exact path="/lostpet" render={() =>
-          <div>
-            <Navbar />
-            <LostPet/>
-            <LostPetPage />
-            <Footer />
-          </div>
+            <div>
+              <Navbar />
+              <LostPet />
+              <LostPetPage />
+              <Footer />
+            </div>
           }></Route>
           <Route exact path="/foundpet" render={() =>
             <div>
@@ -89,12 +100,12 @@ function App() {
             </div>
           }></Route>
           <Route exact path="/chat/:id" render={(props) =>
-          <div style={{padding:'100px', marginTop:'20px'}}>
+            <div style={{ padding: '100px', marginTop: '20px' }}>
               <Navbar />
               <ChatPanel user1={props.match.params.id} />
-          </div>
+            </div>
           }></Route>
-      {/* <Router history={history}>
+          {/* <Router history={history}>
         <Provider store={store}>
           <Navbar />
           <Route exact path="/" render={() =>
@@ -103,8 +114,8 @@ function App() {
             }></Route>
         </Provider>
       </Router> */}
-      
-      </Provider>
+
+        </Provider>
       </Router>
     </div>
   );

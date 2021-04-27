@@ -34,6 +34,10 @@ const PostSchema = mongoose.Schema({
     time:{
         type: String,
         required: false
+    },
+    user_type:{
+        type:String,
+        required:false
     }
 });
 

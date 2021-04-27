@@ -10,9 +10,8 @@ import {
 import profilepic from '../images/resources/friend-avatar10.jpg'
 
 const imageStyle = {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 200,
+    borderRadius: 100,
     alignSelf: 'flex-start',
 }
 
@@ -24,7 +23,7 @@ export class NewPost extends Component {
         numfiles: 0,
         caption: '',
         filetype: [],
-        upload:false
+        upload:false,
     }
     onFileChange = e => {
         var prev = this.state.numfiles
@@ -56,6 +55,7 @@ export class NewPost extends Component {
         const formData = new FormData();
         formData.append('caption', this.state.caption)
         formData.append('user', window.localStorage.getItem('user'))
+        formData.append('user_type', window.localStorage.getItem('user_type'))
         for (let i=0; i<this.state.numfiles;i++) {
             formData.append('files[]', this.state.files[i])
         }
@@ -66,7 +66,6 @@ export class NewPost extends Component {
         axios.post('api/post', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'x-auth-token':window.localStorage.getItem('token')
             }
         })
         this.setState({ upload: true })
@@ -101,7 +100,12 @@ export class NewPost extends Component {
                             display: "flex",
                             backgroundColor: 'white'
                         }}>
-                            <img src={profilepic} style={imageStyle}></img>
+
+                                {window.localStorage.getItem('user_type') == 'user' ?  <a href={'http://localhost:5000/api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                                    <img src={'api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                                </a> :<a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                                    <img src={'api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                                </a>}
                             <form>
                                 <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
                                     placeholder='write something'

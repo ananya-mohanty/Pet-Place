@@ -12,11 +12,11 @@ const InputStyle={
 }
 
 const divStyle={
-    padding: 20, marginTop: '2%', borderRadius:'20px',borderStyle: "solid", borderWidth: 1, borderColor: "rgba(0,0,0,0.1)", backgroundColor: "rgba(255, 255, 255,0.8)"
+    padding: 15, marginTop: '1%', borderRadius:'20px',borderStyle: "solid", borderWidth: 1, borderColor: "rgba(0,0,0,0.1)", backgroundColor: "rgba(255, 255, 255,0.8)"
 }
 
 const btnStyle={
-    opacity: '90%', borderRadius: '25px', height: '50px', width: '100px', padding: '0px'
+    opacity: '90%', borderRadius: '25px', height: '40px', width: '100px', padding: '0px'
 }
 
 const centerStyle={
@@ -26,7 +26,7 @@ const centerStyle={
 export class Register extends Component {
     state = { userform: false, ngoform: false, showform: false, 
         username:'', password:null, email:null,
-        contact:'', hno:'', state:'', street:'',pincode:'',city:''
+        contact:'', hno:'', state:'', street:'',pincode:'',city:'', files:[], license:''
         }
 
             
@@ -36,14 +36,15 @@ export class Register extends Component {
 
     userReg = (e) =>{
         e.preventDefault()
-        const {username, email, password}=this.state
+        const {username, email, password, files}=this.state
+        console.log(files)
         // console.log(username, email, password)
-        this.props.register({'name':username, 'email':email, 'password':password})
+        this.props.register({'name':username, 'email':email, 'password':password, 'files':files})
     }
 
     ngoReg = (e) =>{
         e.preventDefault()
-        const { username, email, password, contact } = this.state
+        const { username, email, password, contact, files , license} = this.state
         const address={
             'hno':this.state.hno,
             'state':this.state.state,
@@ -51,8 +52,14 @@ export class Register extends Component {
             'pincode': this.state.pincode,
             'city': this.state.city,
         }
-        this.props.registerngo({ 'name': username, 'email': email, 'password': password, 'contact':contact, 'address':address })
+        this.props.registerngo({ 'name': username, 'email': email, 'password': password, 'contact':contact, 'address':address, 'files':files , 'license':license})
     }
+
+    onFileChange = e => {
+        this.state.files.push(e.target.files[0]);
+        this.setState({ files: this.state.files})
+    };
+
     render() {
         return (
                 <Container style={{
@@ -65,12 +72,11 @@ export class Register extends Component {
                         </Col>
                         <Col>
                         <div style={centerStyle}>
-                            <img src={logo} style={{ height: 120, marginTop: '5%' }}></img><br></br>
+                            <img src={logo} style={{ height: 110, marginTop: '2%' }}></img><br></br>
 
                         </div>
                         {!this.state.showForm? 
                         <div>
-
                             <div style={centerStyle}>
                                 <Button onClick={() => this.setState({ showForm: true, userForm:true })} className='register' >
                                     Register As User</Button>
@@ -94,10 +100,12 @@ export class Register extends Component {
                                     <Label for="password">Password</Label>
                                     <Input onChange={this.onChange} style={InputStyle} type="password" name="password" id="password" placeholder="*********" />
                                 </FormGroup>
+                                <FormGroup>
+                                    <Label for="files">Profile Picture</Label>
+                                    <Input style={InputStyle} onChange={this.onFileChange} type="file" accept="image/*" name="files" id="files" />
+                                </FormGroup>
                                 <Row style={{ alignContent: 'center', justifyContent: 'center' }}>
-
                                     <Button className='register' style={ btnStyle} onClick={this.userReg}>Register</Button>
-
                                 </Row>
                             </Form>
                         </div> : this.state.ngoForm ? <div style={ divStyle}>
@@ -116,6 +124,10 @@ export class Register extends Component {
                                                 <Label for="password">Password</Label>
                                                 <Input onChange={this.onChange} style={InputStyle} type="password" name="password" id="password" placeholder="********" />
                                             </FormGroup>
+                                            <FormGroup>
+                                                <Label for="files">Profile Picture</Label>
+                                                <Input style={InputStyle} onChange={this.onFileChange} type="file" accept="image/*" name="files" id="files" />
+                                            </FormGroup>
                                         </Col>
                                         <Col>
                                             <FormGroup>
@@ -123,7 +135,7 @@ export class Register extends Component {
                                                 <Input onChange={this.onChange} style={InputStyle} type="string" name="contact" id="contact" placeholder="9988776543" />
                                             </FormGroup>
                                             <FormGroup>
-                                                <Label for="">Address</Label>
+                                                <Label for="">Business Address</Label>
                                                 <Row>
                                                     <Col>
                                                         <Label for="hno">Building</Label>
@@ -148,6 +160,10 @@ export class Register extends Component {
                                                         <Input onChange={this.onChange} style={InputStyle} type="string" name="pincode" id="pincode" placeholder="95482" />
                                                     </Col>
                                                 </Row>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <Label>NGO License No.</Label>
+                                                <Input onChange={this.onChange} style={InputStyle} type="string" name="license" id="license" placeholder="114567893" />
                                             </FormGroup>
                                         </Col>
                                     </Row>

@@ -30,6 +30,10 @@ const UserSchema = new Schema({
         type: Array,
         required:false,
         default:[]       
+    },
+    profile_pic:{
+        type:String,
+        required:false
     }
 });
 
