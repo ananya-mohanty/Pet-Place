@@ -48,6 +48,7 @@ export class ChatPanel extends Component {
     }
 
     addMessage = (e) => {
+        e.preventDefault()
         this.setState({msgList: [...this.state.msgList, this.state.msg]})
         this.setState({msg: ''})
         this.inputRef.clear()
