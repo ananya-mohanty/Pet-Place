@@ -109,6 +109,7 @@ export class ChatPage extends Component {
 
     
     addMessage = (e) => {
+        e.preventDefault()
         this.setState({messageList: [...this.state.messageList, this.state.msg]})
         this.setState({msg: ''})
         this.inputRef.clear()
