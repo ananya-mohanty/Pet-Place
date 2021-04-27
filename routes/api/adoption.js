@@ -1,0 +1,99 @@
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const GridFsStorage = require('multer-gridfs-storage');
+//Post model
+const AdoptPet = require('../../models/Adopt');
+const config = require('config');
+const crypto = require('crypto');
+// const fs = require('fs');
+// //file upload
+var multer = require('multer');
+var ipapi = require('ipapi.co');
+
+const storage = new GridFsStorage({
+    url: config.get('mongoURI'),
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                //  const filename = file.originalname;
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const original = file.originalname;
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads',
+                    metadata: original
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+const upload = multer({ storage });
+
+router.get('/', (req, res) => {
+   
+    AdoptPet.find({status: 'available'}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                   
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
+
+
+
+// router.post('/',  (req, res) => {
+//     console.log("HELLO")
+//     const newPet = new Adopt({
+//         description: req.body.description,
+//         name: req.body.description,
+//         category: req.body.category,
+//         age: req.body.age
+
+//         // lastseen: req.body.lastseen,
+//         // time: today,
+//     })
+//     console.log(newPet)
+//      newPet.save().then(adopt => res.json(adopt));
+
+//     // ipapi.location(callback)
+
+// });
+
+router.post('/', upload.array('files[]', 10), (req, res, next) => {
+    var callback = function (resp) {
+        post.location = resp
+        post.save().then(p => res.json(p));
+    };
+    const time = Date.now()
+    const today = new Date(time)
+    var post = new AdoptPet({
+        description: req.body.description,
+        name: req.body.name,
+        category: req.body.category,
+        age: req.body.age
+    })
+
+    // req.files.forEach(function (fileobj) {
+    //     post.files.push(fileobj.id);
+    // })
+    ipapi.location(callback)
+
+});
+
+
+module.exports = router;

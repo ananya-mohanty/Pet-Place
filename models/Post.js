@@ -18,15 +18,14 @@ const PostSchema = mongoose.Schema({
         type: Array,
         required: false
     },
-
     filetype:
     {
         type: String
     },
-
     likes: {
         type: Number,
         required: true,
+        default: 0
     },
     applicants: {
         type: Array,

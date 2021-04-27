@@ -9,8 +9,9 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
 import history from '../history'
 
-export class ChatPanel extends Component {
 
+export class ChatPanel extends Component {
+    
     i=0
     state= {
         msg: {},
@@ -22,6 +23,7 @@ export class ChatPanel extends Component {
         caption: '',
         filetype: []
     }
+    
 
     onFileChange = e => {
         var prev = this.state.numfiles
@@ -55,6 +57,7 @@ export class ChatPanel extends Component {
     }
     
     componentDidUpdate = () => {
+        console.log('hello')
         this.i++
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
@@ -69,6 +72,7 @@ export class ChatPanel extends Component {
     }
 
     onChange = (e) => {
+        
         this.setState({msg: {
             position: 'right',
             type: 'text',

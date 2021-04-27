@@ -150,4 +150,53 @@ router.get('/document/:filename', function (req, res) {
 
 
 })
+
+router.post('/like/:user/:id', (req, res) => {
+    User.findById(req.params.user, (err, user)=>{
+        user.liked_posts.push(req.params.id)
+        user.save().then(
+        Post.findById(req.params.id, (err, item) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json("An error occured.");
+            }
+            else {
+                item.likes++;
+                item.save()
+            }
+        }
+        ))
+    })
+});
+
+router.post('/dislike/:user/:id', (req, res) => {
+    User.findById(req.params.user, (err, user) => {
+        user.liked_posts = user.liked_posts.filter(function (item) {
+            return item !== req.params.id
+        })
+        user.save().then(
+            Post.findById(req.params.id, (err, item) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json("An error occured.");
+                }
+                else {
+                    item.likes--;
+                    item.save()
+                }
+            }
+            ))
+    })
+});
+
+router.get('/like/:user/:id', (req, res) => {
+    User.findById(req.params.user, (err, user) => {
+        if(user.liked_posts.includes(req.params.id))
+        res.json({'flag':true})
+        else res.json({ 'flag': false})
+
+    })
+});
+
+
 module.exports = router;
