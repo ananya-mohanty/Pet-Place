@@ -89,7 +89,7 @@ export class Login extends Component {
                                 </Row>
                             </Form>
                         </div> : this.state.ngoForm ? <div style={divStyle}>
-                            <Form  onSubmit={this.onSubmit} >
+                            <Form  style={{padding:'10px'}}onSubmit={this.onSubmit} >
                                 <Row>
                                         <FormGroup>
                                             <Label for="email">Email</Label>
