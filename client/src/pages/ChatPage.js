@@ -24,22 +24,25 @@ import PropTypes from 'prop-types'
 import  ChatPanel  from '../components/ChatPanel';
 
 const styleparent = {
-    marginLeft:'180px',
+    // marginLeft:'180px',
     overflow: 'hidden',
     position: 'absolute',
     height: 570,
-    width:'100%'
+    width:'100%',
+    textAlign: 'center'
 }
 
 const stylechild = {
     height:'570px',
     width:'800px',
     backgroundColor: '#e5e4e2',
-    marginTop:'100px',
     overflow: 'scroll',
     borderStyle:"solid", 
     borderWidth: 1, 
     borderColor: "rgba(0,0,0,0.1)",
+    margin: 'auto',
+    marginTop:'100px',
+    textAlign: 'left'
 }
 
 export class ChatPage extends Component {
