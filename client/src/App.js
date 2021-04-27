@@ -53,7 +53,6 @@ function App() {
           store.getState().auth.user!=null?
             <div>
             <Navbar />
-            
             <Feed/>
             <Footer />
             </div>:window.location.href='/login'
