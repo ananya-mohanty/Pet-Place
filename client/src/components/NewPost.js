@@ -55,7 +55,6 @@ export class NewPost extends Component {
         e.preventDefault()
         const formData = new FormData();
         formData.append('caption', this.state.caption)
-        console.log(window.localStorage.getItem('user'))
         formData.append('user', window.localStorage.getItem('user'))
         for (let i=0; i<this.state.numfiles;i++) {
             formData.append('files[]', this.state.files[i])

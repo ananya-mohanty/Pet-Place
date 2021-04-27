@@ -41,7 +41,9 @@ function getDifferenceInMinutes(date1, date2) {
 export class FeedPost extends Component {
     state={
         data:[],
-        time:'just now'
+        time:'just now',
+        likes:0,
+        liked:false
     }
 
     componentDidMount=()=>{
@@ -66,7 +68,12 @@ export class FeedPost extends Component {
         else if (days > 1)
             this.state.time = `${days} days ago`
 
-        this.setState({})
+        
+        axios.get(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+            headers: {
+                'x-auth-token': window.localStorage.getItem('token')
+            }
+        }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
 
     }
 
@@ -91,15 +98,35 @@ export class FeedPost extends Component {
 
         else if (days > 1)
             this.state.time = `${days} days ago`
+       
     }
 
-    Like=()=>
+    onLike=()=>
     {
-        axios.post(`api/post/like/${this.props.post.id}`, {
-            headers: {
-                'x-auth-token': window.localStorage.getItem('token')
-            }
-        })
+        var l
+        if(this.state.liked)
+        l=this.state.likes-1
+
+        else l = this.state.likes + 1
+        if(!this.state.liked)
+        {
+            axios.post(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            })
+        }
+
+        else
+        {
+            axios.post(`/api/post/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            })
+        }
+        
+        this.setState({ likes: l, liked: !this.state.liked })
     }
 
     render() {
@@ -158,17 +185,21 @@ export class FeedPost extends Component {
                                             marginRight: '20px',
                                             marginLeft:'-40px'
                                         }}>
-                                            <button title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor:'#E74C3C', color:'white' }}>
+                                            {
+                                                this.state.liked ?<div><button onClick={this.onLike} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor:'#E74C3C', color:'white' }}>
                                                 <i class="fa fa-heart"></i>
-                                            </button><span> {this.props.post.likes}</span>
+                                                </button><span> {this.state.likes}</span></div> :<div><button onClick={this.onLike} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor:'#E74C3C', color:'white' }}>
+                                                <i class="fa fa-heart-o"></i>
+                                                    </button><span> {this.state.likes}</span></div>
+                                            }
                                         </li>
                                         <li style={{
                                             display: 'inline',
                                             marginRight: '20px'
                                         }}>
-                                            <button onClick={this.Like}title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
+                                            <button title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
                                                 <i class="fa fa-user"></i>
-                                            </button><span>{this.props.post.likes}</span>
+                                            </button><span>0</span>
                                         </li>
                                     </ul>
                                 </div>
