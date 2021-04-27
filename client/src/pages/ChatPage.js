@@ -77,9 +77,11 @@ export class ChatPage extends Component {
         const messageList=this.props.chat.messageList
         this.state.chatSource = []
         for (var key in messageList) {
-            const arr1 = messageList[key].filter((m)=>{return m.position=='left'})
-            const { title } = arr1[arr1.length - 1]
             const arr = messageList[key]
+            var title
+            if(arr[arr.length-1].position=='left')
+                title = arr[arr.length - 1].sender
+            else title = arr[arr.length - 1].receiver
             const { subtitle } = arr[arr.length - 1]
             var date = arr[arr.length - 1].updatedAt
             var avatar = `url(${avatar_img})`
@@ -87,6 +89,7 @@ export class ChatPage extends Component {
             const unread = 0
             this.state.chatSource.push({ title, subtitle, avatar,alt, unread , date})
         }
+        this.state.chatSource.sort((m1, m2) => { return new Date(m2.date).getTime() - new Date(m1.date).getTime();})
     }
 
     componentDidUpdate = () => {
@@ -95,9 +98,11 @@ export class ChatPage extends Component {
         this.state.chatSource=[]
         for(var key in messageList)
         {
-            const arr1 = messageList[key].filter((m) => { return m.position == 'left' })
-            const { title } = arr1[arr1.length - 1]
             const arr = messageList[key]
+            var title
+            if (arr[arr.length - 1].position == 'left')
+                title = arr[arr.length - 1].sender
+            else title = arr[arr.length - 1].receiver
             const { subtitle } = arr[arr.length - 1]
             var date = new Date(arr[arr.length - 1].updatedAt)
             var avatar = `url(${avatar_img})`
@@ -105,10 +110,13 @@ export class ChatPage extends Component {
             const unread = 0
             this.state.chatSource.push({ title, subtitle, avatar,alt, unread, date })
         }
+        this.state.chatSource.sort((m1, m2) => { return new Date(m2.date).getTime() - new Date(m1.date).getTime(); })
+
     }
 
     
     addMessage = (e) => {
+        
         this.setState({messageList: [...this.state.messageList, this.state.msg]})
         this.setState({msg: ''})
         this.inputRef.clear()

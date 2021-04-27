@@ -1,8 +1,46 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const GridFsStorage = require('multer-gridfs-storage');
+//Post model
+const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+
+var multer = require('multer');
+
+// var storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+const storage = new GridFsStorage({
+    url: config.get('mongoURI'),
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                //  const filename = file.originalname;
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const original = file.originalname;
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads',
+                    metadata: original
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+const upload = multer({ storage });
+
 
 //User model
 const User = require('../../models/User');

@@ -39,51 +39,52 @@ router.post('/:id/:id2', (req, res) => {
 
     User.findById(req.params.id)
         .then(user => {
-            const { text, position } = req.body
-            const newMessage = new Message({
-                title: 'you',
-                text: text,
-                position: 'right',
-                subtitle: s
-            });
-            newMessage.save()
-            temp = []
+            User.findById(req.params.id2)
+                .then(user2 => {
+                    const { text, position } = req.body
+                    const newMessage1 = new Message({
+                        sender: user.name,
+                        receiver: user2.name,
+                        text: text,
+                        position: 'right',
+                        subtitle: s
+                    });
+                    newMessage1.save()
+                    temp = []
 
-            if (user.messages.has(req.params.id2)) {
-                temp = user.messages.get(req.params.id2)
-            }
-            temp.push(newMessage)
-            user.messages.set(req.params.id2, temp)
-            console.log(user.messages)
-            user.markModified('messages')
-            user.save()
-                .then(User.findById(req.params.id2)
-                    .then(user2 => {
-                        const { text, position } = req.body
-                        const newMessage = new Message({
-                            title: user.name,
-                            text: text,
-                            position: 'left',
-                            subtitle: s
-                        });
-                        newMessage.save()
-                        temp = []
+                    if (user.messages.has(req.params.id2)) {
+                        temp = user.messages.get(req.params.id2)
+                    }
+                    temp.push(newMessage1)
+                    user.messages.set(req.params.id2, temp)
+                    console.log(user.messages)
+                    user.markModified('messages')
+                    user.save()
+                        .then(()=>{
+                    const { text, position } = req.body
+                    const newMessage2 = new Message({
+                        sender: user.name,
+                        receiver: user2.name,
+                        text: text,
+                        position: 'left',
+                        subtitle: s
+                    });
+                    newMessage2.save()
+                    temp = []
 
-                        if (user2.messages.has(req.params.id)) {
-                            temp = user2.messages.get(req.params.id)
-                        }
-                        temp.push(newMessage)
-                        user2.messages.set(req.params.id, temp)
-                        console.log(user2.messages)
-                        user2.markModified('messages')
-                        user2.save()
-                            .then(console.log(user2))
-                            .catch(err => console.log(err))}))
-                .catch(err => console.log(err))
+                    if (user2.messages.has(req.params.id)) {
+                        temp = user2.messages.get(req.params.id)
+                    }
+                    temp.push(newMessage2)
+                    user2.messages.set(req.params.id, temp)
+                    console.log(user2.messages)
+                    user2.markModified('messages')
+                    user2.save()
+                        .then(console.log(user2))
+                        .catch(err => console.log(err))
+                })})})
+                    .catch(err => console.log(err))})
 
-        })
-
-});
 
 //@route  DELETE api/items/:id1/:id2
 //@desc   Delete an item

@@ -6,9 +6,17 @@ const MessageSchema = new Schema({
         type: String,
         required: false
     },
+    sender:{
+        type: String,
+        required: false
+    },
+    receiver:{
+        type: String,
+        required: false
+    },
     title: {
         type: String,
-        required: true
+        required: false
     },
     subtitle: {
         type: String,
