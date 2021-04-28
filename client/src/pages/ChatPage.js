@@ -94,18 +94,33 @@ export class ChatPage extends Component {
             var avatar = `http://localhost:3000/api/users/image/ngo/${key}`
             axios.get(`api/users/isuser/${key}`)
                 .then(res => {
+                    // console.log(res.data.flag)
                     if (res.data.flag)
                     {
+                        // console.log("hvgggggggffffffffffffffffffffffff")
                         avatar = `http://localhost:3000/api/users/image/${key}`
+                        // console.log('user')
                     } 
+
+                    console.log(avatar)
+                    const alt = key
+                    const unread = 0
+                    this.state.chatSource.push({ title, subtitle, avatar,alt, unread , date})
                 }).catch(console.log('error'))
             
-            console.log(avatar)
-            const alt = key
-            const unread = 0
-            this.state.chatSource.push({ title, subtitle, avatar,alt, unread , date})
         }
         this.state.chatSource.sort((m1, m2) => { return new Date(m2.date).getTime() - new Date(m1.date).getTime();})
+    }
+
+
+    async getflag(key){
+        const res = await axios(`/api/users/isuser/${key}`);
+        return await res.data.flag;
+        // axios.get(`/api/users/isuser/${key}`)
+        // .then(res=>{
+        //     console.log(res.data.flag)
+        //     if (res.data.flag) avatar = `http://localhost:3000/api/users/image/${key}`
+        // }).await(1000)
     }
 
     componentDidUpdate = () => {
@@ -121,14 +136,18 @@ export class ChatPage extends Component {
             else title = arr[arr.length - 1].receiver
             const { subtitle } = arr[arr.length - 1]
             var date = new Date(arr[arr.length - 1].updatedAt)
-            var avatar = `http://localhost:3000/api/users/image/ngo/${key}`
-            axios.get(`/api/users/isuser/${key}`)
-            .then(res=>{
-                if (res.data.flag) 
-                {
-                    avatar = `http://localhost:3000/api/users/image/${key}`
-                }
-            })
+            var avatar = `http://localhost:3000/api/users/image/${key}`
+            // this.getflag(key).then(flag => {
+            //     console.log(flag)
+            //     if (flag) avatar = `http://localhost:3000/api/users/image/${key}`
+            //     console.log(avatar)
+            // })
+            // axios.get(`/api/users/isuser/${key}`)
+            // .then(res=>{
+            //     console.log(res.data.flag)
+            //     if (res.data.flag) avatar = `http://localhost:3000/api/users/image/${key}`
+            // }).await(1000)
+
             const alt = key
             const unread = 0
             console.log(avatar)
