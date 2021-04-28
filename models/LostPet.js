@@ -3,7 +3,15 @@ const mongoose = require('mongoose');
 const LostPetSchema = mongoose.Schema({
     user_id: {
         type: String,
-        required: false
+        required: true
+    },
+    user_name: {
+        type: String,
+        required: true
+    },
+    breed: {
+        type: String,
+        required: true
     },
     description: {
         type: String,
@@ -31,6 +39,10 @@ const LostPetSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    user_type:{
+        type:String,
+        required:true
+    }
 });
 
 const LostPet = module.exports = mongoose.model('LostPet', LostPetSchema);

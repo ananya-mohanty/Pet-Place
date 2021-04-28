@@ -14,9 +14,11 @@ import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import ChatPanel from '../components/ChatPanel';
 import {Link} from 'react-router-dom'
+import LostPet from'../components/LostPet'
 
 const mainStyle = {
     position: "relative",
+    marginTop:'40px',
     padding: "3rem"
 }
 
@@ -49,12 +51,20 @@ const buttonStyle = {
 }
 
 
+const dpStyle = {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    overflow: "hidden",
+    alignSelf: 'flex-start',
+}
+
 const spanStyle = {
     float: "right",
     marginTop: "-1.5rem"
 }
 
-class LostPet extends Component {
+class DisplayLostPet extends Component {
     state = {
         chatPanel: false
     }
@@ -67,28 +77,30 @@ class LostPet extends Component {
     render() {
         return (
             <div style={divStyle}>
-                
-                    <AliceCarousel>
-                        {this.props.files.map((f, i) => {
-                            return (
-                                <div>
-                                    {
-                                        <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                            <CardImg top width="50" src={'api/post/image/' + f.filename} />
-                                        </a>
-                                    }
-                                </div>
-                            )
-                        })
-                        }
-                    </AliceCarousel>
-                <CardBody>
-                    <CardTitle tag="h6">Lost Animal: {`${this.props.lostpet.location.city}, ${this.props.lostpet.location.region}`}</CardTitle>
-                    <CardSubtitle className="mb-2 text-muted">
-                        Last Seen: {this.props.lostpet.lastseen}</CardSubtitle>
-                    <CardText>{this.props.lostpet.description}</CardText>
-                    <Link to={`/chat/${this.props.lostpet.user_id}`}><Button onClick={this.onClick}>Found?</Button></Link>
+                <div style={{ display: 'flex' }}>
+                    {this.props.lostpet.user_type=='ngo'?<a href={'http://localhost:5000/api/users/image/ngo/' + this.props.lostpet.user_id}>
+                        <img src={'api/users/image/ngo/' + this.props.lostpet.user_id} style={dpStyle}></img>
+                    </a> : <a href={'http://localhost:5000/api/users/image/' + this.props.lostpet.user_id}>
+                        <img src={'api/users/image/' + this.props.lostpet.user_id} style={dpStyle}></img>
+                    </a>}
+                    <div style={{ marginLeft: '5px', marginTop: '15px' }}>
+                        <a style={{}} href=""><h6>{this.props.lostpet.user_name}</h6></a>
+                    </div>
+                </div>
+                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+
+                    <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
+                        <CardImg top style={{ height: "200px", width: '200px', objectFit: 'cover' }} src={'api/post/image/' + this.props.files[0].filename} />
+                    </a>
+                         </div>           
+                    <CardTitle tag="h5">{this.props.lostpet.breed}</CardTitle>
+                    <CardSubtitle >
+                    Location: {`${this.props.lostpet.location.city}, ${this.props.lostpet.location.region}`}<br></br>
+                    Last Seen: {this.props.lostpet.lastseen}</CardSubtitle>
+                <CardBody style={{height:'100px', overflowY:'auto', overflowX:'hidden'}}>
+                    <CardText style={{ color: '#77c3e7' }}>{this.props.lostpet.description}</CardText>
                 </CardBody>
+                <Link to={`/chat/${this.props.lostpet.user_id}`}></Link><Button className="foundBtn" onClick={this.onClick}>Found</Button>
                 {/* <Modal
                     style={{}}
                     isOpen={this.state.chatPanel}
@@ -96,7 +108,7 @@ class LostPet extends Component {
                     <ModalBody>
                         <ChatPanel user1={this.props.lostpet.user_id} />
                     </ModalBody>
-                </Modal> */}
+                </Modal>  */}
             </div>
             // </div>
         )
@@ -128,8 +140,11 @@ export class LostPetPage extends Component {
         return (
             <Container>
                 <div className='container' style={mainStyle}>
-                    <div style={{ height: "auto", margin: "0 auto", padding: 50, position: "relative", background: "white", width: 800 }}>
+                    <div style={{ height: "auto", margin: "0 auto", padding: 50, position: "relative", background: "white", }}>
                         <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Lost Pets Near Your Location</h5>
+                        <div style={{ display: 'flex', float: 'right', marginTop: '-80px' }}>
+                            <LostPet />
+                        </div>
                         <span style={spanStyle}>
                             {/* <Link to="/allitems" className='link'>All Toys </Link>| 
                     <Link to="/stuffedanimals" className='link'> Stuffed Animals </Link>| 
@@ -142,7 +157,7 @@ export class LostPetPage extends Component {
                                     var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
                                     return (<div>
                                         {
-                                            <LostPet lostpet={lostpet} files={files} key={i} onClick={this.onClick} />
+                                            <DisplayLostPet lostpet={lostpet} files={files} key={i} onClick={this.onClick} />
                                         }
                                     </div>)
                                 })
