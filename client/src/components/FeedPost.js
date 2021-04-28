@@ -4,7 +4,11 @@ import {
     Container,
     Row,
     Col,
-    Jumbotron
+    Jumbotron,
+    Modal,
+    ModalBody,
+    ModalBodyProps,
+    ModalHeader
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
 import doc from '../images/document.png'
@@ -12,7 +16,7 @@ import { SRLWrapper } from "simple-react-lightbox"
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import axios from 'axios'
-
+import AdoptPet from './Adopt'
 
 const imageStyle = {
     width: 50,
@@ -43,10 +47,23 @@ export class FeedPost extends Component {
         data:[],
         time:'just now',
         likes:0,
-        liked:false
-    }
+        liked:false,
+        show:false,
+        adoptForm:false,
+        name:'',
+        age:'',
+        sex:'',
+        marital_status:'',
+        location:'',
+        address:'',
+        annualIncome:0,
+        description:''
 
+       
+    }
+    // this.showModal = this.showModal.bind(this);
     componentDidMount=()=>{
+        this.showModal = this.showModal.bind(this);
         const nowTime= new Date(Date.now())
         const postTime = new Date(this.props.post.time)
         const minutes = getDifferenceInMinutes(postTime, nowTime)
@@ -76,7 +93,12 @@ export class FeedPost extends Component {
         }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
 
     }
-
+    showModal = () => {
+        this.setState({ show: true });
+      };
+    onTextChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
     componentDidUpdate = () => {
         const nowTime = new Date(Date.now())
         const postTime = new Date(this.props.post.time)
@@ -129,15 +151,128 @@ export class FeedPost extends Component {
         this.setState({ likes: l, liked: !this.state.liked })
     }
 
+    onApply=()=>
+    {
+       this.setState({ adoptForm: !this.state.adoptForm })
+       console.log('HELLO') 
+
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault()
+        const formData = new FormData();
+        console.log(this.state.name)
+        formData.append('name', this.state.name)
+        formData.append('age', this.state.age)
+        formData.append('marital_status', this.state.marital_status)
+        formData.append('location', this.state.location)
+        formData.append('description', this.state.description)
+        formData.append('sex', this.state.sex)
+        formData.append('annualIncome', this.state.annualIncome)
+        formData.append('address', this.state.address)
+
+        console.log('backend issues')
+        axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        setTimeout(function () {
+            window.location.reload()
+        }, 2000)
+    }
+
+
     render() {
 
         return (
+            // Hiiiii
+            
             <Container style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 // marginRight: -35
                 }}>
+                    <Modal
+                    style={{}}
+                    isOpen={this.state.adoptForm}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.toggle}>Start a Donation Drive</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '0px',
+                        display: "flex",
+                        backgroundColor: 'white'}}>
+                        <img src={profilepic} style={imageStyle}></img>
+                        <form>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Applicant</label>
+                            <br></br>
+                            <input type='string' name='name' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Name of the Applicant' onChange={this.onTextChange}></input>
+
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Age</label>
+                            <br></br>
+                            <input type='string' name='age' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Age' onChange={this.onTextChange}></input>
+
+                             <br></br><br></br>
+
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Sex</label>
+                            <br></br>
+                            <input type='string' name='sex' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Male/Female/Other' onChange={this.onTextChange}></input>
+                            
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Marital Status</label>
+                            <br></br>
+                            <input type='string' name='marital_status' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Married/Unmarried' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                     
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Annual Income</label>
+                            <br></br>
+                            <input type='string' name='annualIncome' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='In INR' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                            
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Permanent Address</label>
+                            <br></br>
+                            <input type='string' name='Address' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Place of Residence' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Reason for Adoption</label>
+                            <br></br>
+                            <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
+                                placeholder='Tell us why you want to go ahead with this adoption...'
+                                rows="3" cols="20"
+                                name='description'
+                                onChange={this.onTextChange} />
+                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} />
+
+                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                
+            
+                                <br></br>
+                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Submit Application</button>
+                            </div>
+                        </form>
+                    </ModalBody>
+                </Modal>
+                
                 <Row>
                     <Col>
                         <Jumbotron style={{
@@ -197,7 +332,7 @@ export class FeedPost extends Component {
                                             display: 'inline',
                                             marginRight: '20px'
                                         }}>
-                                            <button title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
+                                            <button onClick={this.onApply} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
                                                 <i class="fa fa-user"></i>
                                             </button><span>0</span>
                                         </li>
@@ -208,8 +343,11 @@ export class FeedPost extends Component {
                     </Col>
                 </Row>
             </Container>
+            
         )
+        
     }
+    
 }
 
 export default connect()(FeedPost)

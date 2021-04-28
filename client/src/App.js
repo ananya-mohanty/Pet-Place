@@ -21,7 +21,7 @@ import  ChatPage  from './pages/ChatPage'
 import backgroud from './images/resources/background1.jpg'
 import { Nav } from 'reactstrap'
 import  ChatPanel  from './components/ChatPanel'
-
+import AdoptPet from './components/Adopt'
 
 function App() {
   return (
