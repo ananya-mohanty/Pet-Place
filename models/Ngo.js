@@ -36,7 +36,7 @@ const NgoSchema = new Schema({
         type:String,
         required:false
     },
-    liked_post:{
+    liked_posts:{
         type:Array,
         required:false
     }

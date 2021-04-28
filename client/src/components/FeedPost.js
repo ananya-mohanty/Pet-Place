@@ -123,8 +123,8 @@ export class FeedPost extends Component {
         if(!this.state.liked)
         {
 
-            if (this.state.user_type == 'user') {
-                axios.get(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+            if (window.localStorage.getItem('user_type') == 'user') {
+                axios.post(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
                     headers: {
                         'x-auth-token': window.localStorage.getItem('token')
                     }
@@ -132,7 +132,7 @@ export class FeedPost extends Component {
             }
 
             else {
-                axios.get(`/api/post/ngo/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                axios.post(`/api/post/ngo/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
                     headers: {
                         'x-auth-token': window.localStorage.getItem('token')
                     }
@@ -142,8 +142,8 @@ export class FeedPost extends Component {
 
         else
         {
-            if (this.state.user_type == 'user') {
-                axios.get(`/api/post/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+            if (window.localStorage.getItem('user_type') == 'user') {
+                axios.post(`/api/post/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
                     headers: {
                         'x-auth-token': window.localStorage.getItem('token')
                     }
@@ -151,7 +151,7 @@ export class FeedPost extends Component {
             }
 
             else {
-                axios.get(`/api/post/ngo/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                axios.post(`/api/post/ngo/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
                     headers: {
                         'x-auth-token': window.localStorage.getItem('token')
                     }
