@@ -101,7 +101,7 @@ router.post('/', upload.array('files[]', 10), (req, res) => {
 });
 
 router.get('/image/:user/', function (req, res) {
-    console.log('here')
+    console.log('getting image')
     User.findById(req.params.user, (err, user)=>{
         global.gfs.files.findOne({filename:user.profile_pic}, function (err, file) {
             if (user == null) return
@@ -145,6 +145,15 @@ router.get('/image/ngo/:user/', function (req, res) {
                 })
             }
         })
+    })
+})
+
+router.get('/isuser/:id', function (req, res) {
+    User.findById(req.params.id, (err, user) => {
+        if(user!=null)
+            res.json({flag:true})
+
+        else res.json({flag:false})
     })
 })
 

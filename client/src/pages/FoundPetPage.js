@@ -98,7 +98,7 @@ class DisplayFoundPet extends Component {
                 <CardSubtitle >
                     Location: {`${this.props.lostpet.location.city}, ${this.props.lostpet.location.region}`}<br></br>
                     Found On: {this.props.lostpet.lastseen}</CardSubtitle>
-                <CardBody style={{ height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>
+                <CardBody className="myColumn1" style={{ height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>
                     <CardText style={{ color: '#77c3e7' }}>{this.props.lostpet.description}</CardText>
                 </CardBody>
                 <Button className="foundBtn" onClick={this.onClick}>Connect</Button>

@@ -34,7 +34,7 @@ function App() {
           }}>
           </Route>
           <Route exact path="/chats" render={() =>
-            <div style={{ backgroundColor: 'black' }}>
+            <div style={{ background: 'linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%)' }}>
               <Navbar />
               <ChatPage />
               <Footer />
@@ -98,7 +98,7 @@ function App() {
             </div>
           }></Route>
           <Route exact path="/chat/:id" render={(props) =>
-            <div style={{ padding: '100px', marginTop: '20px' }}>
+            <div style={{ padding: '100px', marginTop: '20px', background:'linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%)' }}>
               <Navbar />
               <ChatPanel user1={props.match.params.id} />
             </div>
