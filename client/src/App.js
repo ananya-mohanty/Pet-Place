@@ -54,8 +54,9 @@ function App() {
             <div style={{
               backgroundImage: `url(${backgroud})`,
               backgroundSize: 'cover',
-              overflow: 'hidden',
-              height: window.innerHeight
+              // overflow: 'hidden',
+              minHeight: window.innerHeight
+              // height: '100%'
             }}>
               <Register />
             </div>
