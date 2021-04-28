@@ -103,24 +103,49 @@ router.post('/', upload.array('files[]', 10), (req, res) => {
 router.get('/image/:user/', function (req, res) {
     console.log('getting image')
     User.findById(req.params.user, (err, user)=>{
-        global.gfs.files.findOne({filename:user.profile_pic}, function (err, file) {
-            if (user == null) return
-            if (!file || file.length === 0) {
-                return res.status(404).json({
-                    err: 'No file exists'
+        if(user) {
+            global.gfs.files.findOne({filename:user.profile_pic}, function (err, file) {
+            
+                if (!file || file.length === 0) {
+                    return res.status(404).json({
+                        err: 'No file exists'
+                    })
+                }
+                //check if image
+                if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
+                    //read output to browser
+                    const readStream = gfs.createReadStream(file.filename);
+                    readStream.pipe(res);
+                } else {
+                    return res.status(404).json({
+                        err: 'Not an image'
+                    })
+                }
+            })
+        }
+        else {
+            Ngo.findById(req.params.user).then(ngo => {
+                global.gfs.files.findOne({filename:ngo.profile_pic}, function (err, file) {
+            
+                    if (!file || file.length === 0) {
+                        return res.status(404).json({
+                            err: 'No file exists'
+                        })
+                    }
+                    //check if image
+                    if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
+                        //read output to browser
+                        const readStream = gfs.createReadStream(file.filename);
+                        readStream.pipe(res);
+                    } else {
+                        return res.status(404).json({
+                            err: 'Not an image'
+                        })
+                    }
                 })
-            }
-            //check if image
-            if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
-                //read output to browser
-                const readStream = gfs.createReadStream(file.filename);
-                readStream.pipe(res);
-            } else {
-                return res.status(404).json({
-                    err: 'Not an image'
-                })
-            }
-        })
+            })
+        }
+        
     })
 })
 
