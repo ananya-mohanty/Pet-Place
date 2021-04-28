@@ -55,9 +55,9 @@ const imageStyle = {
     width: "8rem"
 }
 const dpStyle = {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     overflow: "hidden",
     alignSelf: 'flex-start',
 }
@@ -88,35 +88,28 @@ class LostPet extends Component {
     render() {
         return (
             <div style={divStyle}>
-                <div  >
-                   
-                        <AliceCarousel>
-                            {this.props.files.map((f, i) => {
-                                return (
-                                    <div>
-                                        {
-                                            <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                                <CardImg top width="50px" src={'api/post/image/' + f.filename} />
-                                            </a>
-                                        }
-                                    </div>
-                                )
-                            })
-                            }
-                        </AliceCarousel>
-
+                <div style={{ display: 'flex' }}>
+                    {this.props.lostpet.user_type == 'ngo' ? <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.lostpet.user_id}>
+                        <img src={'api/users/image/ngo/' + this.props.lostpet.user_id} style={dpStyle}></img>
+                    </a> : <a href={'http://localhost:5000/api/users/image/' + this.props.lostpet.user_id}>
+                        <img src={'api/users/image/' + this.props.lostpet.user_id} style={dpStyle}></img>
+                    </a>}
+                    <div style={{ marginLeft: '5px', marginTop: '5px' }}>
+                        <a style={{}} href=""><h6>{this.props.lostpet.user_name}</h6></a>
+                    </div>
+                </div>
+                <div style={{ marginTop: '5px' }} >
+                    <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
+                        <CardImg top style={{height:"200px", width:'200px', objectFit:'cover'}} src={'api/post/image/' + this.props.files[0].filename} />
+                    </a>
                 </div>
                 <CardBody>
-                    <CardText>Lost Animal: {`${this.props.lostpet.location.city}, ${this.props.lostpet.location.region}`}
-                        <div>
-                            Last Seen: {this.props.lostpet.lastseen}</div></CardText>
                     <CardText>
-                        <div style={{  fontSize: 13, lineHeight: 'normal', textAlign: 'left', /*marginLeft: 15,*/ width: 165 }}>
-                            {this.props.lostpet.description}
-                        </div>
+                        <CardTitle tag="h6">{this.props.lostpet.breed} </CardTitle>
+                        <CardSubtitle>Location: {this.props.lostpet.location.city}</CardSubtitle>
+                        <CardSubtitle>Last Seen: {this.props.lostpet.lastseen}</CardSubtitle>
                     </CardText>
-
-                    <Button onClick={this.onClick} color='info' size='sm'>Found?</Button>
+                    <Button className='foundBtn' onClick={this.onClick} size='sm'>Found</Button>
                 </CardBody>
                 <Modal
                     style={{ float: 'right' }}
@@ -141,26 +134,16 @@ class DisplayDonation extends Component {
                     <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.donation.user_id}>
                         <img src={'api/users/image/ngo/' + this.props.donation.user_id} style={dpStyle}></img>
                     </a>
-                    <div style={{ marginLeft: '5px', marginTop: '15px' }}>
+                    <div style={{ marginLeft: '5px', marginTop: '5px' }}>
                         <a style={{}} href=""><h6>{this.props.donation.user_name}</h6></a>
                     </div>
                 </div>
 
                 <div style={{ marginTop: '5px' }}>
-                        <AliceCarousel>
-                            {this.props.files.map((f, i) => {
-                                return (
-                                    <div>
-                                        {
-                                            <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                                <CardImg top width="50" src={'api/post/image/' + f.filename} />
-                                            </a>
-                                        }
-                                    </div>
-                                )
-                            })
-                            }
-                        </AliceCarousel>
+                    <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
+                        <CardImg top style={{ height: "200px", width: '200px', objectFit: 'cover' }} src={'api/post/image/' + this.props.files[0].filename} />
+                                        </a>
+                                   
                 </div>
                 <CardBody>
                     {/* <CardTitle tag="h6">{this.props.donation.name} <i class="fa fa-map-marker" title={`${this.props.donation.location.city}, ${this.props.donation.location.region}, ${this.props.donation.location.country_name}`}></i></CardTitle>
@@ -168,16 +151,17 @@ class DisplayDonation extends Component {
                         Target Amount: {this.props.donation.targetAmount}</CardSubtitle> */}
                     {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
                     <CardText >
-                        <div>{this.props.donation.name} </div>
-                        <div>Target Amount: {this.props.donation.targetAmount}</div>
-                            
+                        <CardTitle tag="h6">{this.props.donation.name}</CardTitle>
+                        <CardSubtitle >Target Amount: {this.props.donation.targetAmount}</CardSubtitle>
                         {/* </CardSubtitle> */}
                         {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
-                        <div>Ends On: {this.props.donation.endDate}</div>
+                        <CardSubtitle >Ends On: {this.props.donation.endDate}</CardSubtitle>
                         {/* </CardSubtitle> */}
-                        <div style={{ fontSize: 13, lineHeight: 'normal', textAlign: 'left', marginLeft: 15, width: 165 }}>{this.props.donation.description}</div></CardText>
-                    <Button color='success' size="sm">Donate</Button>
-                    <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_H2oWQW41mxnLsz" async> </script> </form>
+                        {/* <div style={{ fontSize: 13, lineHeight: 'normal', textAlign: 'left', marginLeft: 15, width: 165 }}>{this.props.donation.description}</div></CardText> */}
+                    </CardText >
+                    <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=" + this.props.donation.name}>
+                        <Button className="donateBtn" size='sm'>Donate</Button>
+                    </a>
                 </CardBody>
             </div>
             // </div>
@@ -224,9 +208,9 @@ export class Feed extends Component {
     }
     render() {
         return (
-            <Container style={{ justifyContent: 'center', alignItems: 'center', marginLeft: '90px' }}><Row>
-                <Col xs={'auto'}/*style={{width: 30}}*/>
-                    <div style={{/*marginLeft: -135, */marginTop: 90,/* marginLeft: -80*/ marginRight: -20 }}>
+            <Container style={{ justifyContent: 'center', alignItems: 'center', marginLeft: '90px',  }}><Row>
+                <Col style={{ marginRight: -20,marginTop: 90, height: '700px', overflowY: 'scroll', overflowX: 'auto',  }}xs={'auto'}/*style={{width: 30}}*/>
+                    <div style={{/*marginLeft: -135, *//* marginLeft: -80*/ }}>
                         {/* <div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div> */}
                         {
                             this.state.LostPets.map((lostpet, i) => {
@@ -254,8 +238,8 @@ export class Feed extends Component {
                     })}
                 </div>
                 </Col>
-                <Col xs={'auto'}>
-                    <div style={{ marginTop: 90 }}>
+                <Col style={{ marginTop: 90, height: '700px', overflowY: 'scroll', overflowX:'auto', position:''}}xs={'auto'}>
+                    <div style={{  }}>
                         {/* <div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div> */}
                         {
                             this.state.Donations.map((donation, i) => {

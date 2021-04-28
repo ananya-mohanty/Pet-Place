@@ -90,9 +90,8 @@ export class NewPost extends Component {
     }
     render() {
         return (
-            <div className='container' style={mainStyle}>
-                <Button className="active hover" onClick={this.toggle}>Create a Donation Drive</Button>
-                <br></br><br></br>
+            <div >
+                <Button className="register" onClick={this.toggle}>Create a Donation Drive</Button>
                 <Modal
                     isOpen={this.state.isOpen}
                     toggle={this.toggle}>
@@ -152,7 +151,7 @@ export class NewPost extends Component {
                                 rows="3" cols="20"
                                 name='description'
                                 onChange={this.onTextChange} />
-                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
+                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} />
 
                             <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
                                 {this.state.filesrc.map((src, idx) => {

@@ -10082,7 +10082,7 @@ aside.sidebar.full-style {
   cursor: pointer;
   border: 0px;
   font-family: 'Open Sans', sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   background: linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%);
 }
  
@@ -10093,14 +10093,44 @@ aside.sidebar.full-style {
     -webkit-transform: scale(1.1,1.1);
 }
 
+.hover{
+  opacity: 80%;  
+}
 .hover:hover{
+  opacity: 100%;
+  transform: translateY(4px);
     transform: scale(1.1,1.1);
     -ms-transform: scale(1.1,1.1);
     -webkit-transform: scale(1.1,1.1);
 }
 
-.active:active{
+.hover:active{
+    opacity: 100%;
   transform: translateY(4px);
+}
+
+.donateBtn{
+  background-color: #f4ca31f7;
+  border:'0px solid white'
+}
+.donateBtn:hover{
+  opacity: 70%;
+    background-color: #33b7a0;
+  transform: scale(1.1,1.1);
+  -ms-transform: scale(1.1,1.1);
+  -webkit-transform: scale(1.1,1.1);
+}
+
+.foundBtn{
+  border:'0px solid white';
+    background-color: #77c3e7;
+}
+.foundBtn:hover{
+  opacity: 70%;
+  background-color: #33b7a0;
+  transform: scale(1.1,1.1);
+  -ms-transform: scale(1.1,1.1);
+  -webkit-transform: scale(1.1,1.1);
 }
 
 @-webkit-keyframes fade {

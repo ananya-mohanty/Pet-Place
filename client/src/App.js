@@ -72,8 +72,6 @@ function App() {
           <Route exact path="/donations" render={() =>
             <div>
               <Navbar />
-             { window.localStorage.getItem('user_type') == 'ngo' ?
-              <NewDrive />:null}
               <DonationsPage />
               <Footer />
             </div>
@@ -88,7 +86,6 @@ function App() {
           <Route exact path="/lostpet" render={() =>
             <div>
               <Navbar />
-              <LostPet />
               <LostPetPage />
               <Footer />
             </div>
@@ -96,7 +93,6 @@ function App() {
           <Route exact path="/foundpet" render={() =>
             <div>
               <Navbar />
-              <FoundPet />
               <FoundPetPage />
               <Footer />
             </div>
