@@ -5,6 +5,7 @@ import {
     Modal, ModalBody, ModalHeader, Button, Row, Col
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
+var ipapi = require('ipapi.co');
 
 const mainStyle = {
     position: "relative",
@@ -62,7 +63,7 @@ export class NewPost extends Component {
         formData.append('user', window.localStorage.getItem('user'))
         formData.append('user_type', window.localStorage.getItem('user_type'))
         formData.append('breed', this.state.breed)
-
+        formData.append('location', JSON.stringify(this.props.location))
 
 
         for (let i = 0; i < this.state.numfiles; i++) {
