@@ -160,10 +160,10 @@ export class ChatPanel extends Component {
             <div style={{height: 45, marginBottom: 10, backgroundColor: 'white', display: 'flex', alignItems: 'center'}}>          
                 {this.state.type_user=='user' ? 
                 <a href={'http://localhost:5000/api/users/image/' + this.props.user1}>
-                    <img src={'api/users/image/' + this.user1} style={imageStyle}></img>
+                    <img src={'http://localhost:5000/api/users/image/' + this.props.user1} style={imageStyle}></img>
                 </a>
                 : <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.user1}>
-                <img src={'api/users/image/ngo/' + this.user1} style={imageStyle}></img>
+                <img src={'http://localhost:5000/api/users/image/ngo/' + this.props.user1} style={imageStyle}></img>
                 </a>
                 }
                 {console.log(this.state.name_user)}

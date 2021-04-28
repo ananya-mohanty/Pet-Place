@@ -100,7 +100,7 @@ class DisplayLostPet extends Component {
                 <CardBody style={{height:'100px', overflowY:'auto', overflowX:'hidden'}}>
                     <CardText style={{ color: '#77c3e7' }}>{this.props.lostpet.description}</CardText>
                 </CardBody>
-                <Link to={`/chat/${this.props.lostpet.user_id}`}></Link><Button className="foundBtn" onClick={this.onClick}>Found</Button>
+                <Link to={`/chat/${this.props.lostpet.user_id}`}><Button className="foundBtn" onClick={this.onClick}>Found</Button></Link>
                 {/* <Modal
                     style={{}}
                     isOpen={this.state.chatPanel}
