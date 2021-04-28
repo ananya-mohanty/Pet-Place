@@ -8,7 +8,6 @@ import {getMessages, addMessage} from '../actions/chatAction'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
 import history from '../history'
-import background from '../images/resources/chat_background.jpg'
 
 const imageStyle = {
     width: 50,
@@ -156,8 +155,8 @@ export class ChatPanel extends Component {
         return (
             // <div style={{overflow: 'hidden'}}>
             <div >
-                <div style={{ backgroundImage: `url(${background})`,}} overflow='hidden' /*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
-                    <div style={{ height: 80, marginBottom: 20, background: 'lightgray', display: 'flex', alignItems: 'center',border:'2px solid white'}}>
+                <div style={{ backgroundColor:'lightgray' }} overflow='hidden' /*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
+                    <div style={{ height: 80, marginBottom: 20, background: 'gray', display: 'flex', alignItems: 'center',border:'2px solid white'}}>
                 {this.state.type_user=='user' ? 
                 <a href={'http://localhost:5000/api/users/image/' + this.props.user1}>
                     <img src={'http://localhost:5000/api/users/image/' + this.props.user1} style={imageStyle}></img>
@@ -166,7 +165,7 @@ export class ChatPanel extends Component {
                 <img src={'http://localhost:5000/api/users/image/ngo/' + this.props.user1} style={imageStyle}></img>
                 </a>
                 }
-                <span style={{marginLeft: 15, fontSize:'20px'}}>{this.state.name_user}</span>
+                <span style={{marginLeft: 15, fontSize:'20px', color:'white'}}>{this.state.name_user}</span>
             </div>
             <MessageList
                 className='message-list'
@@ -181,7 +180,7 @@ export class ChatPanel extends Component {
                     
                 }}/>
                 
-                <div style={{marginTop: 700,background:'lightgray',position:'sticky', padding:'5px'}} ref={el => (this.scrollRef = el)}><form ref={el => (this.formRef = el)}>
+                <div style={{marginTop: 700,background:'gray',position:'sticky', padding:'5px'}} ref={el => (this.scrollRef = el)}><form ref={el => (this.formRef = el)}>
                 <InputGroup>
                     <Input defaultValue="" placeholder="Write something..." onChange={this.onChange}/>
                     <InputGroupAddon addonType="append" style={{backgroundColor: 'white'}}>
