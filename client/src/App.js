@@ -21,6 +21,7 @@ import ChatPage from './pages/ChatPage'
 import backgroud from './images/resources/background1.jpg'
 import { Nav } from 'reactstrap'
 import ChatPanel from './components/ChatPanel'
+import background from './images/resources/chat_background.jpg'
 
 
 function App() {
@@ -98,7 +99,7 @@ function App() {
             </div>
           }></Route>
           <Route exact path="/chat/:id" render={(props) =>
-            <div style={{ padding: '100px', marginTop: '20px', background:'linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%)' }}>
+            <div style={{ padding: '100px', marginTop: '20px', backgroundImage: `url(${background})`,  }}>
               <Navbar />
               <ChatPanel user1={props.match.params.id} />
             </div>

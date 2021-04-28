@@ -94,13 +94,12 @@ export class ChatPage extends Component {
             var avatar = `http://localhost:3000/api/users/image/ngo/${key}`
             axios.get(`api/users/isuser/${key}`)
                 .then(res => {
-                    console.log(res.data.flag)
                     if (res.data.flag)
                     {
                         avatar = `http://localhost:3000/api/users/image/${key}`
-                        console.log('user')
                     } 
                 }).catch(console.log('error'))
+            
             console.log(avatar)
             const alt = key
             const unread = 0
@@ -125,10 +124,11 @@ export class ChatPage extends Component {
             var avatar = `http://localhost:3000/api/users/image/ngo/${key}`
             axios.get(`/api/users/isuser/${key}`)
             .then(res=>{
-                console.log(res.data.flag)
-                if (res.data.flag) avatar = `http://localhost:3000/api/users/image/${key}`
+                if (res.data.flag) 
+                {
+                    avatar = `http://localhost:3000/api/users/image/${key}`
+                }
             })
-
             const alt = key
             const unread = 0
             console.log(avatar)
