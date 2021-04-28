@@ -8,6 +8,8 @@ const auth = require('../../middleware/auth');
 
 //User model
 const User = require('../../models/User');
+//Ngo model
+const Ngo = require('../../models/Ngo')
 
 //@route POST api/auth
 //@desc Authenticate user
@@ -64,9 +66,56 @@ router.get('/user', auth, (req, res) => {
     User.findById(req.user.id)
         .select('-password')
         .then(user => {
-            res.json(user)
-        });
-});
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'user': user, 'files': files })
+                }
+        })
+})});
+
+
+//@route GET api/auth/name/:id
+//@desc  Get user/user name
+//@access Public
+router.get('/name/:id', (req, res) => {
+    User.findById(req.params.id)
+        .then(user => {
+            // global.gfs.files.find().toArray(function (err, files) {
+            //     if (err) console.log(err);
+            //     else {
+            //         files.findById(user.profile_pic)
+            if(!user) {
+                console.log("printing ngo name")
+                
+                Ngo.findById(req.params.id).then(ngo => { 
+                    console.log(ngo.name) 
+                    return res.json({'name': ngo.name})
+                })
+            }
+            res.json({ 'name': user.name })
+                // }
+        // })
+})});
+
+
+//@route GET api/auth/
+//@desc  Get type of user
+//@access Public
+router.get('/:id', (req, res) => {
+    console.log("herejbib")
+    User.findById(req.params.id)
+        .then(user => {
+                    if(!user) {
+                        console.log('ngo')
+                        return res.json({type: 'ngo'})
+                    }
+                    else{
+                        console.log('user')
+                        return res.json({type: 'user'})
+                    }
+})});
 
 
 module.exports = router;

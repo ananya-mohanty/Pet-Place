@@ -5,6 +5,7 @@ import {
     Modal, ModalBody, ModalHeader, Button, Row, Col
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
+var ipapi = require('ipapi.co');
 
 const mainStyle = {
     position: "relative",
@@ -59,6 +60,10 @@ export class NewPost extends Component {
         const formData = new FormData();
         formData.append('description', this.state.description)
         formData.append('lastseen', this.state.lastseen)
+        formData.append('user', window.localStorage.getItem('user'))
+        formData.append('user_type', window.localStorage.getItem('user_type'))
+        formData.append('breed', this.state.breed)
+        formData.append('location', JSON.stringify(this.props.location))
 
 
         for (let i = 0; i < this.state.numfiles; i++) {
@@ -79,13 +84,12 @@ export class NewPost extends Component {
     }
     render() {
         return (
-            <div className='container' style={mainStyle}>
-                <Button onClick={this.toggle}>Found A Lost Pet?</Button>
-                <br></br><br></br>
+            <div >
+                <Button className="register" onClick={this.toggle}>Found A Lost Pet?</Button>
                 <Modal
                     isOpen={this.state.isOpen}
                     toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Lost Pet Information</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Found Pet Information</ModalHeader>
                     <ModalBody style={{
                         paddingTop: '20px',
                         paddingBottom: '0px',
@@ -94,6 +98,13 @@ export class NewPost extends Component {
                     }}>
                         <img src={profilepic} style={imageStyle}></img>
                         <form>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Animal Breed</label>
+                            <br></br>
+                            <input type="string" name='breed' id="breed" style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} onChange={this.onTextChange} />
+                            <br></br><br></br>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Found On</label>
                             <br></br>
                             <input type='date' name='lastseen' style={{

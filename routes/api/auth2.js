@@ -14,7 +14,7 @@ const Ngo = require('../../models/Ngo');
 //@access Public
 router.post('/', (req, res) => {
     const { email, password } = req.body;
-
+    console.log(email, password)
     //simple validation
     if (!email || !password) {
         return res.status(400).json({ msg: 'Please enter all fields' }); //bad request
@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
                             if (err) throw err;
                             res.json({
                                 token,
-                                ngo: {
+                                user: {
                                     id: ngo.id,
                                     name: ngo.name,
                                     email: ngo.email

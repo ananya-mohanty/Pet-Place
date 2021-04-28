@@ -32,6 +32,14 @@ const styleparent = {
     textAlign: 'center'
 }
 
+const imageStyle = {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    overflow: "hidden",
+    alignSelf: 'flex-start',
+    marginLeft: 15,
+}
 const stylechild = {
     height:'570px',
     width:'800px',
@@ -71,7 +79,6 @@ export class ChatPage extends Component {
         }],
         msg: ''
     }
-
     componentDidMount=()=>{
         this.props.getMessageList()
         const messageList=this.props.chat.messageList
@@ -84,12 +91,36 @@ export class ChatPage extends Component {
             else title = arr[arr.length - 1].receiver
             const { subtitle } = arr[arr.length - 1]
             var date = arr[arr.length - 1].updatedAt
-            var avatar = `url(${avatar_img})`
-            const alt = key
-            const unread = 0
-            this.state.chatSource.push({ title, subtitle, avatar,alt, unread , date})
+            var avatar = `http://localhost:3000/api/users/image/ngo/${key}`
+            axios.get(`api/users/isuser/${key}`)
+                .then(res => {
+                    // console.log(res.data.flag)
+                    if (res.data.flag)
+                    {
+                        // console.log("hvgggggggffffffffffffffffffffffff")
+                        avatar = `http://localhost:3000/api/users/image/${key}`
+                        // console.log('user')
+                    } 
+
+                    console.log(avatar)
+                    const alt = key
+                    const unread = 0
+                    this.state.chatSource.push({ title, subtitle, avatar,alt, unread , date})
+                }).catch(console.log('error'))
+            
         }
         this.state.chatSource.sort((m1, m2) => { return new Date(m2.date).getTime() - new Date(m1.date).getTime();})
+    }
+
+
+    async getflag(key){
+        const res = await axios(`/api/users/isuser/${key}`);
+        return await res.data.flag;
+        // axios.get(`/api/users/isuser/${key}`)
+        // .then(res=>{
+        //     console.log(res.data.flag)
+        //     if (res.data.flag) avatar = `http://localhost:3000/api/users/image/${key}`
+        // }).await(1000)
     }
 
     componentDidUpdate = () => {
@@ -105,10 +136,23 @@ export class ChatPage extends Component {
             else title = arr[arr.length - 1].receiver
             const { subtitle } = arr[arr.length - 1]
             var date = new Date(arr[arr.length - 1].updatedAt)
-            var avatar = `url(${avatar_img})`
+            var avatar = `http://localhost:3000/api/users/image/${key}`
+            // this.getflag(key).then(flag => {
+            //     console.log(flag)
+            //     if (flag) avatar = `http://localhost:3000/api/users/image/${key}`
+            //     console.log(avatar)
+            // })
+            // axios.get(`/api/users/isuser/${key}`)
+            // .then(res=>{
+            //     console.log(res.data.flag)
+            //     if (res.data.flag) avatar = `http://localhost:3000/api/users/image/${key}`
+            // }).await(1000)
+
             const alt = key
             const unread = 0
-            this.state.chatSource.push({ title, subtitle, avatar,alt, unread, date })
+            console.log(avatar)
+
+            this.state.chatSource.push({ title, subtitle, avatar, alt, unread, date })
         }
         this.state.chatSource.sort((m1, m2) => { return new Date(m2.date).getTime() - new Date(m1.date).getTime(); })
 
@@ -129,7 +173,12 @@ export class ChatPage extends Component {
             <Container style={{marginBottom: 650}}><Row><Col>
                     <div style={styleparent}>
                         <div style={stylechild}>
-                        <div style={{height: 45, width: '100%', position:'sticky', top: 0, padding: 10, backgroundColor: '#009ACD', color: 'white'}}>&nbsp; All chats</div>
+                        <div style={{ height: 80, width: '100%', position: 'sticky', top: 0, padding: 10, background: 'linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%)', color: 'white', fontSize:'20px' }}>
+                            {window.localStorage.getItem('user_type') == 'user' ? <a href={'http://localhost:5000/api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                                <img src={'api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                            </a> : <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                                <img src={'api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                            </a>}&nbsp;Fetch Messenger</div>
                             <ChatList
                             dataSource={this.state.chatSource} onClick={(e) => { window.location.href = `/chat/${e.alt}`}}/>
                         </div></div></Col>

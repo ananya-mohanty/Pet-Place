@@ -84,8 +84,8 @@ export class Navbar2 extends Component {
                         <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-home"></i></a></NavbarText>
                         <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-bell"></i></a></NavbarText>
                         <NavbarText style={{ marginRight: 30 }}><a href="/chats"><i class="ti-comment"></i></a></NavbarText>
-                        <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-user"></i></a></NavbarText>
-                        <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-power-off"></i></a></NavbarText>
+                        <NavbarText style={{ marginRight: 30 }}><a href="/profile"><i class="ti-user"></i></a></NavbarText>
+                        <NavbarText style={{ marginRight: 30 }}><a href="/logout"><i class="ti-power-off"></i></a></NavbarText>
                     </Collapse>
                 </Navbar>
             </div>

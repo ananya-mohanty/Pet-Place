@@ -13,6 +13,8 @@ var ipapi = require('ipapi.co');
 // //file upload
 var multer = require('multer');
 const User = require('../../models/User');
+const Ngo = require('../../models/Ngo');
+
 
 // var storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -45,7 +47,7 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
-router.get('/', auth, (req, res) => {
+router.get('/', (req, res) => {
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     }
@@ -67,7 +69,7 @@ router.get('/', auth, (req, res) => {
     });
 });
 
-router.post('/', auth, upload.array('files[]', 10), (req, res, next) => {
+router.post('/', upload.array('files[]', 10), (req, res, next) => {
     const time= Date.now()
     const today= new Date(time)
    console.log(req.body.user)
@@ -77,6 +79,7 @@ router.post('/', auth, upload.array('files[]', 10), (req, res, next) => {
         caption: req.body.caption,
         likes: 0,
         time: today,
+        user_type: req.body.user_type
     })
         
     req.files.forEach(function (fileobj) {
@@ -231,6 +234,52 @@ router.get('/like/:user/:id', (req, res) => {
         if(user.liked_posts.includes(req.params.id))
         res.json({'flag':true})
         else res.json({ 'flag': false})
+
+    })
+});
+router.post('/ngo/like/:user/:id', (req, res) => {
+    Ngo.findById(req.params.user, (err, user) => {
+        user.liked_posts.push(req.params.id)
+        user.save().then(
+            Post.findById(req.params.id, (err, item) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json("An error occured.");
+                }
+                else {
+                    item.likes++;
+                    item.save()
+                }
+            }
+            ))
+    })
+});
+router.post('/ngo/dislike/:user/:id', (req, res) => {
+    console.log('dislike')
+    Ngo.findById(req.params.user, (err, user) => {
+        user.liked_posts = user.liked_posts.filter(function (item) {
+            return item !== req.params.id
+        })
+        user.save().then(
+            Post.findById(req.params.id, (err, item) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json("An error occured.");
+                }
+                else {
+                    item.likes--;
+                    item.save()
+                }
+            }
+            ))
+    })
+});
+
+router.get('/ngo/like/:user/:id', (req, res) => {
+    Ngo.findById(req.params.user, (err, user) => {
+        if (user.liked_posts.includes(req.params.id))
+            res.json({ 'flag': true })
+        else res.json({ 'flag': false })
 
     })
 });

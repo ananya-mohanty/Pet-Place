@@ -29,6 +29,7 @@ export class NewPost extends Component {
         lastseen: null,
         filetype: [],
         isOpen: false,
+        breed:""
     }
     toggle = () => {
         this.setState({ isOpen: !this.state.isOpen })
@@ -60,6 +61,8 @@ export class NewPost extends Component {
         formData.append('description', this.state.description)
         formData.append('lastseen', this.state.lastseen)
         formData.append('user', window.localStorage.getItem('user'))
+        formData.append('user_type', window.localStorage.getItem('user_type'))
+        formData.append('breed', this.state.breed)
 
 
         for (let i = 0; i < this.state.numfiles; i++) {
@@ -81,9 +84,8 @@ export class NewPost extends Component {
     }
     render() {
         return (
-            <div className='container' style={mainStyle}>
-                <Button onClick={this.toggle}>Lost A Pet?</Button>
-                <br></br><br></br>
+            <div>
+                <Button className="register" onClick={this.toggle}>Lost A Pet?</Button>
                 <Modal
                     isOpen={this.state.isOpen}
                     toggle={this.toggle}>
@@ -96,6 +98,14 @@ export class NewPost extends Component {
                     }}>
                         <img src={profilepic} style={imageStyle}></img>
                         <form>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Animal Breed</label>
+                            <br></br>
+                            <input type="string" name='breed' id="breed" style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} onChange={this.onTextChange} />
+                            <br></br><br></br>
+
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Last Seen On</label>
                                     <br></br>
                                     <input type='date' name='lastseen' style={{
@@ -110,7 +120,7 @@ export class NewPost extends Component {
                                 rows="3" cols="20"
                                 name='description'
                                 onChange={this.onTextChange} />
-                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} />
+                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
 
                             <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
                                 {this.state.filesrc.map((src, idx) => {

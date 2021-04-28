@@ -7,7 +7,7 @@ import {
     Row,
     Col,
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle
+    CardTitle, CardSubtitle, ListGroup, ListGroupItem, CardHeader
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,7 @@ import white from '../images/white.png'
 // import WishModal from '../components/WishModal';
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
+import NewDrive from '../components/NewDrive';
 
 const mainStyle = {
     position: "relative",
@@ -45,7 +46,7 @@ const divStyle = {
 const containerStyle = {
     width: 1050, /* Can be in percentage also. */
     height: "auto",
-    margin: "0 auto",
+    marginTop: "30px",
     padding: 50,
     position: "relative",
     background: "white"
@@ -69,43 +70,46 @@ const spanStyle = {
     marginTop: "-1.5rem"
 }
 
+const dpStyle = {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    overflow: "hidden",
+    alignSelf: 'flex-start',
+}
+
 class DisplayDonation extends Component {
     render() {
        
         return (
             <div style={divStyle}>
-                {this.props.files.length == 1 ? <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
-                    <CardImg top width="50" src={'api/post/image/' + this.props.files[0].filename} />
-                </a>:
-                <AliceCarousel>
-                {this.props.files.map((f, i) => {
-                    return (
-                        <div>
-                            {
-                                <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                    <CardImg top width="50"  src={'api/post/image/' + f.filename} />
-                                </a>
-                            }
-                        </div>
-                        )})
-                    }
-                    </AliceCarousel>}
-                    <CardBody>
-                    <CardTitle tag="h5">{this.props.donation.name} <i class="fa fa-map-marker" title={`${this.props.donation.location.city}, ${this.props.donation.location.region}, ${this.props.donation.location.country_name}`}></i></CardTitle>
-                    <CardSubtitle className="mb-2 text-muted" tag="h5">
-                        {this.props.donation.targetAmount}</CardSubtitle>
-                    <CardSubtitle className="mb-2 text-muted">
-                        Starts On: {this.props.donation.startDate}</CardSubtitle>
-                    <CardSubtitle className="mb-2 text-muted">
-                        Ends On: {this.props.donation.endDate}</CardSubtitle>
-                    <CardText>{this.props.donation.description}</CardText>
+                <div style={{ display: 'flex' }}>
+                    <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.donation.user_id}>
+                        <img src={'api/users/image/ngo/' + this.props.donation.user_id} style={dpStyle}></img>
+                    </a>
+                    <div style={{ marginLeft: '5px', marginTop:'15px' }}>
+                        <a style={{}} href=""><h6>{this.props.donation.user_name}</h6></a>
+                    </div>
+                </div>
+                
+                <div style={{marginTop:'5px', marginBottom:'5px'}}>
+                
+               <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
+                        <CardImg top style={{ height: "200px", width: '200px', objectFit: 'cover' }} src={'api/post/image/' + this.props.files[0].filename} />
+                </a>
+                </div>
+                <CardTitle tag="h5">{this.props.donation.name}</CardTitle>
+                <CardSubtitle >
+                    Target Amount: {this.props.donation.targetAmount}<br></br>                
+                    Starts On: {this.props.donation.startDate}<br></br>
+                    Ends On: {this.props.donation.endDate}</CardSubtitle>
                     
+                    <CardText className="myColumn1" style={{ color:'#f4ca31f7',height:'100px', overflowY:'auto', overflowX:'hidden'}}>{this.props.donation.description}</CardText>
                     <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name="+ this.props.donation.name}>
-                    <Button>Donate</Button>
+                    <Button className="donateBtn">Donate</Button>
                     </a>
  
                     <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_H2oWQW41mxnLsz" async> </script> </form>
-                    </CardBody>
                 </div>
             // </div>
         )
@@ -140,7 +144,14 @@ export class DonationsPage extends Component {
         return (
             <div className='container' style={mainStyle}>
                 <div style={containerStyle}>
-                <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{float: "left", marginTop: 4}}></i><h5 style={{fontFamily:"muli"}}> &nbsp; &nbsp;Active Donation Drives</h5>
+                    <div >
+                        <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Active Donation Drives</h5>
+                        <div style={{ display: 'flex', float: 'right', marginTop:'-80px'}}>
+                            {window.localStorage.getItem('user_type') == 'ngo'? <NewDrive />:null}
+                        </div>
+                    </div>
+                    
+
                 <span style={spanStyle}>
                     {/* <Link to="/allitems" className='link'>All Toys </Link>| 
                     <Link to="/stuffedanimals" className='link'> Stuffed Animals </Link>| 

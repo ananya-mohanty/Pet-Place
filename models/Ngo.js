@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const {MessageSchema} = require('./Message')
 
 //create schema
 const NgoSchema = new Schema({
@@ -28,11 +29,23 @@ const NgoSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    verified: {
-        type: Boolean,
+    license: {
+        type: String,
         required: true,
-        default: false
-    }
+    },
+    profile_pic:{
+        type:String,
+        required:false
+    },
+    liked_posts:{
+        type:Array,
+        required:false
+    },
+    messages: {
+        type: Map,
+        of: [MessageSchema],
+        default: {}
+    },
 });
 
 module.exports = Ngo = mongoose.model('ngo', NgoSchema);

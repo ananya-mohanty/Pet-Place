@@ -4,3 +4,11 @@
 .navbar {
   font-family: cursive;
 }
+
+.myColumn1 {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.myColumn1::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}

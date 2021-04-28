@@ -41,6 +41,16 @@ const MessageSchema = new Schema({
         type: String,
         required: true,
         default: 'right'
+    },
+    files:
+    {
+        type: Array,
+        required: false
+    },
+    data: {
+        uri: {
+            type: String
+        }
     }
 }, {timestamps : true});
 

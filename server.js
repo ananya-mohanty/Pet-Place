@@ -9,7 +9,8 @@ const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const app = express();
-
+app.use(express.json());
+global.gfs;
 
 //DB config
 const db = config.get('mongoURI');
@@ -25,7 +26,7 @@ mongoose
     .then(() => console.log("Connected to database"))
     .catch(err => console.log(err));
 
-global.gfs;
+
 DB.once('open', () => {
     //init stream
     global.gfs = Grid(DB.db, mongoose.mongo);

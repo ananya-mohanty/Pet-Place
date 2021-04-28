@@ -96,6 +96,7 @@ export class FeedPost extends Component {
     showModal = () => {
         this.setState({ show: true });
       };
+      
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }

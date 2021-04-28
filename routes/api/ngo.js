@@ -3,18 +3,55 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const GridFsStorage = require('multer-gridfs-storage');
+const crypto = require('crypto');
+const path = require('path');
+
+
+var multer = require('multer');
+
+// var storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+const storage = new GridFsStorage({
+    url: config.get('mongoURI'),
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                //  const filename = file.originalname;
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const original = file.originalname;
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads',
+                    metadata: original
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+const upload = multer({ storage });
 
 //User model
 const Ngo = require('../../models/Ngo');
 //@desc Register new ngo
 //@access Public
-router.post('/', (req, res) => {
+router.post('/', upload.array('files[]', 10), (req, res) => {
     console.log('hiiii')
-    const { name, email, password, contact, address } = req.body;
-    console.log(name, email, password, contact, address)
+    const { name, email, password, contact, address, license } = req.body;
+    console.log(name, email, password, contact, address, license)
 
     //simple validation
-    if (!name || !email || !password|| !contact||!address) {
+    if (!name || !email || !password|| !contact||!address||!license) {
         return res.status(400).json({ msg: 'Please enter all fields' }); //bad request
 
     }
@@ -30,7 +67,8 @@ router.post('/', (req, res) => {
                 email,
                 password, 
                 contact, 
-                address
+                address, 
+                license
             });
 
             //create salt & hash
@@ -38,6 +76,7 @@ router.post('/', (req, res) => {
                 bcrypt.hash(newNgo.password, salt, (err, hash) => {
                     if (err) throw err;
                     newNgo.password = hash;
+                    newNgo.profile_pic = (req.files[0].filename);
                     newNgo.save()
                         .then(ngo => {
 
@@ -64,5 +103,6 @@ router.post('/', (req, res) => {
             })
         })
 });
+
 
 module.exports = router;

@@ -44,9 +44,11 @@ const upload = multer({ storage });
 
 //User model
 const User = require('../../models/User');
+const Ngo = require('../../models/Ngo');
 //@desc Register new user
 //@access Public
-router.post('/', (req, res) => {
+router.post('/', upload.array('files[]', 10), (req, res) => {
+    console.log(req.files)
     const { name, email, password } = req.body;
     
     //simple validation
@@ -72,6 +74,7 @@ router.post('/', (req, res) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
                     if (err) throw err;
                     newUser.password = hash;
+                    newUser.profile_pic=(req.files[0].filename);
                     newUser.save()
                         .then(user => {
 
@@ -96,5 +99,87 @@ router.post('/', (req, res) => {
             })
         })
 });
+
+router.get('/image/:user/', function (req, res) {
+    console.log('getting image')
+    User.findById(req.params.user, (err, user)=>{
+        if(user) {
+            global.gfs.files.findOne({filename:user.profile_pic}, function (err, file) {
+            
+                if (!file || file.length === 0) {
+                    return res.status(404).json({
+                        err: 'No file exists'
+                    })
+                }
+                //check if image
+                if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
+                    //read output to browser
+                    const readStream = gfs.createReadStream(file.filename);
+                    readStream.pipe(res);
+                } else {
+                    return res.status(404).json({
+                        err: 'Not an image'
+                    })
+                }
+            })
+        }
+        else {
+            Ngo.findById(req.params.user).then(ngo => {
+                global.gfs.files.findOne({filename:ngo.profile_pic}, function (err, file) {
+            
+                    if (!file || file.length === 0) {
+                        return res.status(404).json({
+                            err: 'No file exists'
+                        })
+                    }
+                    //check if image
+                    if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
+                        //read output to browser
+                        const readStream = gfs.createReadStream(file.filename);
+                        readStream.pipe(res);
+                    } else {
+                        return res.status(404).json({
+                            err: 'Not an image'
+                        })
+                    }
+                })
+            })
+        }
+        
+    })
+})
+
+router.get('/image/ngo/:user/', function (req, res) {
+    console.log('hi')
+    Ngo.findById(req.params.user, (err, user) => {
+        if(user==null) return
+        global.gfs.files.findOne({ filename: user.profile_pic }, function (err, file) {
+            if (!file || file.length === 0) {
+                return res.status(404).json({
+                    err: 'No file exists'
+                })
+            }
+            //check if image
+            if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
+                //read output to browser
+                const readStream = gfs.createReadStream(file.filename);
+                readStream.pipe(res);
+            } else {
+                return res.status(404).json({
+                    err: 'Not an image'
+                })
+            }
+        })
+    })
+})
+
+router.get('/isuser/:id', function (req, res) {
+    User.findById(req.params.id, (err, user) => {
+        if(user!=null)
+            res.json({flag:true})
+
+        else res.json({flag:false})
+    })
+})
 
 module.exports = router;

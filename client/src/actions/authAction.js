@@ -10,19 +10,22 @@ import {
 import history from '../history'
 
 
-export const register = ({ name, email, password }) => dispatch => {
+export const register = ({ name, email, password, files }) => dispatch => {
     const config = {
         headers: {
             'Content-type': 'application/json'
         }
     }
-    
-    const body = JSON.stringify({ name, email, password })
-    axios.post('/api/users', body, config)
+    const formData = new FormData();
+    formData.append('name',name)
+    formData.append('email', email)
+    formData.append('password', password)
+    formData.append('files[]', files[0])
+    axios.post('/api/users', formData, config)
         .then(res => {
             dispatch({
                 type: REGISTER_SUCCESS,
-                payload: res.data
+                payload: { ...res.data, 'user_type': 'user' }
             })
             history.push('/')
             history.go(0)
@@ -34,7 +37,7 @@ export const register = ({ name, email, password }) => dispatch => {
             })
         })
 }
-export const registerngo = ({ name, email, password, contact, address }) => dispatch => {
+export const registerngo = ({ name, email, password, contact, address, files, license }) => dispatch => {
     console.log(name, email, address)
     const config = {
         headers: {
@@ -42,12 +45,20 @@ export const registerngo = ({ name, email, password, contact, address }) => disp
         }
     }
 
-    const body = JSON.stringify({ name, email, password, contact, address })
-    axios.post('/api/ngoregister', body, config)
+    const formData = new FormData();
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('password', password)
+    formData.append('contact', contact)
+    formData.append('address', address)
+    formData.append('license', license)
+    formData.append('files[]', files[0])
+    
+    axios.post('/api/ngoregister', formData, config)
         .then(res => {
             dispatch({
                 type: REGISTER_SUCCESS,
-                payload: res.data
+                payload: { ...res.data, 'user_type': 'ngo' }
             })
             history.push('/')
             history.go(0)
@@ -72,9 +83,34 @@ export const login = ({ email, password }) => dispatch => {
         .then(res => {
             dispatch({
                 type: LOGIN_SUCCESS,
-                payload: res.data
+                payload: {...res.data, 'user_type':'user'}
             })
             
+            history.push('/')
+            history.go(0)
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type: LOGIN_FAIL
+            })
+        })
+}
+
+export const loginngo = ({ email, password }) => dispatch => {
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
+    const body = JSON.stringify({ email, password })
+    axios.post('/api/ngo', body, config)
+        .then(res => {
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: { ...res.data, 'user_type': 'ngo' }
+            })
+
             history.push('/')
             history.go(0)
         })
