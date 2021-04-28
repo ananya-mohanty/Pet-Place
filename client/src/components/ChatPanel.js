@@ -9,6 +9,14 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
 import history from '../history'
 
+const imageStyle = {
+    width: 30,
+    height: 30,
+    borderRadius: 25,
+    overflow: "hidden",
+    alignSelf: 'flex-start',
+    marginLeft: 15,
+}
 
 export class ChatPanel extends Component {
     
@@ -21,7 +29,9 @@ export class ChatPanel extends Component {
         ext: null,
         numfiles: 0,
         caption: '',
-        filetype: []
+        filetype: [],
+        name_user: '',
+        type_user: ''
     }
     
 
@@ -53,11 +63,24 @@ export class ChatPanel extends Component {
             const date = new Date(msg.updatedAt)
             this.state.msgList.push({position, type, text, date, data})
         })
+
+        axios.get(`/api/auth/name/${this.props.user1}`)
+        .then(res=> {
+            this.setState({name_user: res.data.name})
+        })
+
+        axios.get(`/api/auth/${this.props.user1}`)
+        .then(res=> {
+            this.setState({type_user: res.data.type})
+            console.log(res.data.type)
+        })
+
+        console.log(this.state.name_user)
         
     }
     
     componentDidUpdate = () => {
-        console.log('hello')
+        // console.log('hello')
         this.i++
         this.props.getMessages(this.props.user1)
         const userMessages = this.props.chat.userMessages
@@ -133,7 +156,19 @@ export class ChatPanel extends Component {
             // <div style={{overflow: 'hidden'}}>
             <div>
             <div style={{ backgroundColor: '#e5e4e2',}} overflow='hidden' /*style={{width: 420, height: 600, marginTop: -90, marginLeft: -50, marginRight: -100, backgroundColor:'white'}}*/>
-            <div style={{height: 20, marginBottom: 10, backgroundColor: 'white'}}></div>
+            
+            <div style={{height: 45, marginBottom: 10, backgroundColor: 'white', display: 'flex', alignItems: 'center'}}>          
+                {this.state.type_user=='user' ? 
+                <a href={'http://localhost:5000/api/users/image/' + this.props.user1}>
+                    <img src={'api/users/image/' + this.user1} style={imageStyle}></img>
+                </a>
+                : <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.user1}>
+                <img src={'api/users/image/ngo/' + this.user1} style={imageStyle}></img>
+                </a>
+                }
+                {console.log(this.state.name_user)}
+                <span style={{marginLeft: 15}}>{this.state.name_user}</span>
+            </div>
             <MessageList
                 className='message-list'
                 // downButtonBadge={10}

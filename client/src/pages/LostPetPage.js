@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import ChatPanel from '../components/ChatPanel';
+import {Link} from 'react-router-dom'
 
 const mainStyle = {
     position: "relative",
@@ -86,16 +87,16 @@ class LostPet extends Component {
                     <CardSubtitle className="mb-2 text-muted">
                         Last Seen: {this.props.lostpet.lastseen}</CardSubtitle>
                     <CardText>{this.props.lostpet.description}</CardText>
-                    <Button onClick={this.onClick}>Found?</Button>
+                    <Link to={`/chat/${this.props.lostpet.user_id}`}><Button onClick={this.onClick}>Found?</Button></Link>
                 </CardBody>
-                <Modal
+                {/* <Modal
                     style={{}}
                     isOpen={this.state.chatPanel}
                     toggle={this.toggle}>
                     <ModalBody>
                         <ChatPanel user1={this.props.lostpet.user_id} />
                     </ModalBody>
-                </Modal>
+                </Modal> */}
             </div>
             // </div>
         )
