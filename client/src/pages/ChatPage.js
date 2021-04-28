@@ -79,7 +79,6 @@ export class ChatPage extends Component {
         }],
         msg: ''
     }
-
     componentDidMount=()=>{
         this.props.getMessageList()
         const messageList=this.props.chat.messageList
@@ -92,10 +91,15 @@ export class ChatPage extends Component {
             else title = arr[arr.length - 1].receiver
             const { subtitle } = arr[arr.length - 1]
             var date = arr[arr.length - 1].updatedAt
-            const avatar = `http://localhost:3000/api/users/image/ngo/${key}`
+            var avatar = `http://localhost:3000/api/users/image/ngo/${key}`
             axios.get(`api/users/isuser/${key}`)
                 .then(res => {
-                    if (res.data.flag) avatar = `http://localhost:3000/api/users/image/${key}`
+                    console.log(res.data.flag)
+                    if (res.data.flag)
+                    {
+                        avatar = `http://localhost:3000/api/users/image/${key}`
+                        console.log('user')
+                    } 
                 }).catch(console.log('error'))
             console.log(avatar)
             const alt = key
@@ -118,14 +122,17 @@ export class ChatPage extends Component {
             else title = arr[arr.length - 1].receiver
             const { subtitle } = arr[arr.length - 1]
             var date = new Date(arr[arr.length - 1].updatedAt)
-            const avatar = `http://localhost:3000/api/users/image/ngo/${key}`
+            var avatar = `http://localhost:3000/api/users/image/ngo/${key}`
             axios.get(`/api/users/isuser/${key}`)
             .then(res=>{
+                console.log(res.data.flag)
                 if (res.data.flag) avatar = `http://localhost:3000/api/users/image/${key}`
             })
-            console.log(avatar)
+
             const alt = key
             const unread = 0
+            console.log(avatar)
+
             this.state.chatSource.push({ title, subtitle, avatar, alt, unread, date })
         }
         this.state.chatSource.sort((m1, m2) => { return new Date(m2.date).getTime() - new Date(m1.date).getTime(); })
