@@ -88,7 +88,7 @@ export class NewPost extends Component {
                 <Modal
                     isOpen={this.state.isOpen}
                     toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Lost Pet Information</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Found Pet Information</ModalHeader>
                     <ModalBody style={{
                         paddingTop: '20px',
                         paddingBottom: '0px',

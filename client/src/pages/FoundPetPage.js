@@ -101,7 +101,7 @@ class DisplayFoundPet extends Component {
                 <CardBody style={{ height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>
                     <CardText style={{ color: '#77c3e7' }}>{this.props.lostpet.description}</CardText>
                 </CardBody>
-                <Button className="foundBtn" onClick={this.onClick}>Found</Button>
+                <Button className="foundBtn" onClick={this.onClick}>Connect</Button>
 
             </div>
             // </div>
@@ -132,7 +132,7 @@ export class FoundPetPage extends Component {
         return (
             <div className='container' style={mainStyle}>
                 <div style={containerStyle}>
-                    <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Lost Pets Near Your Location</h5>
+                    <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Found Pets Near Your Location</h5>
                     <div style={{ display: 'flex', float: 'right', marginTop: '-80px' }}>
                         <FoundPet />
                     </div>
