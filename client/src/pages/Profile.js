@@ -99,6 +99,13 @@ export class Profile extends Component {
                                                 <h5>Pets Found</h5>
 
                                             </Row></a>
+                                            <br></br>
+                                            <a href={`/adoption/${this.state.user.user._id}`}> <Row className='hover' style={{ backgroundColor: '#77c3e7', borderRadius: '5px', height: '40px', color: 'white', alignItems: 'center', justifyContent: 'center' }}>
+
+                                                <h5>Adoption Applications</h5>
+
+                                            </Row></a>
+
                                         </ModalBody>
 
                                     </Modal>
