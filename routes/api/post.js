@@ -218,18 +218,25 @@ router.post('/apply/:user/:id', (req, res) => {
     const newAdopter = new Adopter({
         userID: req.params.user,
         postID: req.params.id,
-        description: req.body.description,
-        name: req.body.name,
-        marital_status: req.body.marital_status,
-        age: req.body.age,
-        sex: req.body.sex,
-        annualIncome: req.body.annualIncome,
-        address: req.body.address
+        description:req.body.formData.description,
+        name: req.body.formData.name,
+        marital_status:  req.body.formData.marital_status,
+        age:  req.body.formData.age,
+        sex:  req.body.formData.sex,
+        annualIncome:  req.body.formData.annualIncome,
+        address:  req.body.formData.address
+       
     });
+    console.log(req.body.formData);
+
     
     ipapi.location(callback)
     const time = Date.now()
-    const today = new Date(time) 
+    const today = new Date(time)
+
+   
+    console.log('hiiiiii bitch')
+   
 });
 
 router.post('/dislike/:user/:id', (req, res) => {
