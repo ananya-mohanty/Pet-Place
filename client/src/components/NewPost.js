@@ -97,7 +97,7 @@ export class NewPost extends Component {
                 <Row>
                     <Col>
                         <Jumbotron style={{
-                            paddingTop: '20px',
+                            paddingTop: '15px',
                             paddingBottom: '0px',
                             display: "flex",
                             backgroundColor: 'white'
@@ -111,7 +111,7 @@ export class NewPost extends Component {
                             <form>
                                 <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
                                     placeholder='write something'
-                                    rows="6" cols="20"
+                                    rows="2" cols="20"
                                     name='caption'
                                     onChange={this.onTextChange} />
                                 <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
