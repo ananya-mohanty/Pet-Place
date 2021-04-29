@@ -196,24 +196,18 @@ export class FeedPost extends Component {
         e.preventDefault()
         const formData = new FormData();
         console.log(this.state.name)
-        formData.append('name', this.state.name)
-        formData.append('age', this.state.age)
-        formData.append('marital_status', this.state.marital_status)
-        formData.append('location', this.state.location)
-        formData.append('description', this.state.description)
-        formData.append('sex', this.state.sex)
-        formData.append('annualIncome', this.state.annualIncome)
-        formData.append('address', this.state.address)
+        formData.name = this.state.name;
+        formData.age = this.state.age;
+        formData.marital_status = this.state.marital_status;
+        formData.sex = this.state.sex;
+        formData.annualIncome = this.state.annualIncome;
+        formData.address = this.state.address;
 
-        console.log('backend issues')
-        axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-        setTimeout(function () {
-            window.location.reload()
-        }, 2000)
+        console.log(formData)
+       
+        axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, {formData}
+        );
+       
     }
 
 
@@ -228,84 +222,7 @@ export class FeedPost extends Component {
                 alignItems: "center",
                 // marginRight: -35
                 }}>
-                    <Modal
-                    style={{}}
-                    isOpen={this.state.adoptForm}
-                    toggle={this.toggle}>
-                         <ModalHeader toggle={this.toggle}>Start a Donation Drive</ModalHeader>
-                    <ModalBody style={{
-                        paddingTop: '20px',
-                        paddingBottom: '0px',
-                        display: "flex",
-                        backgroundColor: 'white'}}>
-                        <img src={profilepic} style={imageStyle}></img>
-                        <form>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Applicant</label>
-                            <br></br>
-                            <input type='string' name='name' style={{
-                                marginLeft: '15px', position: 'relative',
-                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='Name of the Applicant' onChange={this.onTextChange}></input>
-
-                            <br></br><br></br>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Age</label>
-                            <br></br>
-                            <input type='string' name='age' style={{
-                                marginLeft: '15px', position: 'relative',
-                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='Age' onChange={this.onTextChange}></input>
-
-                             <br></br><br></br>
-
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Sex</label>
-                            <br></br>
-                            <input type='string' name='sex' style={{
-                                marginLeft: '15px', position: 'relative',
-                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='Male/Female/Other' onChange={this.onTextChange}></input>
-                            
-                            <br></br><br></br>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Marital Status</label>
-                            <br></br>
-                            <input type='string' name='marital_status' style={{
-                                marginLeft: '15px', position: 'relative',
-                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='Married/Unmarried' onChange={this.onTextChange}></input>
-                            <br></br><br></br>
-                     
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Annual Income</label>
-                            <br></br>
-                            <input type='string' name='annualIncome' style={{
-                                marginLeft: '15px', position: 'relative',
-                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='In INR' onChange={this.onTextChange}></input>
-                            <br></br><br></br>
-                            
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Permanent Address</label>
-                            <br></br>
-                            <input type='string' name='Address' style={{
-                                marginLeft: '15px', position: 'relative',
-                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='Place of Residence' onChange={this.onTextChange}></input>
-                            <br></br><br></br>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Reason for Adoption</label>
-                            <br></br>
-                            <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
-                                placeholder='Tell us why you want to go ahead with this adoption...'
-                                rows="3" cols="20"
-                                name='description'
-                                onChange={this.onTextChange} />
-                            <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} />
-
-                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
-                                
-            
-                                <br></br>
-                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Submit Application</button>
-                            </div>
-                        </form>
-                    </ModalBody>
-                </Modal>
+                    
                 
                 <Row>
                     <Col>
@@ -392,7 +309,86 @@ export class FeedPost extends Component {
                         </Jumbotron>
                     </Col>
                 </Row>
+                <Modal
+                    style={{}}
+                    isOpen={this.state.adoptForm}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.onApply}>Start a Donation Drive</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '0px',
+                        display: "flex",
+                        backgroundColor: 'white'}}>
+                        <img src={profilepic} style={imageStyle}></img>
+                        <form>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Applicant</label>
+                            <br></br>
+                            <input type='string' name='name' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Name of the Applicant' onChange={this.onTextChange}></input>
+
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Age</label>
+                            <br></br>
+                            <input type='string' name='age' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Age' onChange={this.onTextChange}></input>
+
+                             <br></br><br></br>
+
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Sex</label>
+                            <br></br>
+                            <input type='string' name='sex' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Male/Female/Other' onChange={this.onTextChange}></input>
+                            
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Marital Status</label>
+                            <br></br>
+                            <input type='string' name='marital_status' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Married/Unmarried' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                     
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Annual Income</label>
+                            <br></br>
+                            <input type='number' name='annualIncome' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='In INR' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                            
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Permanent Address</label>
+                            <br></br>
+                            <input type='string' name='Address' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Place of Residence' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Reason for Adoption</label>
+                            <br></br>
+                            <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
+                                placeholder='Tell us why you want to go ahead with this adoption...'
+                                rows="3" cols="20"
+                                name='description'
+                                onChange={this.onTextChange} />
+                            
+                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                
+            
+                                <br></br>
+                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Submit Application</button>
+                            </div>
+                        </form>
+                    </ModalBody>
+                </Modal>
             </Container>
+
+            
             
         )
         
