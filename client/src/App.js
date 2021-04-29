@@ -22,7 +22,7 @@ import backgroud from './images/resources/background1.jpg'
 import { Nav } from 'reactstrap'
 import  ChatPanel  from './components/ChatPanel'
 import AdoptPet from './components/Adopt'
-
+// import NewDonation from './components/NewDonation'
 import background from './images/resources/chat_background.jpg'
 import Profile from './pages/Profile'
 import MyFeed  from './pages/MyFeed'
@@ -102,6 +102,7 @@ function App() {
           <Route exact path="/donations" render={() =>
             <div>
               <Navbar />
+              {/* <NewDonation /> */}
               <DonationsPage />
               <Footer />
             </div>

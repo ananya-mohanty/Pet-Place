@@ -28,8 +28,9 @@ const PostSchema = mongoose.Schema({
         default: 0
     },
     applicants: {
-        type: Array,
-        required: false
+        type: Number,
+        required: true,
+        default: 0
     },
     time:{
         type: String,
