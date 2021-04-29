@@ -342,7 +342,7 @@ export class FeedPost extends Component {
                                         <div>
                                             {f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg' ?
                                                 <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                                    <img src={'../api/post/image/' + f.filename}></img>
+                                                    <img style={{ width: '700px', height: '400px',objectFit:'cover'}} src={'../api/post/image/' + f.filename}></img>
                                                 </a> :
                                                 f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm' ?
                                                     <video width="700px" controls><source src={'api/post/video/' + f.filename} /></video> :
