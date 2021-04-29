@@ -81,7 +81,8 @@ export class ChatPage extends Component {
     }
     componentDidMount=()=>{
         this.props.getMessageList()
-        const messageList=this.props.chat.messageList
+        const messageList=this.props.chat.messageList.msgs
+        const unread_messages = this.props.chat.messageList.unread_messages
         this.state.chatSource = []
         for (var key in messageList) {
             const arr = messageList[key]
@@ -104,7 +105,7 @@ export class ChatPage extends Component {
 
                     console.log(avatar)
                     const alt = key
-                    const unread = 0
+                    const unread = unread_messages[key]
                     this.state.chatSource.push({ title, subtitle, avatar,alt, unread , date})
                 }).catch(console.log('error'))
             
@@ -125,7 +126,8 @@ export class ChatPage extends Component {
 
     componentDidUpdate = () => {
         this.props.getMessageList()
-        const messageList = this.props.chat.messageList
+        const messageList = this.props.chat.messageList.msgs
+        const unread_messages = this.props.chat.messageList.unread_messages
         this.state.chatSource=[]
         for(var key in messageList)
         {
@@ -149,7 +151,7 @@ export class ChatPage extends Component {
             // }).await(1000)
 
             const alt = key
-            const unread = 0
+            const unread = unread_messages[key]
             console.log(avatar)
 
             this.state.chatSource.push({ title, subtitle, avatar, alt, unread, date })

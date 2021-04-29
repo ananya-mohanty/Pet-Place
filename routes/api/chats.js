@@ -124,7 +124,12 @@ router.get('/:id/:id2', (req, res) => {
                     {
                         msgs = ngo.messages.get(req.params.id2);
                     }
-                    
+
+                    if(ngo.unread_messages.has(req.params.id2))
+                    {
+                        ngo.unread_messages.set(req.params.id2, 0)
+                        ngo.save()
+                    }
                     return res.json(msgs)
                 })
             }
@@ -132,6 +137,11 @@ router.get('/:id/:id2', (req, res) => {
             if(user.messages.has(req.params.id2))
             {
                 msgs = user.messages.get(req.params.id2);
+            }
+            if(user.unread_messages.has(req.params.id2))
+            {
+                user.unread_messages.set(req.params.id2, 0)
+                user.save()
             }
             
             res.json(msgs)
@@ -149,11 +159,13 @@ router.get('/:id', (req, res)=>{
                 Ngo.findById(req.params.id)
                 .then(ngo => {
                     var msgs = ngo.messages
-                    return res.json(msgs)
+                    var unread_messages = ngo.unread_messages
+                    return res.json({msgs: msgs, unread_messages: unread_messages})
                 })
             }
             var msgs = user.messages
-            res.json(msgs)
+            var unread_messages = user.unread_messages
+            res.json({msgs: msgs, unread_messages: unread_messages})
         });
 })
 
@@ -241,6 +253,15 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                         if (uservar2.messages.has(req.params.id)) {
                             temp = uservar2.messages.get(req.params.id)
                         }
+                        if(uservar2.unread_messages.has(req.params.id)){
+                        var op = uservar2.unread_messages[req.params.id]
+                        // console.log("printing value")
+                        uservar2.unread_messages.set(req.params.id, uservar2.unread_messages.get(req.params.id) + 1)
+                        // console.log(uservar2.unread_messages)
+                        }
+                        else {
+                        uservar2.unread_messages.set(req.params.id, 1)
+                        }
                         temp.push(newMessage2)
                         uservar2.messages.set(req.params.id, temp)
                         // console.log(user2.messages)
@@ -252,11 +273,11 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                     else {
                         Ngo.findById(req.params.id2).then(ngo2 => {
                             uservar2 = ngo2
-                            console.log("girts")
-                            console.log(uservar2)
+                            // console.log("girts")
+                            // console.log(uservar2)
                             const { text, position, type, uri } = req.body
-                            console.log("printing uservar2")
-                            console.log(uservar2)
+                            // console.log("printing uservar2")
+                            // console.log(uservar2)
                             var urivar = null
                             var typevar = type
                             if(type=='photo'){
@@ -319,6 +340,15 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
 
                             if (uservar2.messages.has(req.params.id)) {
                                 temp = uservar2.messages.get(req.params.id)
+                            }
+                            if(uservar2.unread_messages.has(req.params.id))
+                            {
+                                var op = uservar2.unread_messages[req.params.id]
+                                console.log(op+1)
+                                uservar2.unread_messages.set(req.params.id, op + 1)
+                            }
+                            else {
+                            uservar2.unread_messages.set(req.params.id, 1)
                             }
                             temp.push(newMessage2)
                             uservar2.messages.set(req.params.id, temp)
