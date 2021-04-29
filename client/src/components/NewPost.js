@@ -97,7 +97,7 @@ export class NewPost extends Component {
                 <Row>
                     <Col>
                         <Jumbotron style={{
-                            paddingTop: '20px',
+                            paddingTop: '15px',
                             paddingBottom: '0px',
                             display: "flex",
                             backgroundColor: 'white'

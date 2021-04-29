@@ -49,7 +49,9 @@ export class FeedPost extends Component {
         data:[],
         time:'just now',
         likes:0,
+        applicants:0,
         liked:false,
+        applied:false,
         show:false,
         adoptForm:false,
         name:'',
@@ -192,6 +194,11 @@ export class FeedPost extends Component {
 
     onSubmit = (e) => {
         e.preventDefault()
+        var l
+        if (!this.state.applied)
+            l = this.state.applicants + 1
+
+    
         console.log(this.state)
         const formData = new FormData();
         console.log(this.state.name)
@@ -206,6 +213,7 @@ export class FeedPost extends Component {
        
         axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, {formData}
         );
+        this.onApply()
        
     }
 
@@ -300,7 +308,7 @@ export class FeedPost extends Component {
                                         }}>
                                             <button onClick={this.onApply} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
                                                 <i class="fa fa-user"></i>
-                                            </button><span>0</span>
+                                            </button><span>{this.state.applicants}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -312,7 +320,7 @@ export class FeedPost extends Component {
                     style={{}}
                     isOpen={this.state.adoptForm}
                     toggle={this.toggle}>
-                         <ModalHeader toggle={this.onApply}>Start a Donation Drive</ModalHeader>
+                         <ModalHeader toggle={this.onApply}>Submit Application</ModalHeader>
                     <ModalBody style={{
                         paddingTop: '20px',
                         paddingBottom: '0px',

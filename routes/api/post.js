@@ -213,6 +213,18 @@ router.post('/apply/:user/:id', (req, res) => {
     var callback = function (resp) {
         newAdopter.location = resp
         newAdopter.save().then(adopter => res.json(adopter));
+
+        Post.findById(req.params.id, (err, item) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json("An error occured.");
+            }
+            else {
+                item.applicants++;
+                item.save()
+            }
+        }
+        )
     };
     
     const newAdopter = new Adopter({
@@ -233,9 +245,6 @@ router.post('/apply/:user/:id', (req, res) => {
     ipapi.location(callback)
     const time = Date.now()
     const today = new Date(time)
-
-   
-    console.log('hiiiiii bitch')
    
 });
 
