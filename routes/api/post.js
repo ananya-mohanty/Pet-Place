@@ -209,7 +209,7 @@ router.get('/apply', auth, (req, res) => {
 
 
 router.post('/apply/:user/:id', (req, res) => {
-
+    console.log(req.body)
     var callback = function (resp) {
         newAdopter.location = resp
         newAdopter.save().then(adopter => res.json(adopter));

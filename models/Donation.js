@@ -29,7 +29,7 @@ const DonationSchema = new Schema({
     },
     category: {
         type: String,
-        required: true
+        required: false
     },
     location: {
         type: Object,

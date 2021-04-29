@@ -62,8 +62,6 @@ export class FeedPost extends Component {
         address:'',
         annualIncome:0,
         description:''
-
-       
     }
     // this.showModal = this.showModal.bind(this);
     componentDidMount=()=>{
@@ -201,6 +199,7 @@ export class FeedPost extends Component {
             l = this.state.applicants + 1
 
     
+        console.log(this.state)
         const formData = new FormData();
         console.log(this.state.name)
         formData.name = this.state.name;

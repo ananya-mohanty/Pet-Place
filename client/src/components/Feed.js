@@ -210,7 +210,7 @@ export class Feed extends Component {
     render() {
         return (
             <Container style={{ justifyContent: 'center', alignItems: 'center', marginLeft: '90px',  }}><Row>
-                <Col className="myColumn1" style={{ marginRight: -20, marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX: 'auto',  }}xs={'auto'}/*style={{width: 30}}*/>
+                <Col className="myColumn1" style={{ marginBottom: 90, marginRight: -20, marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX: 'auto',  }}xs={'auto'}/*style={{width: 30}}*/>
                     <div style={{/*marginLeft: -135, *//* marginLeft: -80*/ }}>
                         {/* <div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div> */}
                         {
@@ -226,7 +226,7 @@ export class Feed extends Component {
                             })
                         }
                     </div></Col>
-                <Col xs={'auto'}><div /*style={{marginLeft: -90}}*/>
+                <Col xs={'auto'} className="myColumn1" style={{marginBottom: 90, marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX:'auto', position:''}}><div /*style={{marginLeft: -90}}*/>
                     <NewPost />
                     {this.state.posts.map((post, i) => {
                         var files = this.state.files.filter((f) => post.files.includes(f._id))
@@ -239,7 +239,7 @@ export class Feed extends Component {
                     })}
                 </div>
                 </Col>
-                <Col className="myColumn1" style={{ marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX:'auto', position:''}}xs={'auto'}>
+                <Col className="myColumn1" style={{ marginBottom: 90, marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX:'auto', position:''}}xs={'auto'}>
                     <div style={{  }}>
                         {/* <div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div> */}
                         {

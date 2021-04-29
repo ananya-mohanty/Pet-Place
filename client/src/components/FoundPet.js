@@ -147,10 +147,10 @@ export class NewPost extends Component {
                                     )
                                 })}
                                 <br></br>
-                                <label for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
+                                <label className='hover' for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
 
 
-                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
+                                    <button className='hover active' style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
                             </div>
                         </form>
                     </ModalBody>
