@@ -39,6 +39,10 @@ const UserSchema = new Schema({
     profile_pic:{
         type:String,
         required:false
+    },
+    num_unread_messages: {
+        type: Number,
+        default: 0
     }
 });
 
