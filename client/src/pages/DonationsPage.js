@@ -6,6 +6,10 @@ import {
     Container,
     Row,
     Col,
+    Modal,
+    ModalBody,
+    ModalBodyProps,
+    ModalHeader,
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, ListGroup, ListGroupItem, CardHeader
 } from 'reactstrap';
@@ -16,6 +20,7 @@ import white from '../images/white.png'
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import NewDrive from '../components/NewDrive';
+
 
 const mainStyle = {
     position: "relative",
@@ -80,9 +85,98 @@ const dpStyle = {
 }
 
 class DisplayDonation extends Component {
+    state ={
+        makeDonation: false
+    }
+    onClick = (e) => {
+        this.setState({ makeDonation: !this.state.makeDonation })
+    }
+    onTextChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+    onSubmit = (e) => {
+        e.preventDefault()
+        
+
+    
+        const formData = new FormData();
+        console.log(this.state.name)
+        formData.name = this.state.name;
+        formData.contactNo = this.state.contactNo;
+        formData.emailID = this.state.emailID;
+        formData.amount = this.state.amount;
+        formData.cause = this.props.donation.description;
+        formData.donation = this.props.donation.name;
+
+        // formData.annualIncome = this.state.annualIncome;
+        // formData.address = this.state.address;
+
+        console.log(formData)
+        axios.post(`/api/donate/${JSON.parse(window.localStorage.getItem('user')).id}/`, {formData}
+        );
+        window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name +  `&cause=` + this.props.donation.description + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID;
+        // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
+       
+    }
     render() {
        
         return (
+            <Container>
+                 <Modal
+                    style={{}}
+                    isOpen={this.state.makeDonation}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.onClick}>Make a Donation</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '0px',
+                        display: "flex",
+                        backgroundColor: 'white'}}>
+                        {/* <img src={profilepic} style={imageStyle}></img> */}
+                        <form>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Donor</label>
+                            <br></br>
+                            <input type='string' name='name' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Name of the Donor' onChange={this.onTextChange}></input>
+
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Amount</label>
+                            <br></br>
+                            <input type='number' name='amount' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='(in INR)' onChange={this.onTextChange}></input>
+
+                             <br></br><br></br>
+
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Email ID</label>
+                            <br></br>
+                            <input type='email' name='emailID' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='xyz@abc.com' onChange={this.onTextChange}></input>
+                            
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Contact Number</label>
+                            <br></br>
+                            <input type='number' name='contactNo' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='10 digits' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                     
+                            
+                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} > 
+                                
+            
+                                <br></br>
+                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Donate</button>
+                            </div>
+                        </form>
+                    </ModalBody>
+                </Modal>
             <div style={divStyle}>
                 <div style={{ display: 'flex' }}>
                     <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.donation.user_id}>
@@ -106,13 +200,16 @@ class DisplayDonation extends Component {
                     Ends On: {this.props.donation.endDate}</CardSubtitle>
                     
                     <CardText className="myColumn1" style={{ color:'#f4ca31f7',height:'100px', overflowY:'auto', overflowX:'hidden'}}>{this.props.donation.description}</CardText>
-                    <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name="+ this.props.donation.name}>
-                    <Button className="donateBtn">Donate</Button>
-                    </a>
+                    
+                    {/* <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name="+ this.props.donation.name}> */}
+   {/* <Button className="foundBtn" onClick={this.onClick}>Connect</Button> */}
+                    <Button  onClick={this.onClick} className="donateBtn">Donate</Button>
+                    {/* </a> */}
  
                     <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_H2oWQW41mxnLsz" async> </script> </form>
                 </div>
-            // </div>
+                </Container>
+           
         )
         
     }

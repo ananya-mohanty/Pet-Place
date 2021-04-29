@@ -85,7 +85,7 @@ export class NewPost extends Component {
                 </Modal> }
             {this.state.upload ? <div style={{marginTop: 100}}>{console.log("hello to you too")}hello</div>/*<FlashMessage duration={5000}><strong style={{color: 'green'}}>Uploading post</strong></FlashMessage> : null */}
             <Container style={{
-                marginTop: '40px',
+                marginTop: '-49px',
                 paddingBottom: '10px',
                 paddingTop: '50px',
                 display: "flex",
@@ -146,7 +146,7 @@ export class NewPost extends Component {
                                     <label for="doc" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-file" /></label>&nbsp;&nbsp;
                                     {!this.state.upload ? 
                                     <button className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#f4ca31f7', borderRadius:'5px' }} type="submit" onClick={this.onSubmit}>Post</button>
-                                    : <button className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#FFD700', borderRadius:'5px' }} type="submit">Posting</button>}
+                                    : <button disabled={true} className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#FFD700', borderRadius:'5px' }} type="submit">Posting</button>}
                                 </div>
                             </form>
                         </Jumbotron>
