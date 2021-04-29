@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "express-ip": "^1.0.4",
     "fs": "0.0.1-security",
+    "geo-nearby": "^2.0.1",
     "gridfs-stream": "^1.1.1",
     "ipapi.co": "^0.3.0",
     "jsonwebtoken": "^8.5.1",

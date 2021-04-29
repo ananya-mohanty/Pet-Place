@@ -61,7 +61,9 @@ export class FeedPost extends Component {
         location:'',
         address:'',
         annualIncome:0,
-        description:''
+        description:'',
+        owner:'',
+        ownerID:''
     }
     // this.showModal = this.showModal.bind(this);
     componentDidMount=()=>{
@@ -208,7 +210,10 @@ export class FeedPost extends Component {
         formData.sex = this.state.sex;
         formData.annualIncome = this.state.annualIncome;
         formData.address = this.state.address;
+        formData.owner = this.props.post.user_name;
+        formData.ownerID = this.props.post.user_id;
 
+        formData.description = this.state.description;
         console.log(formData)
        
         axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, {formData}
@@ -378,12 +383,13 @@ export class FeedPost extends Component {
                             <br></br><br></br>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Reason for Adoption</label>
                             <br></br>
+                           
                             <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
                                 placeholder='Tell us why you want to go ahead with this adoption...'
                                 rows="3" cols="20"
                                 name='description'
                                 onChange={this.onTextChange} />
-                            
+                            {/* </input> */}
                             <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
                                 
             

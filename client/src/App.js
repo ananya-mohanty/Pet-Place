@@ -29,6 +29,8 @@ import MyFeed  from './pages/MyFeed'
 import { MyDonationsPage } from './pages/MyDonationsPage'
 import { MyLostPetPage } from './pages/MyLostPets'
 import { MyFoundPetPage } from './pages/MyFoundPets'
+import ApplicationPage from './pages/ApplicationPage'
+import { AdoptionRequest } from './pages/AdoptionRequestPage'
 
 
 function App() {
@@ -66,7 +68,21 @@ function App() {
           <Route exact path="/post/:id" render={(props) =>
             <div>
               <Navbar />
-              <MyFeed user_id={props.match.params.id} />
+              <MyFeed userID={props.match.params.id} />
+              <Footer />
+            </div>
+          }></Route>
+          <Route exact path="/adoption/:id" render={(props) =>
+            <div>
+              <Navbar />
+              <ApplicationPage user_id={props.match.params.id} />
+              <Footer />
+            </div>
+          }></Route>
+          <Route exact path="/adoption/request/:id" render={(props) =>
+            <div>
+              <Navbar />
+              <AdoptionRequest user_id={props.match.params.id} />
               <Footer />
             </div>
           }></Route>

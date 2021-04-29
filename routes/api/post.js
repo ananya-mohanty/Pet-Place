@@ -236,11 +236,15 @@ router.post('/apply/:user/:id', (req, res) => {
         age:  req.body.formData.age,
         sex:  req.body.formData.sex,
         annualIncome:  req.body.formData.annualIncome,
-        address:  req.body.formData.address
+        address:  req.body.formData.address,
+        owner: req.body.formData.owner,
+        ownerID: req.body.formData.ownerID
+
+
        
     });
     console.log(req.body.formData);
-
+    console.log(req.body.formData.description +'hi');
     
     ipapi.location(callback)
     const time = Date.now()

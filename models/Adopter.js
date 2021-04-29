@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AdopterSchema = new Schema({
+    owner:{
+        type: String
+    },
+    ownerID:{
+        type: String
+    },
     userID: {
         type: String,
         required: true
@@ -33,6 +39,7 @@ const AdopterSchema = new Schema({
     },
     description: {
         type: String,
+        required:true
     },
     status:{
         type: String,
