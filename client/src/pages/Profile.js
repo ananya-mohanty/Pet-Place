@@ -105,6 +105,12 @@ export class Profile extends Component {
                                                 <h5>Adoption Applications</h5>
 
                                             </Row></a>
+                                            <br></br>
+                                            <a href={`/request/${this.state.user.user._id}`}> <Row className='hover' style={{ backgroundColor: '#77c3e7', borderRadius: '5px', height: '40px', color: 'white', alignItems: 'center', justifyContent: 'center' }}>
+
+                                                <h5> Applications to You</h5>
+
+                                            </Row></a>
 
                                         </ModalBody>
 

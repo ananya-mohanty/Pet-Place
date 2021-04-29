@@ -65,6 +65,7 @@ app.use('/api/post', require('./routes/api/post'));
 app.use('/api/lostpet', require('./routes/api/lostpet'));
 app.use('/api/messages', require('./routes/api/chats'));
 app.use('/api/adoption', require('./routes/api/adoption'));
+app.use('/api/request', require('./routes/api/request'));
 
 app.use(express.json());
 
