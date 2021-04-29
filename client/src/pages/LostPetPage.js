@@ -15,6 +15,8 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import ChatPanel from '../components/ChatPanel';
 import {Link} from 'react-router-dom'
 import LostPet from'../components/LostPet'
+var ipapi = require('ipapi.co');
+const Geo = require('geo-nearby');
 
 const mainStyle = {
     position: "relative",
@@ -121,17 +123,88 @@ export class LostPetPage extends Component {
     state = {
         LostPets: [],
         files: [],
+        location: {},
+        radius: 100000,
+        LostPetsInitial: []
     }
 
 
 
     componentDidMount() {
-        axios.get('api/lostpet/')
+
+        ipapi.location(loc => {
+            this.setState({location: loc})
+            // console.log(this.state.location)
+        })
+        axios.get('api/lostpet')
             .then((res) => {
+                this.setState({ LostPetsInitial: res.data.items, files: res.data.files })
+                // console.log(this.state.LostPetsInitial)
+                const data = []
+                var i=0
+                while(i<this.state.LostPetsInitial.length) {
+                    data.push([this.state.LostPetsInitial[i].location.latitude, this.state.LostPetsInitial[i].location.longitude, this.state.LostPetsInitial[i]._id])
+                    i++
+                }
+                
+                const dataSet = Geo.createCompactSet(data);
+                const geo = new Geo(dataSet, { sorted: true });
+                // console.log(geo)
+                // console.log(this.state.radius)
+                var p = geo.nearBy(this.state.location.latitude, this.state.location.longitude, this.state.radius);
+                console.log(p)
 
-                this.setState({ LostPets: res.data.items, files: res.data.files })
-
+                var temp = []
+                var ind = 0
+                while(ind<p.length) {
+                    // console.log(p[ind].i)
+                    temp.push(this.state.LostPetsInitial.find(x => x._id == p[ind].i))
+                    ind++
+                }
+                
+                this.setState({LostPets: temp})
+                console.log(this.state.LostPets)
             });
+
+    }
+
+    handleChange = (e) => {
+        console.log(e.target.value)
+        var y = parseInt(e.target.value)*1000
+        if(y == 0) {
+            // console.log("idhr")
+            this.setState({LostPets: this.state.LostPetsInitial})
+            return
+        }
+        if(this.state.LostPetsInitial.length == 0)
+        return
+        // console.log(this.state.LostPetsInitial)
+        const data = []
+        var i=0
+        while(i<this.state.LostPetsInitial.length) {
+            data.push([this.state.LostPetsInitial[i].location.latitude, this.state.LostPetsInitial[i].location.longitude, this.state.LostPetsInitial[i]._id])
+            i++
+        }
+        // console.log(this.state.LostPetsInitial)
+            // console.log(data)    
+        const dataSet = Geo.createCompactSet(data);
+        const geo = new Geo(dataSet, { sorted: true });
+        // console.log(geo)
+        // console.log(this.state.radius)
+        var p = geo.nearBy(this.state.location.latitude, this.state.location.longitude, y);
+        // console.log(p)
+
+        var temp = []
+        var ind = 0
+        while(ind<p.length) {
+                    //console.log(p[ind].i)
+            temp.push(this.state.LostPetsInitial.find(x => x._id == p[ind].i))
+            ind++
+        }
+
+        this.setState({LostPets: temp})
+        // this.LostPets = temp
+        // console.log(this.LostPets)
 
     }
 
@@ -141,9 +214,19 @@ export class LostPetPage extends Component {
             <Container>
                 <div className='container' style={mainStyle}>
                     <div style={{ height: "auto", margin: "0 auto", padding: 50, position: "relative", background: "white", }}>
-                        <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Lost Pets Near Your Location</h5>
+                    <Row><Col>
+                    <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Lost Pets Near Your Location</h5>
+                    </Col><Col><select onChange={this.handleChange} style={{marginLeft: -60}}>
+                        <option value="5"> Within 5 km radius</option>
+                        <option value="10">Within 10 km radius</option>
+                        <option value="50">Within 50 km radius</option>
+                        <option value="100">Within 100 km radius</option>
+                        <option value="500">Within 500 km radius</option>
+                        <option selected="selected" value="1000">Within 1000 km radius</option>
+                        <option value="0">More than 1000 km radius</option>
+                    </select></Col></Row>
                         <div style={{ display: 'flex', float: 'right', marginTop: '-80px' }}>
-                            <LostPet />
+                            <LostPet location={this.state.location}/>
                         </div>
                         <span style={spanStyle}>
                             {/* <Link to="/allitems" className='link'>All Toys </Link>| 

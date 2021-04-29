@@ -65,10 +65,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', upload.array('files[]', 10), (req, res, next) => {
-    var callback = function (resp) {
-        post.location = resp
-        post.save().then(p => res.json(p));
-    };
+    // var callback = function (resp) {
+    //     post.location = resp
+    //     post.save().then(p => res.json(p));
+    // };
     const time = Date.now()
     const today = new Date(time)
     var post = new LostPet({
@@ -78,13 +78,15 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
         user_id:JSON.parse(req.body.user).id,
         user_name:JSON.parse(req.body.user).name,
         user_type:req.body.user_type,
-        breed: req.body.breed
+        breed: req.body.breed,
+        location: JSON.parse(req.body.location)
     })
 
     req.files.forEach(function (fileobj) {
         post.files.push(fileobj.id);
     })
-    ipapi.location(callback)
+    // ipapi.location(callback)
+    post.save().then(p => res.json(p))
 
 });
 
