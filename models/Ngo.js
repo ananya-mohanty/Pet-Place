@@ -68,6 +68,10 @@ const NgoSchema = new Schema({
         type: Map,
         of: Number,
         default: {}
+    },
+    num_unread_messages: {
+        type: Number,
+        default: 0
     }
 });
 

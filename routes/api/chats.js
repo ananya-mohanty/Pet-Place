@@ -112,11 +112,13 @@ router.get('/document/:filename', function (req, res) {
 
 //get number of unread messages of user 
 router.get('/unread/:id', (req, res) => {
+    console.log(req.params.id)
     User.findById(req.params.id)
         .then(user => {
             if(!user) {
                 Ngo.findById(req.params.id)
                     .then(ngo => {
+                        console.log(ngo.num_unread_messages)
                         return res.json(ngo.num_unread_messages)
                     })
             }
