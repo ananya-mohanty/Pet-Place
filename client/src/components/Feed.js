@@ -96,7 +96,7 @@ class LostPet extends Component {
                         <img src={'api/users/image/' + this.props.lostpet.user_id} style={dpStyle}></img>
                     </a>}
                     <div style={{ marginLeft: '5px', marginTop: '5px' }}>
-                        <a style={{}} href=""><h6>{this.props.lostpet.user_name}</h6></a>
+                        <a className='linkhover' href={`/profile/${this.props.lostpet.user_type}/${this.props.lostpet.user_id}`}><h6>{this.props.lostpet.user_name}</h6></a>
                     </div>
                 </div>
                 <div style={{ marginTop: '5px' }} >
@@ -136,7 +136,7 @@ class DisplayDonation extends Component {
                         <img src={'api/users/image/ngo/' + this.props.donation.user_id} style={dpStyle}></img>
                     </a>
                     <div style={{ marginLeft: '5px', marginTop: '5px' }}>
-                        <a style={{}} href=""><h6>{this.props.donation.user_name}</h6></a>
+                        <a className='linkhover' href={`/profile/ngo/${this.props.donation.user_id}`}><h6>{this.props.donation.user_name}</h6></a>
                     </div>
                 </div>
 
