@@ -211,8 +211,8 @@ export class FeedPost extends Component {
 
         console.log(formData)
        
-        // axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, {formData}
-        // );
+        axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, {formData}
+        );
        
     }
 
@@ -319,7 +319,7 @@ export class FeedPost extends Component {
                     style={{}}
                     isOpen={this.state.adoptForm}
                     toggle={this.toggle}>
-                         <ModalHeader toggle={this.onApply}>Start a Donation Drive</ModalHeader>
+                         <ModalHeader toggle={this.onApply}>Submit Application</ModalHeader>
                     <ModalBody style={{
                         paddingTop: '20px',
                         paddingBottom: '0px',

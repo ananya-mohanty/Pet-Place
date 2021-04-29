@@ -35,6 +35,11 @@ const AdopterSchema = new Schema({
     },
     description: {
         type: String,
+    },
+    status:{
+        type: String,
+        required: true,
+        default: 'Pending'
     }
 
 });

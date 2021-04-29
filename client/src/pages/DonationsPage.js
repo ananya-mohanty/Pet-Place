@@ -206,7 +206,7 @@ class DisplayDonation extends Component {
                     <Button  onClick={this.onClick} className="donateBtn">Donate</Button>
                     {/* </a> */}
  
-                    <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_H2oWQW41mxnLsz" async> </script> </form>
+                   
                 </div>
                 </Container>
            
