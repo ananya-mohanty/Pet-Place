@@ -254,7 +254,7 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                             temp = uservar2.messages.get(req.params.id)
                         }
                         if(uservar2.unread_messages.has(req.params.id)){
-                        var op = uservar2.unread_messages[req.params.id]
+                        // var op = uservar2.unread_messages[req.params.id]
                         // console.log("printing value")
                         uservar2.unread_messages.set(req.params.id, uservar2.unread_messages.get(req.params.id) + 1)
                         // console.log(uservar2.unread_messages)
@@ -343,9 +343,7 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                             }
                             if(uservar2.unread_messages.has(req.params.id))
                             {
-                                var op = uservar2.unread_messages[req.params.id]
-                                console.log(op+1)
-                                uservar2.unread_messages.set(req.params.id, op + 1)
+                                uservar2.unread_messages.set(req.params.id, uservar2.unread_messages.get(req.params.id) + 1)
                             }
                             else {
                             uservar2.unread_messages.set(req.params.id, 1)
