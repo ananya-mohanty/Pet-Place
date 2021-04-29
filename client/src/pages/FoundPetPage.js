@@ -149,7 +149,7 @@ export class FoundPetPage extends Component {
                 // console.log(geo)
                 // console.log(this.state.radius)
                 var p = geo.nearBy(this.state.location.latitude, this.state.location.longitude, this.state.radius);
-                // console.log(p)
+                console.log(p)
 
                 var temp = []
                 var ind = 0
@@ -158,8 +158,9 @@ export class FoundPetPage extends Component {
                     temp.push(this.state.LostPetsInitial.find(x => x._id == p[ind].i))
                     ind++
                 }
-
+                
                 this.setState({LostPets: temp})
+                console.log(this.state.LostPets)
             });
             
         
