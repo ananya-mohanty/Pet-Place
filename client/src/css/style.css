@@ -10121,6 +10121,24 @@ aside.sidebar.full-style {
   -webkit-transform: scale(1.1,1.1);
 }
 
+.deleteBtn{
+  background-color:#ed6b75 ;
+  border:'0px solid white'
+}
+.deleteBtn:hover{
+    background-color: #ca212a;
+  transform: scale(1.1,1.1);
+  -ms-transform: scale(1.1,1.1);
+  -webkit-transform: scale(1.1,1.1);
+}
+
+.linkhover:hover{
+  color: #088dcd;
+  transform: scale(1.1,1.1);
+  -ms-transform: scale(1.1,1.1);
+  -webkit-transform: scale(1.1,1.1);
+}
+
 .foundBtn{
   border:'0px solid white';
     background-color: #77c3e7;

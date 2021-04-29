@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap'
 import PropTypes from 'prop-types'
-
+import FlashMessage from 'react-flash-message'
 import { connect } from 'react-redux'
 import { login, loginngo } from '../actions/authAction'
 
@@ -26,7 +26,7 @@ const centerStyle = {
 export class Login extends Component {
     state = {
         userform: false, ngoform: false, showform: false,
-        password: null, email: null,
+        password: null, email: null, flag: 0
     }
 
 
@@ -38,14 +38,31 @@ export class Login extends Component {
         e.preventDefault()
         const { email, password } = this.state
         // console.log(username, email, password)
+        if(!email || !password) {
+            this.setState({flag:1})
+            return
+        }
         this.props.login({ email, password })
+        setTimeout(
+            () => this.setState({ flag: 2 }), 
+            2000
+          )
+      
     }
 
     ngoLogin = (e) => {
         e.preventDefault()
         const { email, password } = this.state
         // console.log(username, email, password)
+        if(!email || !password) {
+            this.setState({flag:1})
+            return
+        }
         this.props.loginngo({ email, password })
+        setTimeout(
+            () => this.setState({ flag: 2 }), 
+            1000
+          )
     }
 
     render() {
@@ -76,6 +93,8 @@ export class Login extends Component {
                             : null}
                         {this.state.userForm ? <div style={divStyle}>
                             <Form onSubmit={this.onSubmit}>
+                                {this.state.flag==1? <FlashMessage duration={5000}><strong style={{color: 'red'}}>Please fill all fields</strong></FlashMessage> : null}
+                                {this.state.flag==2? <FlashMessage duration={5000}><strong style={{color: 'red'}}>Login failed</strong></FlashMessage> : null}
                                 <FormGroup>
                                     <Label for="email">Email</Label>
                                     <Input onChange={this.onChange} style={InputStyle} type="email" name="email" id="email" placeholder="jdoe@gmail.com" />
@@ -90,6 +109,8 @@ export class Login extends Component {
                             </Form>
                         </div> : this.state.ngoForm ? <div style={divStyle}>
                             <Form  style={{padding:'10px'}}onSubmit={this.onSubmit} >
+                                {this.state.flag==1? <FlashMessage duration={5000}><strong style={{color: 'red'}}>Please fill all fields</strong></FlashMessage> : null}
+                                {this.state.flag==2? <FlashMessage duration={5000}><strong style={{color: 'red'}}>Login failed</strong></FlashMessage> : null}
                                 <Row>
                                         <FormGroup>
                                             <Label for="email">Email</Label>

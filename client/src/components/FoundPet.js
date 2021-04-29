@@ -96,8 +96,9 @@ export class NewPost extends Component {
                         display: "flex",
                         backgroundColor: 'white'
                     }}>
-                        <img src={profilepic} style={imageStyle}></img>
-                        <form>
+                        <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                            <img src={'api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                        </a>                         <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Animal Breed</label>
                             <br></br>
                             <input type="string" name='breed' id="breed" style={{

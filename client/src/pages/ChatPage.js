@@ -25,9 +25,9 @@ import  ChatPanel  from '../components/ChatPanel';
 
 const styleparent = {
     // marginLeft:'180px',
-    overflow: 'hidden',
+    // overflow: 'hidden',
     position: 'absolute',
-    height: 570,
+    height: 500,
     width:'100%',
     textAlign: 'center'
 }
@@ -41,7 +41,7 @@ const imageStyle = {
     marginLeft: 15,
 }
 const stylechild = {
-    height:'570px',
+    height:'500px',
     width:'800px',
     backgroundColor: '#e5e4e2',
     overflow: 'scroll',
@@ -172,8 +172,8 @@ export class ChatPage extends Component {
         return (
             <Container style={{marginBottom: 650}}><Row><Col>
                     <div style={styleparent}>
-                        <div style={stylechild}>
-                        <div style={{ height: 80, width: '100%', position: 'sticky', top: 0, padding: 10, background: 'linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%)', color: 'white', fontSize:'20px' }}>
+                        <div style={stylechild} className="myColumn1">
+                        <div style={{ height: 80, width: '100%', position: 'sticky', top: 0, padding: 10, background: 'linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%)', color: 'white', fontSize:'20px', zIndex: 10 }}>
                             {window.localStorage.getItem('user_type') == 'user' ? <a href={'http://localhost:5000/api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id}>
                                 <img src={'api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
                             </a> : <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>

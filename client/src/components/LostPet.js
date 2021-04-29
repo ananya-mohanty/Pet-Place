@@ -63,6 +63,7 @@ export class NewPost extends Component {
         formData.append('user', window.localStorage.getItem('user'))
         formData.append('user_type', window.localStorage.getItem('user_type'))
         formData.append('breed', this.state.breed)
+        formData.append('location', JSON.stringify(this.props.location))
 
 
         for (let i = 0; i < this.state.numfiles; i++) {
@@ -96,7 +97,9 @@ export class NewPost extends Component {
                         display: "flex",
                         backgroundColor: 'white'
                     }}>
-                        <img src={profilepic} style={imageStyle}></img>
+                        <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                            <img src={'api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                        </a>
                         <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Animal Breed</label>
                             <br></br>

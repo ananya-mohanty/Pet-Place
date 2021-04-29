@@ -69,6 +69,34 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
+    Post.find({user_id:req.params.id}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
+router.delete('/:id', function (req, res) {
+    Post.findByIdAndRemove(req.params.id, function (err, out) {
+        if (err) console.log(err)
+        else res.json(out)
+    })
+})
+
 router.post('/', upload.array('files[]', 10), (req, res, next) => {
     const time= Date.now()
     const today= new Date(time)
@@ -255,7 +283,6 @@ router.post('/ngo/like/:user/:id', (req, res) => {
     })
 });
 router.post('/ngo/dislike/:user/:id', (req, res) => {
-    console.log('dislike')
     Ngo.findById(req.params.user, (err, user) => {
         user.liked_posts = user.liked_posts.filter(function (item) {
             return item !== req.params.id

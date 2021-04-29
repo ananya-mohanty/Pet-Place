@@ -8,6 +8,7 @@ import {
     Jumbotron, Modal, ModalHeader
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
+import FlashMessage from 'react-flash-message'
 
 const imageStyle = {
     width: 200,
@@ -77,11 +78,12 @@ export class NewPost extends Component {
     render() {
         return (
             <div>
-                <Modal isOpen={this.state.upload}>
+                { /*<Modal isOpen={this.state.upload}>
                     <ModalHeader style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                         Uploading Post...
                     </ModalHeader>
-                </Modal>
+                </Modal> }
+            {this.state.upload ? <div style={{marginTop: 100}}>{console.log("hello to you too")}hello</div>/*<FlashMessage duration={5000}><strong style={{color: 'green'}}>Uploading post</strong></FlashMessage> : null */}
             <Container style={{
                 marginTop: '40px',
                 paddingBottom: '10px',
@@ -142,7 +144,9 @@ export class NewPost extends Component {
                                         <label for="img" className='hover' style={{fontSize:'20px'}}><i class="fa fa-image" /></label>&nbsp;&nbsp;
                                     <label for="vid" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-video-camera" /></label>&nbsp;&nbsp;
                                     <label for="doc" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-file" /></label>&nbsp;&nbsp;
+                                    {!this.state.upload ? 
                                     <button className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#f4ca31f7', borderRadius:'5px' }} type="submit" onClick={this.onSubmit}>Post</button>
+                                    : <button className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#FFD700', borderRadius:'5px' }} type="submit">Posting</button>}
                                 </div>
                             </form>
                         </Jumbotron>

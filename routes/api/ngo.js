@@ -47,11 +47,11 @@ const Ngo = require('../../models/Ngo');
 //@access Public
 router.post('/', upload.array('files[]', 10), (req, res) => {
     console.log('hiiii')
-    const { name, email, password, contact, address, license } = req.body;
-    console.log(name, email, password, contact, address, license)
-
+    const { name, email, password, contact, hno, street, city, state, pincode, license } = req.body;
+    console.log(name, email, password, contact, license, hno, street, city, state, pincode,)
+    
     //simple validation
-    if (!name || !email || !password|| !contact||!address||!license) {
+    if (!name || !email || !password|| !contact||!license) {
         return res.status(400).json({ msg: 'Please enter all fields' }); //bad request
 
     }
@@ -67,8 +67,9 @@ router.post('/', upload.array('files[]', 10), (req, res) => {
                 email,
                 password, 
                 contact, 
-                address, 
-                license
+                license,
+                hno, 
+                street, city, pincode, state
             });
 
             //create salt & hash

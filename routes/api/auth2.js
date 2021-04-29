@@ -57,16 +57,18 @@ router.post('/', (req, res) => {
 //@route GET api/ngo
 //@desc  Get ngo data
 //@access Public
-router.get('/', (req, res) => {
-    // Ngo.findById(req.user.id)
-    //     .select('-password')
-    //     .then(user => {
-    //         res.json(user)
-    //     }); 
-    Ngo.find()
+router.get('/user/:id', auth, (req, res) => {
+    console.log('hello')
+    Ngo.findById(req.params.id)
         .select('-password')
-        .then(ngos => res.json(ngos))
+        .then(user => {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    res.json({ 'user': user, 'files': files })
+                }
+            })
+        })
 });
-
 
 module.exports = router;

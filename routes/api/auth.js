@@ -62,14 +62,13 @@ router.post('/', (req, res) => {
 //@route GET api/auth/user
 //@desc  Get user data
 //@access Private
-router.get('/user', auth, (req, res) => {
-    User.findById(req.user.id)
+router.get('/user/:id', auth, (req, res) => {
+    User.findById(req.params.id)
         .select('-password')
         .then(user => {
             global.gfs.files.find().toArray(function (err, files) {
                 if (err) console.log(err);
                 else {
-                    items.sort(custom_sort)
                     res.json({ 'user': user, 'files': files })
                 }
         })

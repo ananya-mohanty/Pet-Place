@@ -38,7 +38,8 @@ export const register = ({ name, email, password, files }) => dispatch => {
         })
 }
 export const registerngo = ({ name, email, password, contact, address, files, license }) => dispatch => {
-    console.log(name, email, address)
+    console.log(name, email)
+    const { hno, street, city, state, pincode}=address
     const config = {
         headers: {
             'Content-type': 'application/json'
@@ -50,7 +51,13 @@ export const registerngo = ({ name, email, password, contact, address, files, li
     formData.append('email', email)
     formData.append('password', password)
     formData.append('contact', contact)
-    formData.append('address', address)
+    formData.append('hno', hno)
+    formData.append('street', street)
+
+    formData.append('city', city)
+    formData.append('state', state)
+    formData.append('pincode', pincode)
+
     formData.append('license', license)
     formData.append('files[]', files[0])
     
@@ -64,6 +71,7 @@ export const registerngo = ({ name, email, password, contact, address, files, li
             history.go(0)
         })
         .catch(err => {
+            console.log(err)
             dispatch({
                 type: REGISTER_FAIL
             })
