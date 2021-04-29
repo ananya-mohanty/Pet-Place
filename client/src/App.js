@@ -7,7 +7,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import { BrowserRouter as Router, Route, useParams } from 'react-router-dom'
 import { NewPost } from './components/NewPost';
-import { Feed } from './components/Feed';
+import  Feed  from './components/Feed';
 import { DonationsPage } from './pages/DonationsPage'
 import { NgosPage } from './pages/NgosPage'
 import NewDrive from './components/NewDrive'

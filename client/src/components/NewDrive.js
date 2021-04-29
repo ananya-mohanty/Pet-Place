@@ -61,7 +61,6 @@ export class NewPost extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData();
-        formData.append('category', this.state.category)
         formData.append('name', this.state.name)
         formData.append('targetAmount', this.state.targetAmount)
         formData.append('endDate', this.state.endDate)
@@ -110,13 +109,13 @@ export class NewPost extends Component {
                                 marginLeft: '15px', position: 'relative',
                                 zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
                             }} placeholder='Pet Donation Drive' onChange={this.onTextChange}></input>
-                            <br></br><br></br>
+                            {/* <br></br><br></br>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Category</label>
                             <br></br>
                             <input type='string' name='category' style={{
                                 marginLeft: '15px', position: 'relative',
                                 zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} placeholder='Monetary' onChange={this.onTextChange}></input>
+                            }} placeholder='Monetary' onChange={this.onTextChange}></input> */}
                             <br></br><br></br>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Target Amount</label>
                             <br></br>
@@ -178,7 +177,7 @@ export class NewPost extends Component {
                                     )
                                 })}
                                 <br></br>
-                                <label for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
+                                <label className="hover" for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
                                     <button  className="hover active" style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
                             </div>
                         </form>
