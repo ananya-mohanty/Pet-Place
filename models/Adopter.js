@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const AdopterSchema = new Schema({
     userID: {
-
         type: String,
         required: true
     },
@@ -29,7 +28,6 @@ const AdopterSchema = new Schema({
         type: String,
         required: true
     },
-   
     location: {
         type: Object
     },

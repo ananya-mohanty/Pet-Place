@@ -213,6 +213,7 @@ export class FeedPost extends Component {
        
         axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, {formData}
         );
+        this.onApply()
        
     }
 

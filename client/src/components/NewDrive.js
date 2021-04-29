@@ -100,9 +100,11 @@ export class NewPost extends Component {
                         paddingBottom: '0px',
                         display: "flex",
                         backgroundColor: 'white'}}>
-                        <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                        {window.localStorage.getItem('user_type') == 'user' ? <a href={'http://localhost:5000/api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                            <img src={'api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                        </a> : <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
                             <img src={'api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
-                        </a>                        <form>
+                        </a>}                      <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Drive</label>
                             <br></br>
                             <input type='string' name='name' style={{

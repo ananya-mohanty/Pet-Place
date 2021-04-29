@@ -13,9 +13,8 @@ const mainStyle = {
     paddingLeft: '3rem'
 }
 const imageStyle = {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 100,
+    borderRadius: 50,
     alignSelf: 'flex-start',
 }
 
@@ -97,9 +96,11 @@ export class NewPost extends Component {
                         display: "flex",
                         backgroundColor: 'white'
                     }}>
-                        <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                        {window.localStorage.getItem('user_type') == 'user' ? <a href={'http://localhost:5000/api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id}>
+                            <img src={'api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
+                        </a> : <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
                             <img src={'api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
-                        </a>
+                        </a>}
                         <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Animal Breed</label>
                             <br></br>
