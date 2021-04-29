@@ -209,7 +209,7 @@ router.get('/apply', auth, (req, res) => {
 
 
 router.post('/apply/:user/:id', (req, res) => {
-
+    console.log(req.body)
     var callback = function (resp) {
         newAdopter.location = resp
         newAdopter.save().then(adopter => res.json(adopter));
@@ -226,15 +226,10 @@ router.post('/apply/:user/:id', (req, res) => {
         annualIncome: req.body.annualIncome,
         address: req.body.address
     });
-
     
     ipapi.location(callback)
     const time = Date.now()
-    const today = new Date(time)
-
-   
-    console.log('hiiiiii bit')
-   
+    const today = new Date(time) 
 });
 
 router.post('/dislike/:user/:id', (req, res) => {

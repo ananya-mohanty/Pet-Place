@@ -60,8 +60,6 @@ export class FeedPost extends Component {
         address:'',
         annualIncome:0,
         description:''
-
-       
     }
     // this.showModal = this.showModal.bind(this);
     componentDidMount=()=>{
@@ -194,8 +192,8 @@ export class FeedPost extends Component {
 
     onSubmit = (e) => {
         e.preventDefault()
+        console.log(this.state)
         const formData = new FormData();
-        console.log(this.state.name)
         formData.append('name', this.state.name)
         formData.append('age', this.state.age)
         formData.append('marital_status', this.state.marital_status)
@@ -204,16 +202,18 @@ export class FeedPost extends Component {
         formData.append('sex', this.state.sex)
         formData.append('annualIncome', this.state.annualIncome)
         formData.append('address', this.state.address)
-
+        
         console.log('backend issues')
-        axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, formData, {
+        axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, {formData}, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        setTimeout(function () {
-            window.location.reload()
-        }, 2000)
+
+        // this.onApply()
+        // setTimeout(function () {
+        //     window.location.reload()
+        // }, 2000)
     }
 
 
@@ -231,8 +231,8 @@ export class FeedPost extends Component {
                     <Modal
                     style={{}}
                     isOpen={this.state.adoptForm}
-                    toggle={this.toggle}>
-                         <ModalHeader toggle={this.toggle}>Start a Donation Drive</ModalHeader>
+                    toggle={this.onApply}>
+                         <ModalHeader>Start a Donation Drive</ModalHeader>
                     <ModalBody style={{
                         paddingTop: '20px',
                         paddingBottom: '0px',

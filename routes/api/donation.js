@@ -105,7 +105,6 @@ router.post('/', upload.array('files[]', 10),  (req, res, next) => {
         user_id:req.body.user_id,
         name: req.body.name,
         targetAmount: req.body.targetAmount,
-        category: req.body.category,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
         description: req.body.description
