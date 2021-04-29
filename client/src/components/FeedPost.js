@@ -336,7 +336,8 @@ export class FeedPost extends Component {
                             </div>
                             
                             <br></br>
-                            <AliceCarousel style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            { this.props.files.length>0 ?
+                            <AliceCarousel disableButtonsControls={true} mouseTracking={true} controlsStrategy='responsive' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 {this.props.files.map((f, i) => {
                                     return (
                                         <div>
@@ -356,7 +357,8 @@ export class FeedPost extends Component {
                                     )
                                 })}
                             </AliceCarousel>
-                            <div style={{ paddingLeft: '10px', paddingRight: '10px', marginTop: '-15px' }}>
+                            : null }
+                            <div style={{ paddingLeft: '10px', paddingRight: '10px', marginTop: '15px' }}>
                                 <p>
                                     {this.props.post.caption}
                                 </p>

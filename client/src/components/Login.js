@@ -45,7 +45,7 @@ export class Login extends Component {
         this.props.login({ email, password })
         setTimeout(
             () => this.setState({ flag: 2 }), 
-            1000
+            2000
           )
       
     }

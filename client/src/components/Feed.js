@@ -12,6 +12,7 @@ import {
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import ChatPanel from '../components/ChatPanel';
+import {Link} from 'react-router-dom'
 
 
 const mainStyle = {
@@ -109,16 +110,16 @@ class LostPet extends Component {
                         <CardSubtitle>Location: {this.props.lostpet.location.city}</CardSubtitle>
                         <CardSubtitle>Last Seen: {this.props.lostpet.lastseen}</CardSubtitle>
                     </CardText>
-                    <Button className='foundBtn' onClick={this.onClick} size='sm'>Found</Button>
+                    <Link to={`/chat/${this.props.lostpet.user_id}`}><Button className='foundBtn' onClick={this.onClick} size='sm'>Found</Button></Link>
                 </CardBody>
-                <Modal
+                {/* <Modal
                     style={{ float: 'right' }}
                     isOpen={this.state.chatPanel}
                     toggle={this.toggle}>
                     <ModalBody>
                         <ChatPanel user1={this.props.lostpet.user_id} />
                     </ModalBody>
-                </Modal>
+                </Modal> */}
             </div>
             // </div>
         )
