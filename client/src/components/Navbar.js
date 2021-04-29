@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import {
     Collapse,
     Navbar,
@@ -17,7 +17,7 @@ import {
 import logo from '../images/logo_fetch.jpeg'
 import '../App.css'
 import { Link } from 'react-router-dom';
-
+import { connect, PromiseState } from 'react-refetch'
 
 
 export class Navbar2 extends Component {
@@ -83,7 +83,11 @@ export class Navbar2 extends Component {
 
                         <NavbarText style={{ marginRight: 30 }}><a href="/"><i class="ti-home"></i></a></NavbarText>
                         <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-bell"></i></a></NavbarText>
-                        <NavbarText style={{ marginRight: 30 }}><a href="/chats"><i class="ti-comment"></i></a></NavbarText>
+                        <NavbarText style={{ marginRight: 30 }}><a href="/chats"><i class="ti-comment"></i>
+                            {this.props.unread_messages.value>0 ? 
+                            <span style={{marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%'}}>&nbsp;{this.props.unread_messages.value}&nbsp;</span>
+                            :null}
+                            </a></NavbarText>
                         <NavbarText style={{ marginRight: 30 }}><a href="/profile"><i class="ti-user"></i></a></NavbarText>
                         <NavbarText style={{ marginRight: 30 }}><a href="/logout"><i class="ti-power-off"></i></a></NavbarText>
                     </Collapse>
@@ -93,4 +97,8 @@ export class Navbar2 extends Component {
     }
 }
 
-export default connect()(Navbar2)
+// export default connect()(Navbar2)
+export default connect(props => ({
+    unread_messages: {url: `api/messages/unread/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000}
+  }))(Navbar2)
+// export default Navbar2

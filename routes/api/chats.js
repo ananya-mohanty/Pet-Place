@@ -109,6 +109,23 @@ router.get('/document/:filename', function (req, res) {
 })
 
 
+
+//get number of unread messages of user 
+router.get('/unread/:id', (req, res) => {
+    User.findById(req.params.id)
+        .then(user => {
+            if(!user) {
+                Ngo.findById(req.params.id)
+                    .then(ngo => {
+                        return res.json(ngo.num_unread_messages)
+                    })
+            }
+            console.log(user.unread_messages)
+            return res.json(user.num_unread_messages)
+        })
+})
+
+
 //@route  GET api/messages/:id/:id_user2
 //@desc   Get all messages between this user and user2
 //@access Private
@@ -124,7 +141,15 @@ router.get('/:id/:id2', (req, res) => {
                     {
                         msgs = ngo.messages.get(req.params.id2);
                     }
-                    
+
+                    if(ngo.unread_messages.has(req.params.id2))
+                    {
+                        if(ngo.unread_messages.get(req.params.id2) > 0 ) {
+                            ngo.num_unread_messages = ngo.num_unread_messages - 1
+                            ngo.unread_messages.set(req.params.id2, 0)
+                            ngo.save()
+                        }
+                    }
                     return res.json(msgs)
                 })
             }
@@ -132,6 +157,15 @@ router.get('/:id/:id2', (req, res) => {
             if(user.messages.has(req.params.id2))
             {
                 msgs = user.messages.get(req.params.id2);
+            }
+            if(user.unread_messages.has(req.params.id2))
+            {
+                if(user.unread_messages.get(req.params.id2) > 0 ) {
+                    user.num_unread_messages = user.num_unread_messages - 1
+                    user.unread_messages.set(req.params.id2, 0)
+                    user.save()
+                }
+                
             }
             
             res.json(msgs)
@@ -149,11 +183,13 @@ router.get('/:id', (req, res)=>{
                 Ngo.findById(req.params.id)
                 .then(ngo => {
                     var msgs = ngo.messages
-                    return res.json(msgs)
+                    var unread_messages = ngo.unread_messages
+                    return res.json({msgs: msgs, unread_messages: unread_messages})
                 })
             }
             var msgs = user.messages
-            res.json(msgs)
+            var unread_messages = user.unread_messages
+            res.json({msgs: msgs, unread_messages: unread_messages})
         });
 })
 
@@ -241,6 +277,20 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                         if (uservar2.messages.has(req.params.id)) {
                             temp = uservar2.messages.get(req.params.id)
                         }
+                        if(uservar2.unread_messages.has(req.params.id)){
+                        // var op = uservar2.unread_messages[req.params.id]
+                        // console.log("printing value")
+                            if(uservar2.unread_messages.get(req.params.id) == 0) 
+                            {
+                                uservar2.num_unread_messages = uservar2.num_unread_messages + 1
+                            }
+                        uservar2.unread_messages.set(req.params.id, uservar2.unread_messages.get(req.params.id) + 1)
+                        // console.log(uservar2.unread_messages)
+                        }
+                        else {
+                        uservar2.unread_messages.set(req.params.id, 1)
+                        uservar2.num_unread_messages = uservar2.num_unread_messages + 1
+                        }
                         temp.push(newMessage2)
                         uservar2.messages.set(req.params.id, temp)
                         // console.log(user2.messages)
@@ -252,11 +302,11 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                     else {
                         Ngo.findById(req.params.id2).then(ngo2 => {
                             uservar2 = ngo2
-                            console.log("girts")
-                            console.log(uservar2)
+                            // console.log("girts")
+                            // console.log(uservar2)
                             const { text, position, type, uri } = req.body
-                            console.log("printing uservar2")
-                            console.log(uservar2)
+                            // console.log("printing uservar2")
+                            // console.log(uservar2)
                             var urivar = null
                             var typevar = type
                             if(type=='photo'){
@@ -320,6 +370,18 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                             if (uservar2.messages.has(req.params.id)) {
                                 temp = uservar2.messages.get(req.params.id)
                             }
+                            if(uservar2.unread_messages.has(req.params.id))
+                            {
+                                if(uservar2.unread_messages.get(req.params.id) == 0) 
+                                {
+                                    uservar2.num_unread_messages = uservar2.num_unread_messages + 1
+                                }
+                                uservar2.unread_messages.set(req.params.id, uservar2.unread_messages.get(req.params.id) + 1)
+                            }
+                            else {
+                            uservar2.unread_messages.set(req.params.id, 1)
+                            uservar2.num_unread_messages = uservar2.num_unread_messages + 1
+                            }
                             temp.push(newMessage2)
                             uservar2.messages.set(req.params.id, temp)
                             // console.log(user2.messages)
@@ -331,6 +393,8 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                 }
             })})
                     .catch(err => console.log(err))})
+
+
 
 
 //@route  DELETE api/items/:id1/:id2

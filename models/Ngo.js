@@ -64,6 +64,11 @@ const NgoSchema = new Schema({
         of: [MessageSchema],
         default: {}
     },
+    unread_messages: {
+        type: Map,
+        of: Number,
+        default: {}
+    }
 });
 
 module.exports = Ngo = mongoose.model('ngo', NgoSchema);

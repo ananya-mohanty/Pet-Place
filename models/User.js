@@ -26,6 +26,11 @@ const UserSchema = new Schema({
         of: [MessageSchema],
         default: {}
     },
+    unread_messages: {
+        type: Map,
+        of: Number,
+        default: {}
+    },
     liked_posts: {
         type: Array,
         required:false,
@@ -34,6 +39,10 @@ const UserSchema = new Schema({
     profile_pic:{
         type:String,
         required:false
+    },
+    num_unread_messages: {
+        type: Number,
+        default: 0
     }
 });
 
