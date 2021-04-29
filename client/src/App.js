@@ -22,6 +22,11 @@ import backgroud from './images/resources/background1.jpg'
 import { Nav } from 'reactstrap'
 import ChatPanel from './components/ChatPanel'
 import background from './images/resources/chat_background.jpg'
+import Profile from './pages/Profile'
+import MyFeed  from './pages/MyFeed'
+import { MyDonationsPage } from './pages/MyDonationsPage'
+import { MyLostPetPage } from './pages/MyLostPets'
+import { MyFoundPetPage } from './pages/MyFoundPets'
 
 
 function App() {
@@ -38,6 +43,28 @@ function App() {
             <div style={{ background: 'linear-gradient(45deg, #77c3e7 0%, #f4ca31f7 71%)' }}>
               <Navbar />
               <ChatPage />
+              <Footer />
+            </div>
+          }></Route>
+          <Route exact path="/profile" render={() =>
+            <div>
+              <Navbar />
+              <Profile viewer='me' user_id={JSON.parse(window.localStorage.getItem('user')).id} 
+                user_type={window.localStorage.getItem('user_type')} />
+              <Footer />
+            </div>
+          }></Route>
+          <Route exact path="/profile/:user_type/:id" render={(props) =>
+            <div>
+              <Navbar />
+              <Profile viewer='other' user_id={props.match.params.id} user_type={props.match.params.user_type}/>
+              <Footer />
+            </div>
+          }></Route>
+          <Route exact path="/post/:id" render={(props) =>
+            <div>
+              <Navbar />
+              <MyFeed user_id={props.match.params.id} />
               <Footer />
             </div>
           }></Route>
@@ -104,6 +131,28 @@ function App() {
               <ChatPanel user1={props.match.params.id} />
             </div>
           }></Route>
+          <Route exact path="/donations/:id" render={(props) =>
+            <div >
+              <Navbar />
+              <MyDonationsPage user_id={props.match.params.id} />
+              <Footer/>
+            </div>
+          }></Route>
+          <Route exact path="/lostpets/:id" render={(props) =>
+            <div >
+              <Navbar />
+              <MyLostPetPage user_id={props.match.params.id} />
+              <Footer />
+            </div>
+          }></Route>
+          <Route exact path="/foundpets/:id" render={(props) =>
+            <div >
+              <Navbar />
+              <MyFoundPetPage user_id={props.match.params.id} />
+              <Footer />
+            </div>
+          }></Route>
+          
           {/* <Router history={history}>
         <Provider store={store}>
           <Navbar />

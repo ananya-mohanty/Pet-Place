@@ -88,11 +88,11 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
 
 });
 
-router.get('/found', (req, res) => {
+router.get('/my/:id', (req, res) => {
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     }
-    LostPet.find({status:'found'}, (err, items) => {
+    LostPet.find({ status: 'lost', user_id:req.params.id }, (err, items) => {
         if (err) {
             console.log(err);
             res.status(500).json("An error occured.");
@@ -109,7 +109,62 @@ router.get('/found', (req, res) => {
     });
 });
 
+router.delete('/:id', function (req, res) {
+    LostPet.findByIdAndRemove(req.params.id,function(err, out){
+        if(err)console.log(err)
+        else res.json(out)
+    })
+})
+
+router.get('/found', (req, res) => {
+    console.log('hett')
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
+    LostPet.find({ status: 'found' }, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
+router.get('/found/:id', (req, res) => {
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
+    LostPet.find({ status: 'found', user_id: req.params.id }, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
+
+
 router.post('/found', upload.array('files[]', 10), (req, res, next) => {
+    console.log(req.body.description, req.body.lastseen, JSON.parse(req.body.user).id, JSON.parse(req.body.user).name,
+        req.body.user_type, req.body.breed)
+
     var callback = function (resp) {
         post.location = resp
         post.save().then(p => res.json(p));
@@ -154,5 +209,8 @@ router.get('/image/:filename', function (req, res) {
         }
     })
 })
+
+
+
 
 module.exports = router;

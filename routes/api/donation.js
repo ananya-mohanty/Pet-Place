@@ -68,6 +68,24 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/my/:id', (req, res) => {
+    Donation.find({user_id:req.params.id}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
 
 
 router.get('/:id', (req, res) => {
@@ -77,7 +95,6 @@ router.get('/:id', (req, res) => {
 
 
 router.post('/', upload.array('files[]', 10),  (req, res, next) => {
-    console.log('in donation post')
     var callback = function (resp) {
         newDonation.location = resp
         newDonation.save().then(donation => res.json(donation));
@@ -100,5 +117,12 @@ router.post('/', upload.array('files[]', 10),  (req, res, next) => {
     ipapi.location(callback)
     // res.send(newDonation)
 });
+
+router.delete('/:id', function (req, res) {
+    Donation.findByIdAndRemove(req.params.id, function (err, out) {
+        if (err) console.log(err)
+        else res.json(out)
+    })
+})
 
 module.exports = router;

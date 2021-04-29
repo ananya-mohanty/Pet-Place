@@ -4,7 +4,7 @@ import {
     Container,
     Row,
     Col,
-    Jumbotron
+    Jumbotron, Button
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
 import doc from '../images/document.png'
@@ -17,6 +17,7 @@ import axios from 'axios'
 const imageStyle = {
     width: 50,
     height: 50,
+    objectFit: 'cover',
     borderRadius: 25,
     overflow: "hidden",
     alignSelf: 'flex-start',
@@ -39,53 +40,52 @@ function getDifferenceInMinutes(date1, date2) {
 
 
 export class FeedPost extends Component {
-    state={
-        data:[],
-        time:'just now',
-        likes:0,
-        liked:false,
+    state = {
+        data: [],
+        time: 'just now',
+        likes: 0,
+        liked: false,
         user_type: null
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
 
-        const nowTime= new Date(Date.now())
+        const nowTime = new Date(Date.now())
         const postTime = new Date(this.props.post.time)
         const minutes = getDifferenceInMinutes(postTime, nowTime)
         const hours = getDifferenceInHours(postTime, nowTime)
         const days = getDifferenceInDays(postTime, nowTime)
         console.log(minutes, hours, days)
-        if (minutes<60&&minutes>1)
+        if (minutes < 60 && minutes > 1)
             this.state.time = `${minutes} minutes ago`
 
-        else if(hours==1)
+        else if (hours == 1)
             this.state.time = `${hours} hour ago`
 
-        else if(hours>1&&hours<24)
-        this.state.time = `${hours} hours ago`
+        else if (hours > 1 && hours < 24)
+            this.state.time = `${hours} hours ago`
 
-        else if(days==1)
-        this.state.time= `${days} day ago`
+        else if (days == 1)
+            this.state.time = `${days} day ago`
 
         else if (days > 1)
             this.state.time = `${days} days ago`
 
-        this.state.user_type=window.localStorage.getItem('user_type')
-        if (this.state.user_type=='user')
-        {
-            axios.get(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
-            headers: {
-                'x-auth-token': window.localStorage.getItem('token')
-            }
-        }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
-    }
+        this.state.user_type = window.localStorage.getItem('user_type')
+        if (this.state.user_type == 'user') {
+            axios.get(`../api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
+        }
 
-        else{
-                axios.get(`/api/post/ngo/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
-                    headers: {
-                        'x-auth-token': window.localStorage.getItem('token')
-                    }
-                }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
+        else {
+            axios.get(`../api/post/ngo/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
         }
     }
 
@@ -110,21 +110,19 @@ export class FeedPost extends Component {
 
         else if (days > 1)
             this.state.time = `${days} days ago`
-       
+
     }
 
-    onLike=()=>
-    {
+    onLike = () => {
         var l
-        if(this.state.liked)
-        l=this.state.likes-1
+        if (this.state.liked)
+            l = this.state.likes - 1
 
         else l = this.state.likes + 1
-        if(!this.state.liked)
-        {
+        if (!this.state.liked) {
 
             if (window.localStorage.getItem('user_type') == 'user') {
-                axios.post(`/api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                axios.post(`../api/post/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
                     headers: {
                         'x-auth-token': window.localStorage.getItem('token')
                     }
@@ -132,7 +130,7 @@ export class FeedPost extends Component {
             }
 
             else {
-                axios.post(`/api/post/ngo/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                axios.post(`../api/post/ngo/like/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
                     headers: {
                         'x-auth-token': window.localStorage.getItem('token')
                     }
@@ -140,10 +138,9 @@ export class FeedPost extends Component {
             }
         }
 
-        else
-        {
+        else {
             if (window.localStorage.getItem('user_type') == 'user') {
-                axios.post(`/api/post/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                axios.post(`../api/post/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
                     headers: {
                         'x-auth-token': window.localStorage.getItem('token')
                     }
@@ -151,18 +148,21 @@ export class FeedPost extends Component {
             }
 
             else {
-                axios.post(`/api/post/ngo/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                axios.post(`../api/post/ngo/dislike/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
                     headers: {
                         'x-auth-token': window.localStorage.getItem('token')
                     }
                 })
             }
         }
-        
+
         this.setState({ likes: l, liked: !this.state.liked })
     }
 
-    
+    delete=()=>{
+        axios.delete(`../api/post/${this.props.post._id}`)
+            .then(window.location.reload())
+    }
 
     render() {
 
@@ -172,7 +172,7 @@ export class FeedPost extends Component {
                 justifyContent: "center",
                 alignItems: "center",
                 // marginRight: -35
-                }}>
+            }}>
                 <Row>
                     <Col>
                         <Jumbotron style={{
@@ -180,59 +180,66 @@ export class FeedPost extends Component {
                             backgroundColor: 'white',
                             width: '550px'
                         }}>
-                            <div style={{display:'flex'}}>
+                            <div style={{ display: 'flex', float: 'right' }}>
+                                {this.props.viewer == 'me' ? <Button onClick={this.delete}className='deleteBtn'>Delete</Button>
+                                    : null}
+                            </div>
+                            <div style={{ display: 'flex' }}>
                                 {/* <img src={profilepic} style={imageStyle}></img> */}
-                                {console.log(this.props.post.user_type)}
                                 {this.props.post.user_type == 'user' ? <a href={'http://localhost:5000/api/users/image/' + this.props.post.user_id}>
-                                    <img src={'api/users/image/' + this.props.post.user_id} style={imageStyle}></img>
+                                    <img src={'../api/users/image/' + this.props.post.user_id} style={imageStyle}></img>
                                 </a> : <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.post.user_id}>
-                                    <img src={'api/users/image/ngo/' + this.props.post.user_id} style={imageStyle}></img>
+                                    <img src={'../api/users/image/ngo/' + this.props.post.user_id} style={imageStyle}></img>
                                 </a>}
-                                
+
                                 <div style={{ marginLeft: '10px' }}>
-                                    <a href="">{this.props.post.user_name}</a>
+                                    <a className='linkhover' href={`/profile/${this.props.post.user_type}/${this.props.post.user_id}`}>{this.props.post.user_name}</a>
                                     <br></br>
                                     <span style={{ fontSize: '12px' }}>Published: {this.state.time}</span>
                                 </div>
+                                
+                               
                             </div>
+                            
                             <br></br>
-                            <AliceCarousel style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+                            <AliceCarousel style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 {this.props.files.map((f, i) => {
-                                        return(
-                                            <div>
-                                        {f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg'?
-                                        <a href={'http://localhost:5000/api/post/image/' + f.filename}>
-                                            <img  src={'api/post/image/' + f.filename}></img>
-                                        </a>:
-                                        f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm'?
-                                        <video width="700px" controls><source src={'api/post/video/' + f.filename}/></video>:
-                                        f.contentType === 'application/pdf' || f.contentType === 'application/octet-stream' 
-                                        || f.contentType === 'text/plain' || f.contentType === 'application/x-zip-compressed'?
-                                        <a href={'http://localhost:5000/api/post/document/' + f.filename}>
-                                                                <img src={doc} width='30px'></img>&nbsp;&nbsp;
-                                        {f.metadata}</a>:
-                                        f.metadata}
+                                    return (
+                                        <div>
+                                            {f.contentType == 'image/png' || f.contentType == 'image/jpeg' || f.contentType == 'image/jpg' ?
+                                                <a href={'http://localhost:5000/api/post/image/' + f.filename}>
+                                                    <img src={'../api/post/image/' + f.filename}></img>
+                                                </a> :
+                                                f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm' ?
+                                                    <video width="700px" controls><source src={'api/post/video/' + f.filename} /></video> :
+                                                    f.contentType === 'application/pdf' || f.contentType === 'application/octet-stream'
+                                                        || f.contentType === 'text/plain' || f.contentType === 'application/x-zip-compressed' ?
+                                                        <a href={'http://localhost:5000/api/post/document/' + f.filename}>
+                                                            <img src={doc} width='30px'></img>&nbsp;&nbsp;
+                                        {f.metadata}</a> :
+                                                        f.metadata}
                                         </div>
-                                    )})}
-                                 </AliceCarousel>
-                            <div style={{ paddingLeft: '10px', paddingRight: '10px', marginTop:'-15px'}}>
+                                    )
+                                })}
+                            </AliceCarousel>
+                            <div style={{ paddingLeft: '10px', paddingRight: '10px', marginTop: '-15px' }}>
                                 <p>
                                     {this.props.post.caption}
                                 </p>
                                 <div>
                                     <ul>
                                         <li style={{
-                                            float:'left',
+                                            float: 'left',
                                             display: 'inline',
                                             marginRight: '20px',
-                                            marginLeft:'-40px'
+                                            marginLeft: '-40px'
                                         }}>
                                             {
-                                                this.state.liked ?<div><button onClick={this.onLike} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor:'#E74C3C', color:'white' }}>
-                                                <i class="fa fa-heart"></i>
-                                                </button><span> {this.state.likes}</span></div> :<div><button onClick={this.onLike} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor:'#E74C3C', color:'white' }}>
-                                                <i class="fa fa-heart-o"></i>
-                                                    </button><span> {this.state.likes}</span></div>
+                                                this.state.liked ? <div><button onClick={this.onLike} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#E74C3C', color: 'white' }}>
+                                                    <i class="fa fa-heart"></i>
+                                                </button><span> {this.state.likes}</span></div> : <div><button onClick={this.onLike} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#E74C3C', color: 'white' }}>
+                                                    <i class="fa fa-heart-o"></i>
+                                                </button><span> {this.state.likes}</span></div>
                                             }
                                         </li>
                                         <li style={{

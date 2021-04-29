@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import FoundPet from '../components/FoundPet'
-import { Link } from 'react-router-dom'
 
 const mainStyle = {
     position: "relative",
@@ -55,7 +54,7 @@ const buttonStyle = {
 const dpStyle = {
     width: 50,
     height: 50,
-    
+
     borderRadius: 25,
     overflow: "hidden",
     alignSelf: 'flex-start',
@@ -68,33 +67,30 @@ const spanStyle = {
 }
 
 class DisplayFoundPet extends Component {
-    state = {
-        chatPanel: false
-    }
-    toggle = () => {
-        this.setState({ chatPanel: !this.state.chatPanel });
-    }
+    
     onClick = (e) => {
-        this.setState({ chatPanel: !this.state.chatPanel })
+        // console.log(this.props.lostpet._id)
+        axios.delete(`../api/lostpet/${this.props.lostpet._id}`)
+        .then(window.location.reload())
     }
     render() {
         return (
             <div style={divStyle}>
                 <div style={{ display: 'flex' }}>
                     {this.props.lostpet.user_type == 'ngo' ? <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.lostpet.user_id}>
-                        <img src={'api/users/image/ngo/' + this.props.lostpet.user_id} style={dpStyle}></img>
+                        <img src={'../api/users/image/ngo/' + this.props.lostpet.user_id} style={dpStyle}></img>
                     </a> : <a href={'http://localhost:5000/api/users/image/' + this.props.lostpet.user_id}>
-                        <img src={'api/users/image/' + this.props.lostpet.user_id} style={dpStyle}></img>
+                        <img src={'../api/users/image/' + this.props.lostpet.user_id} style={dpStyle}></img>
                     </a>}
                     <div style={{ marginLeft: '5px', marginTop: '15px' }}>
-                        <a className='linkhover' href={`/profile/${this.props.lostpet.user_type}/${this.props.lostpet.user_id}`}><h6>{this.props.lostpet.user_name}</h6></a>
+                        <a style={{}} href=""><h6>{this.props.lostpet.user_name}</h6></a>
                     </div>
                 </div>
                 <div style={{ marginTop: '5px', marginBottom: '5px' }}>
 
-                <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
-                    <CardImg top width="50" src={'api/post/image/' + this.props.files[0].filename} />
-                </a> 
+                    <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
+                        <CardImg top width="50" src={'../api/post/image/' + this.props.files[0].filename} />
+                    </a>
                 </div>
                 <CardTitle tag="h5">{this.props.lostpet.breed}</CardTitle>
                 <CardSubtitle >
@@ -103,16 +99,14 @@ class DisplayFoundPet extends Component {
                 <CardBody className="myColumn1" style={{ height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>
                     <CardText style={{ color: '#77c3e7' }}>{this.props.lostpet.description}</CardText>
                 </CardBody>
-                <Link to={`/chat/${this.props.lostpet.user_id}`}><Button className="foundBtn" onClick={this.onClick}>Connect</Button></Link>
-
-            </div>
+                <Button onClick={this.onClick}className="deleteBtn">Delete</Button></div>
             // </div>
         )
     }
 }
 
 
-export class FoundPetPage extends Component {
+export class MyFoundPetPage extends Component {
 
     state = {
         LostPets: [],
@@ -120,7 +114,7 @@ export class FoundPetPage extends Component {
     }
 
     componentDidMount() {
-        axios.get('api/lostpet/found')
+        axios.get(`../api/lostpet/found/${this.props.user_id}`)
             .then((res) => {
                 this.setState({ LostPets: res.data.items, files: res.data.files })
             });
@@ -132,10 +126,8 @@ export class FoundPetPage extends Component {
         return (
             <div className='container' style={mainStyle}>
                 <div style={containerStyle}>
-                    <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Found Pets Near Your Location</h5>
-                    <div style={{ display: 'flex', float: 'right', marginTop: '-80px' }}>
-                        <FoundPet />
-                    </div>
+                    <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Pets You Found</h5>
+                    
                     <span style={spanStyle}>
                         {/* <Link to="/allitems" className='link'>All Toys </Link>| 
                     <Link to="/stuffedanimals" className='link'> Stuffed Animals </Link>| 
@@ -158,4 +150,4 @@ export class FoundPetPage extends Component {
     }
 }
 
-export default connect()(FoundPetPage)
+export default connect()(MyFoundPetPage)

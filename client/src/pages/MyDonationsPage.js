@@ -33,9 +33,9 @@ const JumbotronStyle = {
 };
 
 const divStyle = {
-    width: 250, 
-    borderStyle:"solid", 
-    borderWidth: 1, 
+    width: 250,
+    borderStyle: "solid",
+    borderWidth: 1,
     borderColor: "rgba(0,0,0,0.1)",
     marginTop: "3.5rem",
     marginLeft: "3.5rem",
@@ -73,71 +73,73 @@ const spanStyle = {
 const dpStyle = {
     width: 50,
     height: 50,
-    
+
     borderRadius: 25,
     overflow: "hidden",
     alignSelf: 'flex-start',
 }
 
 class DisplayDonation extends Component {
+    onClick = (e) => {
+        // console.log(this.props.lostpet._id)
+        axios.delete(`../api/donations/${this.props.donation._id}`)
+            .then(window.location.reload())
+    }
     render() {
-       
+
         return (
             <div style={divStyle}>
                 <div style={{ display: 'flex' }}>
                     <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.donation.user_id}>
-                        <img src={'api/users/image/ngo/' + this.props.donation.user_id} style={dpStyle}></img>
+                        <img src={'../api/users/image/ngo/' + this.props.donation.user_id} style={dpStyle}></img>
                     </a>
-                    <div style={{ marginLeft: '5px', marginTop:'15px' }}>
-                        <a className='linkhover' href={`/profile/ngo/${this.props.donation.user_id}`}><h6>{this.props.donation.user_name}</h6></a>
+                    <div style={{ marginLeft: '5px', marginTop: '15px' }}>
+                        <a style={{}} href=""><h6>{this.props.donation.user_name}</h6></a>
                     </div>
                 </div>
-                
-                <div style={{marginTop:'5px', marginBottom:'5px'}}>
-                
-               <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
-                        <CardImg top style={{ height: "200px", width: '200px', objectFit: 'cover' }} src={'api/post/image/' + this.props.files[0].filename} />
-                </a>
+
+                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+
+                    <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
+                        <CardImg top style={{ height: "200px", width: '200px', objectFit: 'cover' }} src={'../api/post/image/' + this.props.files[0].filename} />
+                    </a>
                 </div>
                 <CardTitle tag="h5">{this.props.donation.name}</CardTitle>
                 <CardSubtitle >
-                    Target Amount: {this.props.donation.targetAmount}<br></br>                
+                    Target Amount: {this.props.donation.targetAmount}<br></br>
                     Starts On: {this.props.donation.startDate}<br></br>
                     Ends On: {this.props.donation.endDate}</CardSubtitle>
-                    
-                    <CardText className="myColumn1" style={{ color:'#f4ca31f7',height:'100px', overflowY:'auto', overflowX:'hidden'}}>{this.props.donation.description}</CardText>
-                    <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name="+ this.props.donation.name}>
-                    <Button className="donateBtn">Donate</Button>
-                    </a>
- 
-                    <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_H2oWQW41mxnLsz" async> </script> </form>
-                </div>
+
+                <CardText className="myColumn1" style={{ color: '#f4ca31f7', height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>{this.props.donation.description}</CardText>
+                    <Button onClick={this.onClick} className="deleteBtn">Delete</Button>
+            </div>
             // </div>
         )
-        
+
     }
-    
+
 }
 
 
-export class DonationsPage extends Component {
+export class MyDonationsPage extends Component {
 
     state = {
         Donations: [],
-        files:[],
+        files: [],
     }
 
     componentDidMount() {
-        axios.get('api/donations/')
+        axios.get(`../api/donations/my/${this.props.user_id}`)
             .then((res) => {
                 // console.log(res.data)
                 // console.log("heloo")
                 // console.log(this.state.Donations)
-                this.setState({Donations: res.data.items, files:res.data.files})
+                console.log(res.data.items)
+                this.setState({ Donations: res.data.items, files: res.data.files })
                 // console.log(this.state.Donations)
                 // this.helper(res.data)
             });
-        
+
     }
 
     render() {
@@ -146,33 +148,31 @@ export class DonationsPage extends Component {
             <div className='container' style={mainStyle}>
                 <div style={containerStyle}>
                     <div >
-                        <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Active Donation Drives</h5>
-                        <div style={{ display: 'flex', float: 'right', marginTop:'-80px'}}>
-                            {window.localStorage.getItem('user_type') == 'ngo'? <NewDrive />:null}
-                        </div>
+                        <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Your Donation Drives</h5>
+                        
                     </div>
-                    
 
-                <span style={spanStyle}>
-                    {/* <Link to="/allitems" className='link'>All Toys </Link>| 
+
+                    <span style={spanStyle}>
+                        {/* <Link to="/allitems" className='link'>All Toys </Link>| 
                     <Link to="/stuffedanimals" className='link'> Stuffed Animals </Link>| 
                     <Link to="/woodentoys" className='link'> Wooden Toys </Link> */}
                     </span><hr />
-                    
-                <Row>
-                {
-                    this.state.Donations.map((donation, i) => {
-                        var files = this.state.files.filter((f) => donation.files.includes(f._id))
-                         return (<div>
-                            {
-                                <DisplayDonation donation={donation} files={files} key={i} />
-                            }
-                        </div>)
-                    })
-                }</Row></div>
+
+                    <Row>
+                        {
+                            this.state.Donations.map((donation, i) => {
+                                var files = this.state.files.filter((f) => donation.files.includes(f._id))
+                                return (<div>
+                                    {
+                                        <DisplayDonation donation={donation} files={files} key={i} />
+                                    }
+                                </div>)
+                            })
+                        }</Row></div>
             </div>
         )
     }
 }
 
-export default connect()(DonationsPage)
+export default connect()(MyDonationsPage)
