@@ -2,10 +2,24 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AdopterSchema = new Schema({
+    userID: {
 
+        type: String,
+        required: true
+    },
+    postID: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
+    },
+    sex:{
+        type: String
+    },
+    annualIncome:{
+        type: Number
     },
     age: {
         type: Number,
@@ -14,25 +28,13 @@ const AdopterSchema = new Schema({
     marital_status:{
         type: String,
         required: true
-
     },
-
-    files:
-    {
-        type: Array,
-        required: false
-    },
+   
     location: {
-        type: Object,
-        required: true
+        type: Object
     },
     description: {
         type: String,
-        
-    },
-    status:{
-        type: String,
-        default:'available'
     }
 
 });

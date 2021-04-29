@@ -4,10 +4,11 @@ const path = require('path');
 const GridFsStorage = require('multer-gridfs-storage');
 //Post model
 const Post = require('../../models/Post');
+const Adopter = require('../../models/Adopter');
 const config = require('config');
 const crypto = require('crypto');
 const auth = require('../../middleware/auth');
-
+var ipapi = require('ipapi.co');
 // const fs = require('fs');
 // //file upload
 var multer = require('multer');
@@ -67,6 +68,34 @@ router.get('/', (req, res) => {
         }
     });
 });
+
+router.get('/:id', (req, res) => {
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
+    Post.find({user_id:req.params.id}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
+router.delete('/:id', function (req, res) {
+    Post.findByIdAndRemove(req.params.id, function (err, out) {
+        if (err) console.log(err)
+        else res.json(out)
+    })
+})
 
 router.post('/', upload.array('files[]', 10), (req, res, next) => {
     const time= Date.now()
@@ -172,6 +201,42 @@ router.post('/like/:user/:id', (req, res) => {
     })
 });
 
+router.get('/apply', auth, (req, res) => {
+   
+   console.log('HI BITCH')
+
+});
+
+
+router.post('/apply/:user/:id', (req, res) => {
+
+    var callback = function (resp) {
+        newAdopter.location = resp
+        newAdopter.save().then(adopter => res.json(adopter));
+    };
+    
+    const newAdopter = new Adopter({
+        userID: req.params.user,
+        postID: req.params.id,
+        description: req.body.description,
+        name: req.body.name,
+        marital_status: req.body.marital_status,
+        age: req.body.age,
+        sex: req.body.sex,
+        annualIncome: req.body.annualIncome,
+        address: req.body.address
+    });
+
+    
+    ipapi.location(callback)
+    const time = Date.now()
+    const today = new Date(time)
+
+   
+    console.log('hiiiiii bit')
+   
+});
+
 router.post('/dislike/:user/:id', (req, res) => {
     User.findById(req.params.user, (err, user) => {
         user.liked_posts = user.liked_posts.filter(function (item) {
@@ -218,7 +283,6 @@ router.post('/ngo/like/:user/:id', (req, res) => {
     })
 });
 router.post('/ngo/dislike/:user/:id', (req, res) => {
-    console.log('dislike')
     Ngo.findById(req.params.user, (err, user) => {
         user.liked_posts = user.liked_posts.filter(function (item) {
             return item !== req.params.id

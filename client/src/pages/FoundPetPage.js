@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import FoundPet from '../components/FoundPet'
+import { Link } from 'react-router-dom'
 // import { post } from '../../../routes/api/users';
 const Geo = require('geo-nearby');
 var ipapi = require('ipapi.co');
@@ -57,6 +58,7 @@ const buttonStyle = {
 const dpStyle = {
     width: 50,
     height: 50,
+    
     borderRadius: 25,
     overflow: "hidden",
     alignSelf: 'flex-start',
@@ -88,7 +90,7 @@ class DisplayFoundPet extends Component {
                         <img src={'api/users/image/' + this.props.lostpet.user_id} style={dpStyle}></img>
                     </a>}
                     <div style={{ marginLeft: '5px', marginTop: '15px' }}>
-                        <a style={{}} href=""><h6>{this.props.lostpet.user_name}</h6></a>
+                        <a className='linkhover' href={`/profile/${this.props.lostpet.user_type}/${this.props.lostpet.user_id}`}><h6>{this.props.lostpet.user_name}</h6></a>
                     </div>
                 </div>
                 <div style={{ marginTop: '5px', marginBottom: '5px' }}>
@@ -104,7 +106,7 @@ class DisplayFoundPet extends Component {
                 <CardBody className="myColumn1" style={{ height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>
                     <CardText style={{ color: '#77c3e7' }}>{this.props.lostpet.description}</CardText>
                 </CardBody>
-                <Button className="foundBtn" onClick={this.onClick}>Connect</Button>
+                <Link to={`/chat/${this.props.lostpet.user_id}`}><Button className="foundBtn" onClick={this.onClick}>Connect</Button></Link>
 
             </div>
             // </div>

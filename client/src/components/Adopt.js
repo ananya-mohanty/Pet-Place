@@ -2,16 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import {
-    Modal, ModalBody, ModalHeader, Button, Row, Col
+    Modal, ModalBody, ModalHeader,Button, Row, Col
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
-var ipapi = require('ipapi.co');
 
 const mainStyle = {
     position: "relative",
     marginTop: "4rem",
     paddingTop: "3rem",
-    paddingLeft: '3rem'
+    paddingLeft:'3rem'
 }
 const imageStyle = {
     width: 50,
@@ -20,16 +19,21 @@ const imageStyle = {
     alignSelf: 'flex-start',
 }
 
-export class NewPost extends Component {
+export class NewPost extends Component{
     state = {
         files: [],
         filesrc: [],
         ext: null,
         numfiles: 0,
         description: '',
-        lastseen: null,
+        location: '',
+        category: '',
+        startDate: null,
+        endDate: null,
         filetype: [],
-        isOpen: false,
+        targetAmount: 0,
+        isOpen:false,
+        name: ''
     }
     toggle = () => {
         this.setState({ isOpen: !this.state.isOpen })
@@ -37,7 +41,7 @@ export class NewPost extends Component {
     onFileChange = e => {
         var prev = this.state.numfiles
         this.state.numfiles += e.target.files.length
-        // console.log(this.state.numfiles)
+        console.log(this.state.numfiles)
         var i = 0
         var src = this.state.filesrc
         var files = this.state.files
@@ -58,12 +62,15 @@ export class NewPost extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData();
+    //    console.log(this.state)
+        formData.append('name', this.state.name)
+        formData.append('age', this.state.age)
+        formData.append('marital_status', this.state.marital_status)
+        formData.append('location', this.state.location)
         formData.append('description', this.state.description)
-        formData.append('lastseen', this.state.lastseen)
-        formData.append('user', window.localStorage.getItem('user'))
-        formData.append('user_type', window.localStorage.getItem('user_type'))
-        formData.append('breed', this.state.breed)
-        formData.append('location', JSON.stringify(this.props.location))
+        formData.append('sex', this.state.sex)
+        formData.append('annualIncome', this.state.annualIncome)
+        formData.append('address', this.state.address)
 
 
         for (let i = 0; i < this.state.numfiles; i++) {
@@ -71,9 +78,9 @@ export class NewPost extends Component {
         }
 
         for (var pair of formData.entries()) {
-            // console.log(pair[0] + ', ' + pair[1]);
+            console.log(pair[0] + ', ' + pair[1]);
         }
-        axios.post('api/lostpet/found', formData, {
+        axios.post('api/post/apply/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -84,39 +91,69 @@ export class NewPost extends Component {
     }
     render() {
         return (
-            <div >
-                <Button className="register" onClick={this.toggle}>Found A Lost Pet?</Button>
+            <div className='container' style={mainStyle}>
+                <Button onClick={this.toggle}>Create a Donation Drive</Button>
+                <br></br><br></br>
                 <Modal
                     isOpen={this.state.isOpen}
                     toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Found Pet Information</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Apply for Adoption</ModalHeader>
                     <ModalBody style={{
                         paddingTop: '20px',
                         paddingBottom: '0px',
                         display: "flex",
-                        backgroundColor: 'white'
-                    }}>
-                        <a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>
-                            <img src={'api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
-                        </a>                         <form>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Animal Breed</label>
+                        backgroundColor: 'white'}}>
+                        <img src={profilepic} style={imageStyle}></img>
+                        <form>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Applicant</label>
                             <br></br>
-                            <input type="string" name='breed' id="breed" style={{
+                            <input type='string' name='name' style={{
                                 marginLeft: '15px', position: 'relative',
                                 zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} onChange={this.onTextChange} />
+                            }} placeholder='Name of the Applicant' onChange={this.onTextChange}></input>
                             <br></br><br></br>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Found On</label>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Age</label>
                             <br></br>
-                            <input type='date' name='lastseen' style={{
+                            <input type='string' name='age' style={{
                                 marginLeft: '15px', position: 'relative',
                                 zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
-                            }} onChange={this.onTextChange}></input>
+                            }} placeholder='Age' onChange={this.onTextChange}></input>
+                             <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Sex</label>
+                            <br></br>
+                            <input type='string' name='sex' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Male/Female/Other' onChange={this.onTextChange}></input>
+                            
                             <br></br><br></br>
-                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Describe the pet and where you found it.</label>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Marital Status</label>
+                            <br></br>
+                            <input type='string' name='marital_status' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Married/Unmarried' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                     
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Annual Income</label>
+                            <br></br>
+                            <input type='string' name='annualIncome' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='In INR' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                            
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Permanent Address</label>
+                            <br></br>
+                            <input type='string' name='Address' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Place of Residence' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Reason for Adoption</label>
                             <br></br>
                             <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
-                                placeholder='describe the pet...'
+                                placeholder='Tell us why you want to go ahead with this adoption...'
                                 rows="3" cols="20"
                                 name='description'
                                 onChange={this.onTextChange} />
@@ -148,17 +185,28 @@ export class NewPost extends Component {
                                 })}
                                 <br></br>
                                 <label for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
+                                    
 
-
-                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
+                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Submit Application</button>
                             </div>
                         </form>
                     </ModalBody>
                 </Modal>
             </div>
-
+           
         )
     }
 }
+// const NewPost = (props) => {
+//     console.log('HEllo')
+//     return (
 
+//         <div className="main-cointainer">
+//             <h2>Compnent2</h2> 
+              
+// <p>{props.data} </p>
+  
+//         </div>
+//     )
+// }
 export default connect()(NewPost)
