@@ -4,10 +4,11 @@ const path = require('path');
 const GridFsStorage = require('multer-gridfs-storage');
 //Post model
 const Post = require('../../models/Post');
+const Adopter = require('../../models/Adopter');
 const config = require('config');
 const crypto = require('crypto');
 const auth = require('../../middleware/auth');
-
+var ipapi = require('ipapi.co');
 // const fs = require('fs');
 // //file upload
 var multer = require('multer');
@@ -198,6 +199,42 @@ router.post('/like/:user/:id', (req, res) => {
         }
         ))
     })
+});
+
+router.get('/apply', auth, (req, res) => {
+   
+   console.log('HI BITCH')
+
+});
+
+
+router.post('/apply/:user/:id', (req, res) => {
+
+    var callback = function (resp) {
+        newAdopter.location = resp
+        newAdopter.save().then(adopter => res.json(adopter));
+    };
+    
+    const newAdopter = new Adopter({
+        userID: req.params.user,
+        postID: req.params.id,
+        description: req.body.description,
+        name: req.body.name,
+        marital_status: req.body.marital_status,
+        age: req.body.age,
+        sex: req.body.sex,
+        annualIncome: req.body.annualIncome,
+        address: req.body.address
+    });
+
+    
+    ipapi.location(callback)
+    const time = Date.now()
+    const today = new Date(time)
+
+   
+    console.log('hiiiiii bit')
+   
 });
 
 router.post('/dislike/:user/:id', (req, res) => {

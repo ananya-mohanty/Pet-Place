@@ -171,7 +171,7 @@ router.post('/found', upload.array('files[]', 10), (req, res, next) => {
     };
     const time = Date.now()
     const today = new Date(time)
-    var post = new LostPet({
+    try {var post = new LostPet({
         description: req.body.description,
         lastseen: req.body.lastseen,
         time: today,
@@ -179,13 +179,18 @@ router.post('/found', upload.array('files[]', 10), (req, res, next) => {
         user_id: JSON.parse(req.body.user).id,
         user_name: JSON.parse(req.body.user).name,
         user_type: req.body.user_type,
-        breed: req.body.breed
+        breed: req.body.breed,
+        location: JSON.parse(req.body.location)
     })
-
+} catch(err) {
+    console.log(err)
+}
     req.files.forEach(function (fileobj) {
         post.files.push(fileobj.id);
     })
-    ipapi.location(callback)
+    console.log(post)
+    post.save().then(p => res.json(p))
+    // ipapi.location(callback)
 
 });
 
