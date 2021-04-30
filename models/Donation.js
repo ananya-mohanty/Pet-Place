@@ -24,8 +24,9 @@ const DonationSchema = new Schema({
         default:0
     },
     targetAmount: {
-        type: String,
-        required: true
+        type: Number,
+        required: true,
+        default: 0
     },
     category: {
         type: String,

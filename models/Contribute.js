@@ -20,6 +20,10 @@ const ContributeSchema = new Schema({
     donationDrive: {
         type: String
     },
+    donationID: {
+        type: String
+    },
+    
     emailID:{
         type: String
     },

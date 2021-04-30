@@ -107,13 +107,14 @@ class DisplayDonation extends Component {
         formData.amount = this.state.amount;
         formData.cause = this.props.donation.description;
         formData.donation = this.props.donation.name;
-
+        formData.donationID = this.props.donation._id;
+        formData.currentAmount = this.props.donation.currentAmount;
         // formData.annualIncome = this.state.annualIncome;
         // formData.address = this.state.address;
  
         console.log(formData)
-        axios.post(`/api/contribute/`, {formData});
-        window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name +  `&cause=` + this.props.donation.description + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID;
+        axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
+        window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
         // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
        
     }
@@ -194,8 +195,8 @@ class DisplayDonation extends Component {
                 </div>
                 <CardTitle tag="h5">{this.props.donation.name}</CardTitle>
                 <CardSubtitle >
-                    Amount Raised: {this.props.donation.currentAmount}<br></br> 
-                    Target Amount: {this.props.donation.targetAmount}<br></br>                
+                    Amount Raised: Rs. {this.props.donation.currentAmount}<br></br> 
+                    Target Amount: Rs. {this.props.donation.targetAmount}<br></br>                
                     Starts On: {this.props.donation.startDate}<br></br>
                     Ends On: {this.props.donation.endDate}</CardSubtitle>
                     

@@ -13,7 +13,7 @@ var instance = new Razorpay({
 
 
 
-router.post('/',  (req, res) => {
+router.post('/:id',  (req, res) => {
 
 
   console.log(req.body)
@@ -80,17 +80,26 @@ router.route("/update").put(function(req, res) {
 });
 
 function updateStatus(req, res) {
-  Donation.findOne({_description:req.params.cause},(err,doc)=>{
+ console.log(req.body.formData.donationID)
+ let t = parseInt(req.body.formData.currentAmount) + parseInt(req.body.formData.amount);
+  Donation.findByIdAndUpdate(req.body.formData.donationID,{currentAmount: t},(err,doc)=>{
    //this will give you the document what you want to update.. then 
-  doc.currentAmount = doc.currentAmount + parseInt(req.body.formData.amount)
-  doc.save(function(err,doc){
-    console.log(req.body)
+  if(err){
+    console.log(err)
+  }
+  else{
+  // doc.currentAmount = doc.currentAmount + parseInt(req.body.formData.amount)
+  // doc.save(function(err,doc){
+  //   console.log(req.body)
   
   console.log('cureent' + doc.currentAmount + ' ' + req.body.formData.amount )
-  });
-  
+  // });
+}
    });
+  
    console.log('HELLO')
+
+
   }
 
 module.exports = router;
