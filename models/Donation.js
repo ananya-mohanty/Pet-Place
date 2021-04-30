@@ -19,9 +19,9 @@ const DonationSchema = new Schema({
         required: false
     },
     currentAmount:{
-        type: String,
+        type: Number,
         required: true,
-        default:"0"
+        default:0
     },
     targetAmount: {
         type: String,

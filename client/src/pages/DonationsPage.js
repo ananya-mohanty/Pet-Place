@@ -194,6 +194,7 @@ class DisplayDonation extends Component {
                 </div>
                 <CardTitle tag="h5">{this.props.donation.name}</CardTitle>
                 <CardSubtitle >
+                    Amount Raised: {this.props.donation.currentAmount}<br></br> 
                     Target Amount: {this.props.donation.targetAmount}<br></br>                
                     Starts On: {this.props.donation.startDate}<br></br>
                     Ends On: {this.props.donation.endDate}</CardSubtitle>

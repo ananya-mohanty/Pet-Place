@@ -14,6 +14,8 @@ var instance = new Razorpay({
 
 
 router.post('/',  (req, res) => {
+
+
   console.log(req.body)
     const newContribute = new Contribute({
     
@@ -36,7 +38,7 @@ router.post('/',  (req, res) => {
     console.log(newContribute);
 
     newContribute.save().then(contribute => res.json(contribute));
-
+    updateStatus(req,res);
 });
 
 
@@ -60,6 +62,35 @@ router.post('/orders', (req, res) => {
         console.log(newContribute.order_ID);
         newContribute.save().then(contribute => res.json(contribute));
       });     
+      updateStatus(req,res);
+
+
 });
+router.route("/update").put(function(req, res) {
+  myteam.updateOne({ name: "Sadio Mane" }, { country: "Senegal" }, function(
+    err,
+    result
+  ) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+function updateStatus(req, res) {
+  Donation.findOne({_description:req.params.cause},(err,doc)=>{
+   //this will give you the document what you want to update.. then 
+  doc.currentAmount = doc.currentAmount + parseInt(req.body.formData.amount)
+  doc.save(function(err,doc){
+    console.log(req.body)
+  
+  console.log('cureent' + doc.currentAmount + ' ' + req.body.formData.amount )
+  });
+  
+   });
+   console.log('HELLO')
+  }
 
 module.exports = router;
