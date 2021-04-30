@@ -110,10 +110,9 @@ class DisplayDonation extends Component {
 
         // formData.annualIncome = this.state.annualIncome;
         // formData.address = this.state.address;
-
+ 
         console.log(formData)
-        axios.post(`/api/donate/${JSON.parse(window.localStorage.getItem('user')).id}/`, {formData}
-        );
+        axios.post(`/api/contribute/`, {formData});
         window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name +  `&cause=` + this.props.donation.description + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID;
         // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
        

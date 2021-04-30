@@ -32,9 +32,24 @@ router.get('/:id', (req, res) => {
             })
         }
     });
-
-
     console.log(req.params)
+    
+});
+
+
+router.put('/', (req, res) => {
+    console.log('HELLLOOO')
+    let id = req.params.postID;
+	var data = {
+		status: 'Approved'
+	}
+    Adopter.findByIdAndUpdate(id, data, function(err, adopter) {
+        if (err) throw err;
+     
+        res.send('Successfully! Employee updated');
+        });
+
+    console.log(req.params.formData)
     
 });
 

@@ -197,8 +197,8 @@ export class FeedPost extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         var l
-        if (!this.state.applied)
-            l = this.state.applicants + 1
+        // if (!this.state.applied)
+            this.state.applicants = this.state.applicants + 1
 
     
         console.log(this.state)

@@ -299,16 +299,31 @@ const spanStyle = {
     marginTop: "-1.5rem"
 }
 
-class DisplayLostPet extends Component {
+class DisplayRequests extends Component {
     state = {
-        chatPanel: false
+        chatPanel: false,
+        postID:''
     }
    
     onChat = (e) => {
         this.setState({ chatPanel: !this.state.chatPanel })
     }
-
+    onApprove = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+        console.log('hii bitchh')
+        // this.props.adopter.status='Approved'
+        const formData = new FormData();
+        formData.status = 'Approved'
+        formData.postID = this.state.postID
+        console.log(this.state.postID)
+        // axios.post(`../api/request/${this.props.adopter.userID}`, {});
+        // console.log(${JSON.parse(window.localStorage.getItem('adopter')._id)})
+        axios.put(`/api/request`, {formData}
+        );         
+    }
     render() {
+       
+        console.log('HI '+ this.props.adopter)
         return (
 
            <div>
@@ -334,7 +349,9 @@ class DisplayLostPet extends Component {
                             <td> {this.props.adopter.marital_status}</td>
                             <td> {this.props.adopter.address}</td>
                             <td>{this.props.adopter.description}</td>
-                            <td> {this.props.adopter.status} </td>
+                            <td> { this.props.adopter.status} 
+                            <Button className="foundBtn" onClick={this.onApprove}>Approve</Button>
+                            </td>
                             <td><Link to={`/chat/${this.props.adopter.userID}`}><Button className="foundBtn" onClick={this.onChat}>Connect</Button></Link></td>
                             </tr>
                         </tbody>
@@ -349,10 +366,10 @@ class DisplayLostPet extends Component {
 }
 
 
-export class MyLostPetPage extends Component {
+export class AdoptionLists extends Component {
 
     state = {
-        LostPets: [],
+        AdoptRequests: [],
         files: [],
     }
 
@@ -362,10 +379,10 @@ export class MyLostPetPage extends Component {
         axios.get(`../api/request/${this.props.user_id}`)
             .then((res) => {
                 console.log(this.props.user_id)
-                this.setState({ LostPets: res.data.items})
+                this.setState({ AdoptRequests: res.data.items})
 
             });
-
+          
     }
 
     render() {
@@ -378,9 +395,6 @@ export class MyLostPetPage extends Component {
                         
                         {/* <Button className="register" onClick={this.toggle}>View Your Application</Button> */}
                         <span style={spanStyle}>
-                            {/* <Link to="/allitems" className='link'>All Toys </Link>| 
-                    <Link to="/stuffedanimals" className='link'> Stuffed Animals </Link>| 
-                    <Link to="/woodentoys" className='link'> Wooden Toys </Link> */}
                         </span><hr />
                       
                         
@@ -399,11 +413,11 @@ export class MyLostPetPage extends Component {
                           </tr>
                         </table>
                             {
-                                this.state.LostPets.map((adopter, i) => {
+                                this.state.AdoptRequests.map((adopter, i) => {
                                     // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
                                     return (<div>
                                         {
-                                            <DisplayLostPet adopter={adopter} key={i}  />
+                                            <DisplayRequests adopter={adopter} key={i}  />
                                           
                                         }
                                          
@@ -416,4 +430,4 @@ export class MyLostPetPage extends Component {
     }
 }
 
-export default connect()(MyLostPetPage)
+export default connect()(AdoptionLists)

@@ -6,7 +6,7 @@ const ContributeSchema = new Schema({
         type: String,
         required: true
     },
-    cause_ID: {
+    cause: {
         type: String
     },
     amount:{
@@ -17,14 +17,15 @@ const ContributeSchema = new Schema({
         type: String
        
     },
-    user_ID: {
-        type: String,
-        required: true
+    donationDrive: {
+        type: String
     },
-    order_ID: {
-        type: String,
-        required: true
-    }
+    emailID:{
+        type: String
+    },
+    contactNo:{
+        type: Number
+    } 
 
 });
 
