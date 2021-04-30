@@ -17,6 +17,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import ChatPanel from '../components/ChatPanel';
 import LostPet from '../components/LostPet'
 import { Link } from 'react-router-dom'
+import { MDBListGroup, MDBListGroupItem, MDBContainer } from "mdbreact"
 const mainStyle = {
     position: "relative",
     marginTop: '40px',
@@ -115,12 +116,16 @@ class DisplayRequests extends Component {
         // this.props.adopter.status='Approved'
         const formData = new FormData();
         formData.status = 'Approved'
-        formData.postID = this.state.postID
-        console.log(this.state.postID)
+        // formData.postID = this.state.postID
+        formData.applicationID = this.props.adopter._id
+        // console.log(this.state.postID)
+        console.log(formData)
         // axios.post(`../api/request/${this.props.adopter.userID}`, {});
         // console.log(${JSON.parse(window.localStorage.getItem('adopter')._id)})
         axios.put(`/api/request`, {formData}
-        );         
+        );    
+        window.location.reload();
+
     }
     onSubmit = (e) =>{
 
@@ -136,6 +141,7 @@ class DisplayRequests extends Component {
 
            <div>
                 <Modal
+                size="lg"
                     style={{}}
                     isOpen={this.state.viewApplication}
                     toggle={this.toggle}>
@@ -147,81 +153,31 @@ class DisplayRequests extends Component {
                         backgroundColor: 'white'}}>
                         {/* <img src={profilepic} style={imageStyle}></img> */}
                       <div>
-                          <Table>
+                      <MDBContainer gradient="sunny-morning">
+                  
+                            <MDBListGroup style={{ width: "46rem" }} >
+                                <MDBListGroupItem className="block-example border-top-left-right border-warning" >Name of the Applicant : {this.props.adopter.name}  </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Age : {this.props.adopter.age} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Sex : {this.props.adopter.sex} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Marital Status : {this.props.adopter.marital_status} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Annual Income : Rs. {this.props.adopter.annualIncome} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Residential Address : {this.props.adopter.address} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Reason for Adoption : {this.props.adopter.description} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning"> Status: {this.props.adopter.status} </MDBListGroupItem>
+                            </MDBListGroup>
+                        </MDBContainer>
 
-                         
-                        <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Applicant : 
-                           </th>
-                           <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>
-                            {this.props.adopter.name} 
-                            </th>
-                            </Table>
-                            
-
-                            <Table>
-                        <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Age : 
-                           </th>
-                           <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>
-                            {this.props.adopter.age} 
-                            </th>
-                            </Table>
-                            
-
-                            <Table> 
-                        <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Sex : 
-                           </th>
-                           <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>
-                            {this.props.adopter.sex} 
-                            </th>
-                            </Table>
-
-                            <Table> 
-                        <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}> Reason for Adoption : 
-                           </th>
-                           <tr style={{ marginLeft: '25px', position: 'relative', zIndex: '1' }}>
-                            <td  style={{ marginLeft: '25px', position: 'relative', zIndex: '1' }} >{this.props.adopter.description} </td>
-                            </tr>
-                            </Table>
-
-                            <Table> 
-                            <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Marital Status : 
-                            </th>
-                            <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>
-                            {this.props.adopter.marital_status} 
-                            </th>
-
-                            </Table>
-                            <Table> 
-                            <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Residential Address : 
-                            </th>
-                            <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>
-                            {this.props.adopter.address} 
-                            </th>
-                            </Table>
-
-                            <Table> 
-                            <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Annual Income: 
-                            </th>
-                            <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>
-                            {this.props.adopter.annualIncome} 
-                            </th>
-                            </Table>
-                            <Table> 
-
-                            <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Status of Application : 
-                            </th>
-                            <th style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>
-                            {this.props.adopter.status} 
-                            </th>
-                            
-                            </Table>
+                          
                             <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
                                 
-            
-                                <br></br>
-                                    <button style={{ marginLeft: '100px' }} type="submit" onClick={this.onSubmit}>Approve Adoption</button>
+                                
+                                <br></br><br></br>
+                                {this.props.adopter.status == 'Pending' &&
+                                    <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button>
+                                }
                             </div>
-                       
+                            <br></br><br></br>
+                            {/* <br></br><br></br><br></br><br></br><br></br>                             */}
                             
                         </div>
                        
@@ -278,7 +234,7 @@ export class AdoptionLists extends Component {
         return (
             <Container>
                 <div className='container' style={mainStyle}>
-                    <div style={{ height: "auto", margin: "0 auto", padding: 50, position: "relative", background: "white", }}> 
+                    <div style={{ height: "auto", margin: "0 auto", padding: 100, position: "relative", background: "white", }}> 
                         <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Applications To Your Posts</h5>
                         
                         {/* <Button className="register" onClick={this.toggle}>View Your Application</Button> */}
@@ -287,16 +243,11 @@ export class AdoptionLists extends Component {
                       
                         
                         <Row>
+
                         <table style={customers}>
                           <tr>
                             <th style={trows1}> Application ID</th>
                             <th style={trows}> Name of Applicant</th>
-                            {/* <th style={trows}> Age</th>
-                            <th style={trows}> Sex</th>
-                            <th style={trows}> Marital Status</th>
-                            <th style={trows}> Residence</th>
-                            <th style={trows}> Reason for Adoption</th> */}
-                            
                             <th style={trows}> Status of Application</th>
                             <th style={trows}> View Application</th>
                             <th style={trows}> Connect with Applicant</th>

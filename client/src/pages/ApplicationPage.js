@@ -97,7 +97,7 @@ const spanStyle = {
     marginTop: "-1.5rem"
 }
 
-class DisplayLostPet extends Component {
+class DisplayApplications extends Component {
     state = {
         chatPanel: false
     }
@@ -145,10 +145,10 @@ class DisplayLostPet extends Component {
 }
 
 
-export class MyLostPetPage extends Component {
+export class MyApplications extends Component {
 
     state = {
-        LostPets: [],
+        AppliedForms: [],
         files: [],
     }
 
@@ -158,7 +158,7 @@ export class MyLostPetPage extends Component {
         axios.get(`../api/adoption/${this.props.user_id}`)
             .then((res) => {
 
-                this.setState({ LostPets: res.data.items})
+                this.setState({ AppliedForms: res.data.items})
 
             });
 
@@ -170,7 +170,7 @@ export class MyLostPetPage extends Component {
             <Container>
                 <div className='container' style={mainStyle}>
                     <div style={{ height: "auto", margin: "0 auto", padding: 50, position: "relative", background: "white", }}> 
-                        <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Applications </h5>
+                        <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp; Your Applications </h5>
                         
                         {/* <Button className="register" onClick={this.toggle}>View Your Application</Button> */}
                         <span style={spanStyle}>
@@ -190,11 +190,11 @@ export class MyLostPetPage extends Component {
                           </tr>
                         </table>
                             {
-                                this.state.LostPets.map((adopter, i) => {
+                                this.state.AppliedForms.map((adopter, i) => {
                                     // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
                                     return (<div>
                                         {
-                                            <DisplayLostPet adopter={adopter} key={i} onClick={this.onClick} />
+                                            <DisplayApplications adopter={adopter} key={i} onClick={this.onClick} />
                                           
                                         }
                                          
@@ -207,4 +207,4 @@ export class MyLostPetPage extends Component {
     }
 }
 
-export default connect()(MyLostPetPage)
+export default connect()(MyApplications)

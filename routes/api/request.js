@@ -38,16 +38,20 @@ router.get('/:id', (req, res) => {
 
 
 router.put('/', (req, res) => {
-    console.log('HELLLOOO')
-    let id = req.params.postID;
-	var data = {
-		status: 'Approved'
-	}
-    Adopter.findByIdAndUpdate(id, data, function(err, adopter) {
-        if (err) throw err;
+    // console.log(req.body.formData.donationID)
+    // let t = parseInt(req.body.formData.currentAmount) + parseInt(req.body.formData.amount);
+     Adopter.findByIdAndUpdate(req.body.formData.applicationID,{status: 'Approved'},(err,doc)=>{
+      //this will give you the document what you want to update.. then 
+     if(err){
+       console.log(err)
+     }
+     else{
+         console.log('Application approved successfully')
+   
+   }
+      });
      
-        res.send('Successfully! Employee updated');
-        });
+      console.log('HELLO')
 
     console.log(req.params.formData)
     
