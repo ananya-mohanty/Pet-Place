@@ -39,9 +39,10 @@ export class Navbar2 extends Component {
     }
 
     prev = null
+    prevnotif = null
 
     componentDidUpdate() {
-        console.log(this.prev)
+        // console.log(this.prev)
         if(this.props.unread_messages.value!=this.prev && this.prev!=null) {
             if(this.props.unread_messages.value>0)
             {
@@ -52,7 +53,15 @@ export class Navbar2 extends Component {
             }
             
         }
+        if(this.props.notifs.value!=null && this.props.notifs.value.length>0 && JSON.stringify(this.props.notifs.value[this.props.notifs.value.length-1])!=JSON.stringify(this.prevnotif) && this.prevnotif!=null)
+        {
+            console.log(this.prevnotif)
+            console.log(this.props.notifs.value[this.props.notifs.value.length-1])
+            toast.info(`Looks like ${this.props.notifs.value[this.props.notifs.value.length-1].user_name} has found your pet!`)
+        }
         this.prev = this.props.unread_messages.value
+        if(this.props.notifs.value!=null && this.props.notifs.value.length>0)
+        this.prevnotif = this.props.notifs.value[this.props.notifs.value.length-1]
     }
 
     render() {
