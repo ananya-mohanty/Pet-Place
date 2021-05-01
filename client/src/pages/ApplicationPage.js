@@ -147,7 +147,8 @@ const spanStyle = {
 class DisplayApplications extends Component {
     state = {
         chatPanel: false,
-        viewApplication:false
+        viewApplication:false,
+        confirm: false
     }
     onClick = (e) => {
         // console.log(this.props.lostpet._id)
@@ -172,6 +173,12 @@ class DisplayApplications extends Component {
         axios.delete(`../api/request/${this.props.adopter._id}`);
         window.location.reload();
 
+    }
+    onConfirm = (e) =>{
+        this.setState({ confirm: !this.state.confirm })
+    }
+    onWithdraw1 = (e) => {
+        this.setState({ confirm: !this.state.confirm })
     }
 
     render() {
@@ -219,7 +226,7 @@ class DisplayApplications extends Component {
                                 
                                 <br></br><br></br>
                                 {this.props.adopter.status == 'Pending' &&
-                                    <Button className="declineBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onWithdraw}>Withdraw Application</Button> 
+                                    <Button className="declineBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onWithdraw1}>Withdraw Application</Button> 
                                     // <Button className="foundBtn" style={{ marginLeft: '10 0px' }} type="submit" onClick={this.onApprove}>Decline Adoption</Button>
                                 }
                                 
@@ -230,7 +237,44 @@ class DisplayApplications extends Component {
                        
                     </ModalBody>
                 </Modal>
-               
+                <Modal
+                size="400px"
+                    style={{ width:'900px'}}
+                    isOpen={this.state.confirm}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.onConfirm}> Confirm Withdrawal</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '10px',
+                        display: "flex",
+                        backgroundColor: 'white'
+                        }}>
+                        {/* <img src={profilepic} style={imageStyle}></img> */}
+                      <div>
+                        Are you sure you want to : 
+                        <div style={{ display:'inline', position: 'relative', fontWeight:'bold'}}> WITHDRAW?</div> 
+                        
+
+                          
+                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                
+                                
+                                <br></br><br></br>
+                                
+                                <Button className="declineBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onWithdraw}>Withdraw Application</Button> 
+                                   
+                                
+                                
+                            </div>
+                           {/* { this.setState({ decline: !this.state.decline })}
+                           { this.setState({ approve: !this.state.approve })} */}
+
+                            <br></br><br></br>
+                           
+                        </div>
+                       
+                    </ModalBody>
+                </Modal>
                    
                     <table style={customers}>
                          
