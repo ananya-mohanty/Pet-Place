@@ -20,7 +20,7 @@ import '../App.css'
 import { Link } from 'react-router-dom';
 import { connect, PromiseState } from 'react-refetch'
 import axios from 'axios';
-
+import Time from 'react-time';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -117,6 +117,7 @@ export class Navbar2 extends Component {
                                                     <DropdownItem tag={Link} to={`chat/${n.user_id}`} >
                                                         Looks like {n.user_name} has found your pet.
                                                 </DropdownItem>
+                                                    <Time style={{marginLeft:'22px', fontSize:'12px'}}value={n.createdAt} format="HH:mm:ss" />
                                                     {window.localStorage.getItem('user_type') == 'user' ? <Button size='sm' style={{ float: 'right', marginRight: '20px' }} onClick={() => {
                                                         axios.delete(`/api/users/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`)
                                                     }}>
@@ -152,7 +153,7 @@ export class Navbar2 extends Component {
 
 // export default connect()(Navbar2)
 export default connect(props => ({
-    unread_messages: { url: `api/messages/unread/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000 },
-    notifs: { url: `api/${window.localStorage.getItem('user_type')}/notifications/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 2000 },
+    unread_messages: { url: `../api/messages/unread/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000 },
+    notifs: { url: `../api/${window.localStorage.getItem('user_type')}/notifications/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 2000 },
 }))(Navbar2)
 // export default Navbar2

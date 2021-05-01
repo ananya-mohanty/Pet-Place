@@ -181,9 +181,11 @@ router.get('/isuser/:id', function (req, res) {
 })
 
 router.get('/notifications/:id', function (req, res) {
-    console.log('here')
-    User.findById(req.params.id, (err, user) => {
+    function custom_sort(a, b) {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }    User.findById(req.params.id, (err, user) => {
         // console.log(user.notifs)
+        user.notifs.sort(custom_sort)
         res.json(user.notifs)
     })
 })
