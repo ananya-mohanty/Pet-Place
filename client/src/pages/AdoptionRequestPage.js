@@ -134,6 +134,10 @@ const spanStyle = {
     float: "right",
     marginTop: "-1.5rem"
 }
+const fontchanges = {
+    fontWeight:'bold',
+    display:'inline'
+}
 
 class DisplayRequests extends Component {
     state = {
@@ -202,16 +206,24 @@ class DisplayRequests extends Component {
                       <div>
                       <MDBContainer gradient="sunny-morning">
                   
-                            <MDBListGroup style={{ width: "46rem" }} >
-                                <MDBListGroupItem className="block-example border-top-left-right border-warning" >Name of the Applicant : {this.props.adopter.name}  </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Age : {this.props.adopter.age} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Sex : {this.props.adopter.sex} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Marital Status : {this.props.adopter.marital_status} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Annual Income : Rs. {this.props.adopter.annualIncome} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Residential Address : {this.props.adopter.address} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Reason for Adoption : {this.props.adopter.description} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning"> Status: {this.props.adopter.status} </MDBListGroupItem>
-                            </MDBListGroup>
+                      <MDBListGroup style={{ width: "46rem" }} >
+                                <MDBListGroupItem className="block-example border-top-left-right border-warning" >Name of the Applicant : <div style={fontchanges}>{this.props.adopter.name}</div> </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Age :<div style={fontchanges}>{this.props.adopter.age}</div> </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Sex :  <div style={fontchanges}>{this.props.adopter.sex}</div></MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Marital Status : <div style={fontchanges}>{this.props.adopter.marital_status}</div> </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Annual Income : Rs. <div style={fontchanges}>{this.props.adopter.annualIncome}</div>  </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Residential Address : <div style={fontchanges}>{this.props.adopter.address}</div></MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Reason for Adoption : <div style={fontchanges}>{this.props.adopter.description}</div> </MDBListGroupItem>
+                               {this.props.adopter.status=='Approved' &&
+                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning" color="success"> Status: <div style={fontchanges}>{this.props.adopter.status}</div> </MDBListGroupItem>
+                            } 
+                            {this.props.adopter.status=='Pending' &&
+                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning" color="warning"> Status: <div style={fontchanges}>{this.props.adopter.status}</div></MDBListGroupItem>
+                            } 
+                            {this.props.adopter.status=='Declined' &&
+                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning" color="danger"> Status: <div style={fontchanges}>{this.props.adopter.status}</div></MDBListGroupItem>
+                            } 
+                                 </MDBListGroup>
                         </MDBContainer>
 
                           
@@ -246,7 +258,7 @@ class DisplayRequests extends Component {
                             <td style={trows1}> {this.props.adopter.userID} </td>
                       
                             <td style={trows}>{this.props.adopter.name} </td>
-                            <td style={trows}> { this.props.adopter.status} </td>
+                            <td style={trowsPending}> { this.props.adopter.status} </td>
                             <td style={trows}>
                             <Button className="foundBtn" onClick={this.onView}>View </Button>
                             </td>
