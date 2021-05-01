@@ -5,6 +5,9 @@ import {
     Modal, ModalBody, ModalHeader,Button, Row, Col
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const mainStyle = {
     position: "relative",
@@ -32,7 +35,8 @@ export class NewPost extends Component {
         filetype: [],
         targetAmount: 0,
         isOpen:false,
-        name: ''
+        name: '',
+        upload: false
     }
     toggle = () => {
         this.setState({ isOpen: !this.state.isOpen })
@@ -83,6 +87,8 @@ export class NewPost extends Component {
                 'Content-Type': 'multipart/form-data'
             }
         })
+        this.setState({ upload: true })
+        toast.success('Posting...')
         setTimeout(function () {
             window.location.reload()
         }, 2000)
@@ -180,7 +186,11 @@ export class NewPost extends Component {
                                 })}
                                 <br></br>
                                 <label className="hover" for="img"><i class="fa fa-image" /></label>&nbsp;&nbsp;
-                                    <button  className="hover active" style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Post</button>
+                                {!this.state.upload ? 
+                                    <button  className="hover active" style={{ marginLeft: '10px', backgroundColor:'#f4ca31f7' }} type="submit" onClick={this.onSubmit}>Post</button>
+                                    : <button  className="hover active" style={{ marginLeft: '10px', backgroundColor:'#FFD700' }} type="submit" disabled>Posting</button>
+                                }
+                                {/* <ToastContainer position="top-center"  autoClose={4000}/> */}
                             </div>
                         </form>
                     </ModalBody>

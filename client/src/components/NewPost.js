@@ -9,6 +9,8 @@ import {
 } from 'reactstrap'
 import profilepic from '../images/resources/friend-avatar10.jpg'
 import FlashMessage from 'react-flash-message'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const imageStyle = {
     width: 200,
@@ -70,6 +72,7 @@ export class NewPost extends Component {
             }
         })
         this.setState({ upload: true })
+        toast.success("Posting...");
         setTimeout(function() { 
             window.location.reload()
         }, 2000)
@@ -147,6 +150,7 @@ export class NewPost extends Component {
                                     {!this.state.upload ? 
                                     <button className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#f4ca31f7', borderRadius:'5px' }} type="submit" onClick={this.onSubmit}>Post</button>
                                     : <button disabled={true} className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#FFD700', borderRadius:'5px' }} type="submit">Posting</button>}
+                                    {/* <ToastContainer position="bottom-right" autoClose={4000}/> */}
                                 </div>
                             </form>
                         </Jumbotron>
