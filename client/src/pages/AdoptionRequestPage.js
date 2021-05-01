@@ -143,7 +143,10 @@ class DisplayRequests extends Component {
     state = {
         chatPanel: false,
         postID:'',
-        viewApplication:false
+        viewApplication:false,
+        confirm: false,
+        approve: false,
+        decline: false
     }
    
     onChat = (e) => {
@@ -163,6 +166,27 @@ class DisplayRequests extends Component {
         window.location.reload();
 
     }
+    onApprove1 = (e) => {
+        this.setState({ confirm: !this.state.confirm })
+        this.setState({ approve: !this.state.approve })
+
+    }
+    onDecline1 = (e) => {
+        this.setState({ confirm: !this.state.confirm })
+        this.setState({ decline: !this.state.decline })
+    }
+    onConfirm = (e) =>{
+        if(this.state.approve){
+            this.setState({ approve: !this.state.approve })
+        }
+        else{
+            this.setState({ decline: !this.state.decline })
+        
+        }
+        this.setState({ confirm: !this.state.confirm })
+       
+
+    }
     onDecline = (e) => {
         this.setState({ [e.target.name]: e.target.value })
        
@@ -178,9 +202,7 @@ class DisplayRequests extends Component {
         window.location.reload();
 
     }
-    onSubmit = (e) =>{
-
-    }
+    
     onView = (e) => {
         this.setState({ viewApplication: !this.state.viewApplication })
         console.log("open form")
@@ -232,15 +254,59 @@ class DisplayRequests extends Component {
                                 
                                 <br></br><br></br>
                                 {this.props.adopter.status == 'Pending' &&
-                                    <Button className="approveBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
+                                    <Button className="approveBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove1}>Approve Adoption</Button> 
                                     // <Button className="foundBtn" style={{ marginLeft: '10 0px' }} type="submit" onClick={this.onApprove}>Decline Adoption</Button>
                                 }
                                 
                                 {this.props.adopter.status == 'Pending' &&
                                     // <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
-                                    <Button className="declineBtn" style={{ marginLeft: '20px' }} type="submit" onClick={this.onDecline}>Decline Adoption</Button>
+                                    <Button className="declineBtn" style={{ marginLeft: '20px' }} type="submit" onClick={this.onDecline1}>Decline Adoption</Button>
                                 }
                             </div>
+                            <br></br><br></br>
+                           
+                        </div>
+                       
+                    </ModalBody>
+                </Modal>
+                <Modal
+                size="400px"
+                    style={{ width:'900px'}}
+                    isOpen={this.state.confirm}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.onConfirm}> Confirm Decision</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '10px',
+                        display: "flex",
+                        backgroundColor: 'white'
+                        }}>
+                        {/* <img src={profilepic} style={imageStyle}></img> */}
+                      <div>
+                        Are you sure you want to : 
+                        {this.state.approve && <div style={{ display:'inline', position: 'relative'}}> APPROVE?</div> 
+                        }
+                        {this.state.decline && <div style={{ display:'inline', position: 'relative'}}> Decline?</div> 
+                        }
+
+                          
+                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                
+                                
+                                <br></br><br></br>
+                                {this.state.approve &&
+                                    <Button className="approveBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Yes, Approve!</Button> 
+                                    // <Button className="foundBtn" style={{ marginLeft: '10 0px' }} type="submit" onClick={this.onApprove}>Decline Adoption</Button>
+                                }
+                                
+                                {this.state.decline &&
+                                    // <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
+                                    <Button className="declineBtn" style={{ marginLeft: '20px' }} type="submit" onClick={this.onDecline}>Yes, Decline!</Button>
+                                }
+                            </div>
+                           {/* { this.setState({ decline: !this.state.decline })}
+                           { this.setState({ approve: !this.state.approve })} */}
+
                             <br></br><br></br>
                            
                         </div>
