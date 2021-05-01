@@ -8,9 +8,9 @@ const Donation = require('../../models/Donation');
 const config = require('config');
 const crypto = require('crypto');
 var ipapi = require('ipapi.co');
-
-
-
+const { Notif } = require('../../models/Notif');
+const User = require('../../models/User')
+const Ngo = require('../../models/Ngo');
 // const fs = require('fs');
 // //file upload
 var multer = require('multer');
@@ -121,6 +121,32 @@ router.delete('/:id', function (req, res) {
     Donation.findByIdAndRemove(req.params.id, function (err, out) {
         if (err) console.log(err)
         else res.json(out)
+    })
+})
+
+router.post('/notify/:id', function (req, res) {
+    const notif = new Notif({
+        user_id: req.body.user_id,
+        user_name: req.body.user_name,
+        type: 'donation'
+    })
+    notif.save()
+    User.findById(req.params.id, (err, user) => {
+        user.notifs.push(notif)
+        user.save()
+    })
+})
+
+router.post('/ngo/notify/:id', function (req, res) {
+    const notif = new Notif({
+        user_id: req.body.user_id,
+        user_name: req.body.user_name,
+        type: 'donation'
+    })
+    notif.save()
+    Ngo.findById(req.params.id, (err, user) => {
+        user.notifs.push(notif)
+        user.save()
     })
 })
 
