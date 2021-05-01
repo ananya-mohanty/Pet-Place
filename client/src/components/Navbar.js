@@ -21,6 +21,8 @@ import { Link } from 'react-router-dom';
 import { connect, PromiseState } from 'react-refetch'
 import axios from 'axios';
 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export class Navbar2 extends Component {
 
@@ -34,6 +36,23 @@ export class Navbar2 extends Component {
         this.setState({
             isOpen: !this.state.isOpen
         })
+    }
+
+    prev = null
+
+    componentDidUpdate() {
+        console.log(this.prev)
+        if(this.props.unread_messages.value!=this.prev && this.prev!=null) {
+            if(this.props.unread_messages.value>0)
+            {
+                if(this.props.unread_messages.value == 1)
+                toast.info(`New messages from ${this.props.unread_messages.value} chat`)
+                else
+                toast.info(`New messages from ${this.props.unread_messages.value} chats`)
+            }
+            
+        }
+        this.prev = this.props.unread_messages.value
     }
 
     render() {
@@ -125,7 +144,8 @@ export class Navbar2 extends Component {
                         <NavbarText style={{ marginRight: 30 }}><a href="/logout"><i class="ti-power-off"></i></a></NavbarText>
                     </Collapse>
                 </Navbar>
-            </div >
+                <ToastContainer position="top-center" autoClose={3000} />
+            </div>
         )
     }
 }

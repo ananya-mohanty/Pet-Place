@@ -24,7 +24,8 @@ import NewDrive from '../components/NewDrive';
 
 const mainStyle = {
     position: "relative",
-    padding: "3rem"
+    padding: "3rem",
+    textAlign: 'center'
 }
 
 const JumbotronStyle = {
@@ -43,7 +44,7 @@ const divStyle = {
     borderWidth: 1, 
     borderColor: "rgba(0,0,0,0.1)",
     marginTop: "3.5rem",
-    marginLeft: "3.5rem",
+    marginLeft: "2.5rem",
     padding: "10px",
     textAlign: "center"
 }
@@ -54,7 +55,7 @@ const containerStyle = {
     marginTop: "30px",
     padding: 50,
     position: "relative",
-    background: "white"
+    background: "white",
 }
 
 const imageStyle = {
@@ -172,7 +173,7 @@ class DisplayDonation extends Component {
                                 
             
                                 <br></br>
-                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Donate</button>
+                                    <button style={{ marginLeft: '10px', backgroundColor:'#f4ca31f7' }} type="submit" onClick={this.onSubmit}>Donate</button>
                             </div>
                         </form>
                     </ModalBody>
