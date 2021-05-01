@@ -66,12 +66,19 @@ const trows1 = {
     padding: "10px",
     borderColor: "rgba(0,2,0,0.1)",
     // position: "relative",
-    marginTop: '10px',
+    marginTop: '10 px',
     textAlign: "center",
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
     minWidth:300
+
+}
+const tableStyle = {
+   marginTop:"5px",
+   margin:"5px",
+    padding: "10px",
+    
 
 }
 const imageStyle = {
@@ -210,11 +217,11 @@ class DisplayRequests extends Component {
                     <Table hover >
                          
                         <tbody>
-                        {this.props.adopter.status != 'Declined' &&
-                            <tr>
+                        {this.props.adopter.status == 'Pending' &&
+                            <tr style={tableStyle}>
                            
                             
-                            <td style={trows1}> {this.props.adopter._id} </td>
+                            <td style={trows1}> {this.props.adopter.userID} </td>
                       
                             <td style={trows}>{this.props.adopter.name} </td>
                             <td style={trows}> { this.props.adopter.status} </td>
@@ -227,7 +234,26 @@ class DisplayRequests extends Component {
                               }
                         </tbody>
                     </Table>
-                    
+                    <Table hover >
+                         
+                         <tbody>
+                         {this.props.adopter.status == 'Approved' &&
+                             <tr>
+                            
+                             
+                             <td style={trows1}> {this.props.adopter.userID} </td>
+                       
+                             <td style={trows}>{this.props.adopter.name} </td>
+                             <td style={trows}> { this.props.adopter.status} </td>
+                             <td style={trows}>
+                             <Button className="foundBtn" onClick={this.onView}>View </Button>
+                             </td>
+                             <td style = {trows}><Link to={`/chat/${this.props.adopter.userID}`}><Button className="foundBtn" onClick={this.onChat}>Connect</Button></Link></td>
+                     
+                             </tr>
+                               }
+                         </tbody>
+                     </Table>
                     </div>
                     
                     
@@ -274,7 +300,7 @@ export class AdoptionLists extends Component {
 
                         <table style={customers}>
                           <tr>
-                            <th style={trows1}> Application ID</th>
+                            <th style={trows1}> User ID</th>
                             <th style={trows}> Name of Applicant</th>
                             <th style={trows}> Status of Application</th>
                             <th style={trows}> View Application</th>
@@ -286,9 +312,30 @@ export class AdoptionLists extends Component {
                                     // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
                                     return (<div>
                                         {
+                                            (adopter.status=='Pending') &&
                                             <DisplayRequests adopter={adopter} key={i}  />
+
+                                            
                                           
                                         }
+                                        
+                                        
+                                    </div>)
+                                })
+                            }
+                            <br></br>
+                            {
+                                this.state.AdoptRequests.map((adopter, i) => {
+                                    // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
+                                    return (<div>
+                                        {
+                                            (adopter.status=='Approved') &&
+                                            <DisplayRequests adopter={adopter} key={i}  />
+
+                                            
+                                          
+                                        }
+                                        
                                          
                                     </div>)
                                 })
