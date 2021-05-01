@@ -190,7 +190,7 @@ class DisplayRequests extends Component {
                                 
                                 <br></br><br></br>
                                 {this.props.adopter.status == 'Pending' &&
-                                    <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
+                                    <Button className="approveBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
                                     // <Button className="foundBtn" style={{ marginLeft: '10 0px' }} type="submit" onClick={this.onApprove}>Decline Adoption</Button>
                                 }
                                 

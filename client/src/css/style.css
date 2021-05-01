@@ -10151,6 +10151,18 @@ aside.sidebar.full-style {
   -webkit-transform: scale(1.1,1.1);
 }
 
+.approveBtn{
+  border:'0px solid white';
+    background-color: #74C861;
+}
+.approveBtn:hover{
+  opacity: 70%;
+  background-color: #4C9F32;
+  transform: scale(1.1,1.1);
+  -ms-transform: scale(1.1,1.1);
+  -webkit-transform: scale(1.1,1.1);
+}
+
 .declineBtn{
   border:'0px solid white';
     background-color: #F27878;
