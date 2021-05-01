@@ -26,9 +26,11 @@ router.get('/:id', (req, res) => {
                     console.log('hello')
                     // items.sort(custom_sort)
                     res.json({ 'items': items})
-                    console.log(items)
+                    // console.log(items)
 
                 }
+
+
             })
         }
     });
@@ -58,7 +60,7 @@ router.put('/', (req, res) => {
              console.log(err)
            }
            else{
-               console.log('Application approved successfully')
+               console.log('Application declined successfully')
          
          }
             });
@@ -68,5 +70,28 @@ router.put('/', (req, res) => {
 
     
 });
+router.delete('/:id', function (req, res) {
+    Adopter.findByIdAndRemove(req.params.id, function (err, out) {
+        if (err) console.log(err)
+        else res.json(out)
+    })
+})
+// router.delete('/', (req, res, next) => {
+//     console.log('DELETE API')
+//     console.log(req.params)
+//     // Adopter.findByIdAndDelete({_id: req.body.formData.applicationID}).then(
+//     //   () => {
+//     //     res.status(200).json({
+//     //       message: 'Deleted!'
+//     //     });
+//     //   }
+//     // ).catch(
+//     //   (error) => {
+//     //     res.status(400).json({
+//     //       error: error
+//     //     });
+//     //   }
+//     // );
+//   });
 
 module.exports = router;

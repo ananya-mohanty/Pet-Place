@@ -212,7 +212,6 @@ export class FeedPost extends Component {
         formData.address = this.state.address;
         formData.owner = this.props.post.user_name;
         formData.ownerID = this.props.post.user_id;
-
         formData.description = this.state.description;
         console.log(formData)
        

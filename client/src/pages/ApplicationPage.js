@@ -15,6 +15,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import ChatPanel from '../components/ChatPanel';
 import LostPet from '../components/LostPet'
 import { Link } from 'react-router-dom'
+import { MDBListGroup, MDBListGroupItem, MDBContainer } from "mdbreact"
 const mainStyle = {
     position: "relative",
     marginTop: '40px',
@@ -55,7 +56,7 @@ const trows = {
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
-    minWidth:210
+    minWidth:180
 
 }
 const trows1 = {
@@ -82,7 +83,7 @@ const trowsApproved = {
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
-    minWidth:210
+    minWidth:180
 
 }
 const trowsPending = {
@@ -96,7 +97,7 @@ const trowsPending = {
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
-    minWidth:210
+    minWidth:180
 
 }
 const trowsDeclined = {
@@ -110,7 +111,7 @@ const trowsDeclined = {
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
-    minWidth:210
+    minWidth:180
 
 }
 const imageStyle = {
@@ -141,7 +142,8 @@ const spanStyle = {
 
 class DisplayApplications extends Component {
     state = {
-        chatPanel: false
+        chatPanel: false,
+        viewApplication:false
     }
     onClick = (e) => {
         // console.log(this.props.lostpet._id)
@@ -151,27 +153,77 @@ class DisplayApplications extends Component {
     onChat = (e) => {
         this.setState({ chatPanel: !this.state.chatPanel })
     }
+    onView = (e) => {
+        this.setState({ viewApplication: !this.state.viewApplication })
+        console.log("open form")
+    }
+    onWithdraw = (e) => {
+  
+        const formData = new FormData();
+        formData.status = 'Declined'
+        formData.applicationID = this.props.adopter._id
+
+        console.log(formData)
+     
+        axios.delete(`../api/request/${this.props.adopter._id}`);
+        window.location.reload();
+
+    }
 
     render() {
         return (
 
            <div>
+                <Modal
+                size="lg"
+                    style={{}}
+                    isOpen={this.state.viewApplication}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.onView}> Adoption Application</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '0px',
+                        display: "flex",
+                        backgroundColor: 'white'}}>
+                        {/* <img src={profilepic} style={imageStyle}></img> */}
+                      <div>
+                      <MDBContainer gradient="sunny-morning">
+                  
+                            <MDBListGroup style={{ width: "46rem" }} >
+                                <MDBListGroupItem className="block-example border-top-left-right border-warning" >Name of the Applicant : {this.props.adopter.name}  </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Age : {this.props.adopter.age} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Sex : {this.props.adopter.sex} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Marital Status : {this.props.adopter.marital_status} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Annual Income : Rs. {this.props.adopter.annualIncome} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Residential Address : {this.props.adopter.address} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Reason for Adoption : {this.props.adopter.description} </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning"> Status: {this.props.adopter.status} </MDBListGroupItem>
+                            </MDBListGroup>
+                        </MDBContainer>
+
+                          
+                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                
+                                
+                                <br></br><br></br>
+                                {this.props.adopter.status == 'Pending' &&
+                                    <Button className="declineBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onWithdraw}>Withdraw Application</Button> 
+                                    // <Button className="foundBtn" style={{ marginLeft: '10 0px' }} type="submit" onClick={this.onApprove}>Decline Adoption</Button>
+                                }
+                                
+                            </div>
+                            <br></br><br></br>
+                            
+                        </div>
+                       
+                    </ModalBody>
+                </Modal>
                
-                    {/* {this.props.lostpet.user_type == 'ngo' ? <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.lostpet.user_id}>
-                        <img src={'../api/users/image/ngo/' + this.props.lostpet.user_id} style={dpStyle}></img>
-                    </a> : <a href={'http://localhost:5000/api/users/image/' + this.props.lostpet.user_id}>
-                        <img src={'../api/users/image/' + this.props.lostpet.user_id} style={dpStyle}></img>
-                    </a>} */}
                    
                     <table style={customers}>
-                          {/* <tr>
-                            <th> Post ID</th>
-                            <th> Name of Applicant</th>
-                            <th> Status of Application</th>
-                          </tr> */}
-                        
+                         
                         <tr>
-                            <td style={trows1}> {this.props.adopter._id} </td>
+                            <td style={trows}> {this.props.adopter.owner} </td>
                             <td style={trows}>{this.props.adopter.name} </td>
                             {this.props.adopter.status=='Approved' &&
                             <td style={trowsApproved} > {this.props.adopter.status} </td>
@@ -182,6 +234,9 @@ class DisplayApplications extends Component {
                         {this.props.adopter.status=='Pending' &&
                             <td style={trowsPending} > {this.props.adopter.status} </td>
                         }
+                            <td style={trows}>
+                             <Button className="foundBtn" onClick={this.onView}>View </Button>
+                             </td>
                             <td style={trows}><Link to={`/chat/${this.props.adopter.ownerID}`}><Button className="foundBtn" onClick={this.onChat}>Connect</Button></Link></td>
                         </tr>
                     </table>
@@ -233,9 +288,10 @@ export class MyApplications extends Component {
                         <Row>
                         <table style={customers}>
                           <tr>
-                            <th style={trows1}> Application ID</th>
+                            <th style={trows}> Application ID</th>
                             <th style={trows}> Name of Applicant</th>
                             <th style={trows}> Status of Application</th>
+                            <th style={trows}> Application Form</th>
                             <th style={trows}> Connect with Owner</th>
                           </tr>
                         </table>
