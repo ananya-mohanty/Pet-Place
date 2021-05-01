@@ -39,16 +39,31 @@ router.get('/:id', (req, res) => {
 router.put('/', (req, res) => {
     // console.log(req.body.formData.donationID)
     // let t = parseInt(req.body.formData.currentAmount) + parseInt(req.body.formData.amount);
-     Adopter.findByIdAndUpdate(req.body.formData.applicationID,{status: 'Approved'},(err,doc)=>{
-      //this will give you the document what you want to update.. then 
-     if(err){
-       console.log(err)
-     }
-     else{
-         console.log('Application approved successfully')
-   
-   }
-      });
+    if(req.body.formData.status=='Approved'){
+        Adopter.findByIdAndUpdate(req.body.formData.applicationID,{status: 'Approved'},(err,doc)=>{
+            //this will give you the document what you want to update.. then 
+           if(err){
+             console.log(err)
+           }
+           else{
+               console.log('Application approved successfully')
+         
+         }
+            });
+    }
+    else if(req.body.formData.status=='Declined'){
+        Adopter.findByIdAndUpdate(req.body.formData.applicationID,{status: 'Declined'},(err,doc)=>{
+            //this will give you the document what you want to update.. then 
+           if(err){
+             console.log(err)
+           }
+           else{
+               console.log('Application approved successfully')
+         
+         }
+            });
+    }
+     
      
 
     

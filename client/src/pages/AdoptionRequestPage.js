@@ -127,6 +127,23 @@ class DisplayRequests extends Component {
         window.location.reload();
 
     }
+    onDecline = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+        console.log('hii bitchh')
+        // this.props.adopter.status='Approved'
+        const formData = new FormData();
+        formData.status = 'Declined'
+        // formData.postID = this.state.postID
+        formData.applicationID = this.props.adopter._id
+        // console.log(this.state.postID)
+        console.log(formData)
+        // axios.post(`../api/request/${this.props.adopter.userID}`, {});
+        // console.log(${JSON.parse(window.localStorage.getItem('adopter')._id)})
+        axios.put(`/api/request`, {formData}
+        );    
+        window.location.reload();
+
+    }
     onSubmit = (e) =>{
 
     }
@@ -173,7 +190,13 @@ class DisplayRequests extends Component {
                                 
                                 <br></br><br></br>
                                 {this.props.adopter.status == 'Pending' &&
-                                    <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button>
+                                    <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
+                                    // <Button className="foundBtn" style={{ marginLeft: '10 0px' }} type="submit" onClick={this.onApprove}>Decline Adoption</Button>
+                                }
+                                
+                                {this.props.adopter.status == 'Pending' &&
+                                    // <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
+                                    <Button className="declineBtn" style={{ marginLeft: '20px' }} type="submit" onClick={this.onDecline}>Decline Adoption</Button>
                                 }
                             </div>
                             <br></br><br></br>
@@ -187,16 +210,21 @@ class DisplayRequests extends Component {
                     <Table hover >
                          
                         <tbody>
-                            
+                        {this.props.adopter.status != 'Declined' &&
                             <tr>
+                           
+                            
                             <td style={trows1}> {this.props.adopter._id} </td>
+                      
                             <td style={trows}>{this.props.adopter.name} </td>
                             <td style={trows}> { this.props.adopter.status} </td>
                             <td style={trows}>
                             <Button className="foundBtn" onClick={this.onView}>View </Button>
                             </td>
                             <td style = {trows}><Link to={`/chat/${this.props.adopter.userID}`}><Button className="foundBtn" onClick={this.onChat}>Connect</Button></Link></td>
+                    
                             </tr>
+                              }
                         </tbody>
                     </Table>
                     
