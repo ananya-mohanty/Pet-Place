@@ -151,29 +151,24 @@ class DisplayRequests extends Component {
         // this.props.adopter.status='Approved'
         const formData = new FormData();
         formData.status = 'Approved'
-        // formData.postID = this.state.postID
         formData.applicationID = this.props.adopter._id
-        // console.log(this.state.postID)
+
         console.log(formData)
-        // axios.post(`../api/request/${this.props.adopter.userID}`, {});
-        // console.log(${JSON.parse(window.localStorage.getItem('adopter')._id)})
-        axios.put(`/api/request`, {formData}
+         axios.put(`/api/request`, {formData}
         );    
         window.location.reload();
 
     }
     onDecline = (e) => {
         this.setState({ [e.target.name]: e.target.value })
-        console.log('hii bitchh')
-        // this.props.adopter.status='Approved'
+       
+
         const formData = new FormData();
         formData.status = 'Declined'
-        // formData.postID = this.state.postID
         formData.applicationID = this.props.adopter._id
-        // console.log(this.state.postID)
+
         console.log(formData)
-        // axios.post(`../api/request/${this.props.adopter.userID}`, {});
-        // console.log(${JSON.parse(window.localStorage.getItem('adopter')._id)})
+       
         axios.put(`/api/request`, {formData}
         );    
         window.location.reload();
@@ -235,8 +230,7 @@ class DisplayRequests extends Component {
                                 }
                             </div>
                             <br></br><br></br>
-                            {/* <br></br><br></br><br></br><br></br><br></br>                             */}
-                            
+                           
                         </div>
                        
                     </ModalBody>
@@ -325,8 +319,7 @@ export class AdoptionLists extends Component {
                     <div style={{ height: "auto", margin: "0 auto", padding: 100, position: "relative", background: "white", }}> 
                         <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Applications To Your Posts</h5>
                         
-                        {/* <Button className="register" onClick={this.toggle}>View Your Application</Button> */}
-                        <span style={spanStyle}>
+                         <span style={spanStyle}>
                         </span><hr />
                       
                         

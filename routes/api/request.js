@@ -39,11 +39,9 @@ router.get('/:id', (req, res) => {
 
 
 router.put('/', (req, res) => {
-    // console.log(req.body.formData.donationID)
-    // let t = parseInt(req.body.formData.currentAmount) + parseInt(req.body.formData.amount);
-    if(req.body.formData.status=='Approved'){
+     if(req.body.formData.status=='Approved'){
         Adopter.findByIdAndUpdate(req.body.formData.applicationID,{status: 'Approved'},(err,doc)=>{
-            //this will give you the document what you want to update.. then 
+          
            if(err){
              console.log(err)
            }
@@ -76,22 +74,6 @@ router.delete('/:id', function (req, res) {
         else res.json(out)
     })
 })
-// router.delete('/', (req, res, next) => {
-//     console.log('DELETE API')
-//     console.log(req.params)
-//     // Adopter.findByIdAndDelete({_id: req.body.formData.applicationID}).then(
-//     //   () => {
-//     //     res.status(200).json({
-//     //       message: 'Deleted!'
-//     //     });
-//     //   }
-//     // ).catch(
-//     //   (error) => {
-//     //     res.status(400).json({
-//     //       error: error
-//     //     });
-//     //   }
-//     // );
-//   });
+
 
 module.exports = router;
