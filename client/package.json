@@ -10,6 +10,7 @@
     "geo-nearby": "^2.0.1",
     "history": "^5.0.0",
     "jquery": "^3.6.0",
+    "mdbreact": "^5.0.2",
     "prop-types": "^15.7.2",
     "razorpay": "^2.0.6",
     "react": "^17.0.1",

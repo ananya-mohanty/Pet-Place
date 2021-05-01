@@ -46,7 +46,6 @@ const Ngo = require('../../models/Ngo');
 //@desc Register new ngo
 //@access Public
 router.post('/', upload.array('files[]', 10), (req, res) => {
-    console.log('hiiii')
     const { name, email, password, contact, hno, street, city, state, pincode, license } = req.body;
     console.log(name, email, password, contact, license, hno, street, city, state, pincode,)
     

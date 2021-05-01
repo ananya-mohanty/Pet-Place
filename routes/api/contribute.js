@@ -97,7 +97,6 @@ function updateStatus(req, res) {
 }
    });
   
-   console.log('HELLO')
 
 
   }

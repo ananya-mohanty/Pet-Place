@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const {MessageSchema} = require('./Message')
+const { NotifSchema } = require('./Notif')
 
 //create schema
 const UserSchema = new Schema({
@@ -30,6 +31,11 @@ const UserSchema = new Schema({
         type: Map,
         of: Number,
         default: {}
+    },
+    notifs:{
+        type: Array,
+        of: NotifSchema,
+        default:[]
     },
     liked_posts: {
         type: Array,

@@ -67,14 +67,24 @@ const spanStyle = {
 }
 
 class DisplayLostPet extends Component {
-    state = {
-        chatPanel: false
-    }
-    toggle = () => {
-        this.setState({ chatPanel: !this.state.chatPanel });
-    }
+       
     onClick = (e) => {
-        this.setState({ chatPanel: !this.state.chatPanel })
+        if (this.props.lostpet.user_type == 'ngo') {
+            const body = {
+                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+            }
+
+            axios.post(`/api/lostpet/ngo/notify/${this.props.lostpet.user_id}`, body)
+        }
+
+        else {
+            const body = {
+                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+            }
+            axios.post(`/api/lostpet/notify/${this.props.lostpet.user_id}`, body)
+        }
     }
     render() {
         return (
@@ -102,15 +112,10 @@ class DisplayLostPet extends Component {
                 <CardBody className="myColumn1" style={{height:'100px', overflowY:'auto', overflowX:'hidden'}}>
                     <CardText style={{ color: '#77c3e7' }}>{this.props.lostpet.description}</CardText>
                 </CardBody>
-                <Link to={`/chat/${this.props.lostpet.user_id}`}><Button className="foundBtn" onClick={this.onClick}>Found</Button></Link>
-                {/* <Modal
-                    style={{}}
-                    isOpen={this.state.chatPanel}
-                    toggle={this.toggle}>
-                    <ModalBody>
-                        <ChatPanel user1={this.props.lostpet.user_id} />
-                    </ModalBody>
-                </Modal>  */}
+                <Link to={`/chat/${this.props.lostpet.user_id}`}>
+                <Button className="foundBtn" onClick={this.onClick}>Found</Button>
+                </Link>
+                
             </div>
             // </div>
         )

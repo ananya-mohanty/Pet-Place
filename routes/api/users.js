@@ -9,7 +9,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 
 var multer = require('multer');
-
+const {Notif} = require('../../models/Notif');
 // var storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
 //         cb(null, 'uploads')
@@ -101,7 +101,6 @@ router.post('/', upload.array('files[]', 10), (req, res) => {
 });
 
 router.get('/image/:user/', function (req, res) {
-    console.log('getting image')
     User.findById(req.params.user, (err, user)=>{
         if(user) {
             global.gfs.files.findOne({filename:user.profile_pic}, function (err, file) {
@@ -150,7 +149,6 @@ router.get('/image/:user/', function (req, res) {
 })
 
 router.get('/image/ngo/:user/', function (req, res) {
-    console.log('hi')
     Ngo.findById(req.params.user, (err, user) => {
         if(user==null) return
         global.gfs.files.findOne({ filename: user.profile_pic }, function (err, file) {
@@ -179,6 +177,28 @@ router.get('/isuser/:id', function (req, res) {
             res.json({flag:true})
 
         else res.json({flag:false})
+    })
+})
+
+router.get('/notifications/:id', function (req, res) {
+    console.log('here')
+    User.findById(req.params.id, (err, user) => {
+        // console.log(user.notifs)
+        res.json(user.notifs)
+    })
+})
+
+router.delete('/notifications/:user_id/:id', function (req, res) {
+    console.log(req.params.id, req.params.user_id)
+    Notif.findByIdAndRemove(req.params.id, (err, notifs) => {
+        // console.log(user.notifs)
+        User.findById(req.params.user_id, (err, user)=>{
+            const temp = user.notifs.filter(n => n._id!=req.params.id )
+            console.log(temp)
+            user.notifs=temp
+            user.save()
+        })
+        res.json(notifs)
     })
 })
 

@@ -15,7 +15,6 @@ const Ngo = require('../../models/Ngo')
 //@desc Authenticate user
 //@access Public
 router.post('/', (req, res) => {
-    console.log("aa gyaaaaa")
     // console.log(req.body.email)
     const { email, password } = req.body;
     // console.log(email)
@@ -103,7 +102,6 @@ router.get('/name/:id', (req, res) => {
 //@desc  Get type of user
 //@access Public
 router.get('/:id', (req, res) => {
-    console.log("herejbib")
     User.findById(req.params.id)
         .then(user => {
                     if(!user) {

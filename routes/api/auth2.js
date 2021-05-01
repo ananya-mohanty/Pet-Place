@@ -8,13 +8,12 @@ const auth = require('../../middleware/auth');
 
 //Ngo model
 const Ngo = require('../../models/Ngo');
-
+const {Notif} = require('../../models/Notif')
 //@route POST api/ngo
 //@desc Authenticate ngo
 //@access Public
 router.post('/', (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password)
     //simple validation
     if (!email || !password) {
         return res.status(400).json({ msg: 'Please enter all fields' }); //bad request
@@ -58,7 +57,6 @@ router.post('/', (req, res) => {
 //@desc  Get ngo data
 //@access Public
 router.get('/user/:id', auth, (req, res) => {
-    console.log('hello')
     Ngo.findById(req.params.id)
         .select('-password')
         .then(user => {
@@ -70,5 +68,27 @@ router.get('/user/:id', auth, (req, res) => {
             })
         })
 });
+
+router.delete('/notifications/:user_id/:id', function (req, res) {
+    console.log(req.params.id, req.params.user_id)
+    Notif.findByIdAndRemove(req.params.id, (err, notifs) => {
+        // console.log(user.notifs)
+        Ngo.findById(req.params.user_id, (err, user) => {
+            const temp = user.notifs.filter(n => n._id != req.params.id)
+            console.log(temp)
+            user.notifs = temp
+            user.save()
+        })
+        res.json(notifs)
+    })
+})
+
+router.get('/notifications/:id', function (req, res) {
+    console.log('hello')
+    Ngo.findById(req.params.id, (err, user) => {
+        // console.log(user.notifs)
+        res.json(user.notifs)
+    })
+})
 
 module.exports = router;

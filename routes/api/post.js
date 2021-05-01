@@ -100,7 +100,6 @@ router.delete('/:id', function (req, res) {
 router.post('/', upload.array('files[]', 10), (req, res, next) => {
     const time= Date.now()
     const today= new Date(time)
-   console.log(req.body.user)
     var post = new Post({
         user_name: JSON.parse(req.body.user).name,
         user_id: JSON.parse(req.body.user).id,
@@ -209,7 +208,6 @@ router.get('/apply', auth, (req, res) => {
 
 
 router.post('/apply/:user/:id', (req, res) => {
-    console.log(req.body)
     var callback = function (resp) {
         newAdopter.location = resp
         newAdopter.save().then(adopter => res.json(adopter));

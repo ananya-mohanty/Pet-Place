@@ -13,11 +13,13 @@ import {
     DropdownMenu,
     DropdownItem,
     NavbarText,
+    Button
 } from 'reactstrap';
 import logo from '../images/logo_fetch.jpeg'
 import '../App.css'
 import { Link } from 'react-router-dom';
 import { connect, PromiseState } from 'react-refetch'
+import axios from 'axios';
 
 
 export class Navbar2 extends Component {
@@ -82,23 +84,55 @@ export class Navbar2 extends Component {
                         </Nav>
 
                         <NavbarText style={{ marginRight: 30 }}><a href="/"><i class="ti-home"></i></a></NavbarText>
-                        <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-bell"></i></a></NavbarText>
+                        <UncontrolledDropdown>
+                            <DropdownToggle nav caret style={{ fontFamily: 'muli' }}>
+                                <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-bell"></i>{this.props.notifs.value && this.props.notifs.value.length > 0 ?
+                                    <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.notifs.value.length}&nbsp;</span>
+                                    : null}</a>
+                                </NavbarText>
+                                <DropdownMenu>
+                                    {this.props.notifs.value ?
+                                        this.props.notifs.value.map((n, i) => {
+                                            return (
+                                                <div>
+                                                    <DropdownItem tag={Link} to={`chat/${n.user_id}`} >
+                                                        Looks like {n.user_name} has found your pet.
+                                                </DropdownItem>
+                                                    {window.localStorage.getItem('user_type') == 'user' ? <Button size='sm' style={{ float: 'right', marginRight: '20px' }} onClick={() => {
+                                                        axios.delete(`/api/users/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`)
+                                                    }}>
+                                                        &#10003;
+                                                    </Button> : <Button size='sm' style={{ float: 'right', marginRight: '20px' }} onClick={() => {
+                                                        axios.delete(`/api/ngo/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`)
+                                                    }}>
+                                                        &#10003;
+                                                    </Button>}
+                                                    
+                                                </div>
+                                               )
+                                        })
+                                        : null}
+                                </DropdownMenu>
+                            </DropdownToggle>
+                        </UncontrolledDropdown>
+
                         <NavbarText style={{ marginRight: 30 }}><a href="/chats"><i class="ti-comment"></i>
-                            {this.props.unread_messages.value>0 ? 
-                            <span style={{marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%'}}>&nbsp;{this.props.unread_messages.value}&nbsp;</span>
-                            :null}
-                            </a></NavbarText>
+                            {this.props.unread_messages.value > 0 ?
+                                <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.unread_messages.value}&nbsp;</span>
+                                : null}
+                        </a></NavbarText>
                         <NavbarText style={{ marginRight: 30 }}><a href="/profile"><i class="ti-user"></i></a></NavbarText>
                         <NavbarText style={{ marginRight: 30 }}><a href="/logout"><i class="ti-power-off"></i></a></NavbarText>
                     </Collapse>
                 </Navbar>
-            </div>
+            </div >
         )
     }
 }
 
 // export default connect()(Navbar2)
 export default connect(props => ({
-    unread_messages: {url: `api/messages/unread/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000}
-  }))(Navbar2)
+    unread_messages: { url: `api/messages/unread/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000 },
+    notifs: { url: `api/${window.localStorage.getItem('user_type')}/notifications/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 2000 },
+}))(Navbar2)
 // export default Navbar2

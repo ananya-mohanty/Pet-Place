@@ -77,14 +77,23 @@ const spanStyle = {
 }
 
 class LostPet extends Component {
-    state = {
-        chatPanel: false
-    }
-    toggle = () => {
-        this.setState({ chatPanel: !this.state.chatPanel });
-    }
     onClick = (e) => {
-        this.setState({ chatPanel: !this.state.chatPanel })
+        if (this.props.lostpet.user_type == 'ngo') {
+            const body={
+                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+            }
+            
+            axios.post(`/api/lostpet/ngo/notify/${this.props.lostpet.user_id}`, body)
+        }
+
+        else {
+            const body = {
+                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+            }
+            axios.post(`/api/lostpet/notify/${this.props.lostpet.user_id}`, body)
+        }
     }
     render() {
         return (
@@ -110,7 +119,9 @@ class LostPet extends Component {
                         <CardSubtitle>Location: {this.props.lostpet.location.city}</CardSubtitle>
                         <CardSubtitle>Last Seen: {this.props.lostpet.lastseen}</CardSubtitle>
                     </CardText>
-                    <Link to={`/chat/${this.props.lostpet.user_id}`}><Button className='foundBtn' onClick={this.onClick} size='sm'>Found</Button></Link>
+                    <Link to={`/chat/${this.props.lostpet.user_id}`}>
+                        <Button className='foundBtn' onClick={this.onClick} size='sm'>Found</Button>
+                        </Link>
                 </CardBody>
                 {/* <Modal
                     style={{ float: 'right' }}

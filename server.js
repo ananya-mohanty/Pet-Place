@@ -56,6 +56,7 @@ global.upload = multer({ storage });
 
 
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/user', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/ngo', require('./routes/api/auth2'));
 app.use('/api/ngoregister', require('./routes/api/ngo'));

@@ -11,6 +11,9 @@ const crypto = require('crypto');
 var multer = require('multer');
 var ipapi = require('ipapi.co');
 
+const User = require('../../models/User')
+const Ngo = require('../../models/Ngo');
+const { Notif } = require('../../models/Notif');
 
 // var storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -119,7 +122,6 @@ router.delete('/:id', function (req, res) {
 })
 
 router.get('/found', (req, res) => {
-    console.log('hett')
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     }
@@ -164,8 +166,8 @@ router.get('/found/:id', (req, res) => {
 
 
 router.post('/found', upload.array('files[]', 10), (req, res, next) => {
-    console.log(req.body.description, req.body.lastseen, JSON.parse(req.body.user).id, JSON.parse(req.body.user).name,
-        req.body.user_type, req.body.breed)
+    // console.log(req.body.description, req.body.lastseen, JSON.parse(req.body.user).id, JSON.parse(req.body.user).name,
+    //     req.body.user_type, req.body.breed)
 
     var callback = function (resp) {
         post.location = resp
@@ -218,6 +220,33 @@ router.get('/image/:filename', function (req, res) {
 })
 
 
+router.post('/notify/:id', function(req, res)
+{
+    console.log('hee')
+    const notif=new Notif({
+        user_id: req.body.user_id,
+        user_name: req.body.user_name,
+        type:'foundpet'
+    })
+    notif.save()
+    User.findById(req.params.id, (err, user)=>{
+        user.notifs.push(notif)
+        user.save()
+    })
+})
+
+router.post('/ngo/notify/:id', function (req, res) {
+    const notif = new Notif({
+        user_id: req.body.user_id,
+        user_name: req.body.user_name,
+        type: 'foundpet'
+    })
+    notif.save()
+    Ngo.findById(req.params.id, (err, user) => {
+        user.notifs.push(notif)
+        user.save()
+    })
+})
 
 
 module.exports = router;

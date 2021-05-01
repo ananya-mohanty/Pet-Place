@@ -40,7 +40,6 @@ const upload = multer({ storage });
 
 
 router.get('/image/:filename', function (req, res) {
-    console.log("idhr")
     global.gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
         if (!file || file.length === 0) {
             return res.status(404).json({
@@ -61,7 +60,6 @@ router.get('/image/:filename', function (req, res) {
 })
 
 router.get('/video/:filename', function (req, res) {
-    console.log("popop")
     global.gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
         if (!file || file.length === 0) {
             return res.status(404).json({
@@ -112,7 +110,6 @@ router.get('/document/:filename', function (req, res) {
 
 //get number of unread messages of user 
 router.get('/unread/:id', (req, res) => {
-    console.log(req.params.id)
     User.findById(req.params.id)
         .then(user => {
             if(!user) {
@@ -122,7 +119,6 @@ router.get('/unread/:id', (req, res) => {
                         return res.json(ngo.num_unread_messages)
                     })
             }
-            console.log(user.unread_messages)
             return res.json(user.num_unread_messages)
         })
 })

@@ -32,7 +32,6 @@ router.get('/:id', (req, res) => {
             })
         }
     });
-    console.log(req.params)
     
 });
 
@@ -51,9 +50,7 @@ router.put('/', (req, res) => {
    }
       });
      
-      console.log('HELLO')
 
-    console.log(req.params.formData)
     
 });
 
