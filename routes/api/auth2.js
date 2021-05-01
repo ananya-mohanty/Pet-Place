@@ -84,9 +84,12 @@ router.delete('/notifications/:user_id/:id', function (req, res) {
 })
 
 router.get('/notifications/:id', function (req, res) {
-    console.log('hello')
+    function custom_sort(a, b) {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
     Ngo.findById(req.params.id, (err, user) => {
         // console.log(user.notifs)
+        user.notifs.sort(custom_sort)
         res.json(user.notifs)
     })
 })

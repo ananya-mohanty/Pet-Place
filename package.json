@@ -44,6 +44,7 @@
     "react-image-video-lightbox": "^2.0.4",
     "react-refetch": "^3.0.1",
     "react-slideshow-image": "^3.4.5",
+    "react-time": "^4.3.0",
     "simple-react-lightbox": "^3.6.5"
   },
   "devDependencies": {
