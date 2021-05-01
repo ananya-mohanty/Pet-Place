@@ -41,7 +41,7 @@ const customers = {
     padding: "10px",
     borderColor: "rgba(0,2,0,0.1)",
     position: "relative",
-    marginTop: '20px',
+    marginTop: '0.2rem',
     overflow: "hidden"
 
 }
@@ -69,6 +69,48 @@ const trows1 = {
     borderWidth: 1,
     borderCollapse: "collapse",
     minWidth:300
+
+}
+const trowsApproved = {
+    width: 20,
+    padding: "10px",
+    borderColor: "rgba(0,2,0,0.1)",
+    color:"green",
+    fontWeight:"bold",
+    marginTop: '10px',
+    textAlign: "center",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderCollapse: "collapse",
+    minWidth:210
+
+}
+const trowsPending = {
+    width: 20,
+    padding: "10px",
+    borderColor: "rgba(0,2,0,0.1)",
+    color:"blue",
+    fontWeight:"bold",
+    marginTop: '10px',
+    textAlign: "center",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderCollapse: "collapse",
+    minWidth:210
+
+}
+const trowsDeclined = {
+    width: 20,
+    padding: "10px",
+    borderColor: "rgba(0,2,0,0.1)",
+    color:"red",
+    fontWeight:"bold",
+    marginTop: '10px',
+    textAlign: "center",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderCollapse: "collapse",
+    minWidth:210
 
 }
 const imageStyle = {
@@ -131,7 +173,15 @@ class DisplayApplications extends Component {
                         <tr>
                             <td style={trows1}> {this.props.adopter._id} </td>
                             <td style={trows}>{this.props.adopter.name} </td>
-                            <td style={trows}> {this.props.adopter.status} </td>
+                            {this.props.adopter.status=='Approved' &&
+                            <td style={trowsApproved} > {this.props.adopter.status} </td>
+                        }
+                        {this.props.adopter.status=='Declined' &&
+                            <td style={trowsDeclined} > {this.props.adopter.status} </td>
+                        }
+                        {this.props.adopter.status=='Pending' &&
+                            <td style={trowsPending} > {this.props.adopter.status} </td>
+                        }
                             <td style={trows}><Link to={`/chat/${this.props.adopter.ownerID}`}><Button className="foundBtn" onClick={this.onChat}>Connect</Button></Link></td>
                         </tr>
                     </table>
@@ -194,6 +244,35 @@ export class MyApplications extends Component {
                                     // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
                                     return (<div>
                                         {
+                                            (adopter.status=='Pending') &&
+                                            <DisplayApplications adopter={adopter} key={i} onClick={this.onClick} />
+                                          
+                                        }
+                                         
+                                    </div>)
+                                })
+                            }
+                            <br></br><br></br><br></br><br></br>
+                            {
+                                this.state.AppliedForms.map((adopter, i) => {
+                                    // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
+                                    return (<div>
+                                        {
+                                            (adopter.status=='Approved') &&
+                                            <DisplayApplications adopter={adopter} key={i} onClick={this.onClick} />
+                                          
+                                        }
+                                         
+                                    </div>)
+                                })
+                            }
+                              <br></br><br></br><br></br><br></br>
+                            {
+                                this.state.AppliedForms.map((adopter, i) => {
+                                    // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
+                                    return (<div>
+                                        {
+                                            (adopter.status=='Declined') &&
                                             <DisplayApplications adopter={adopter} key={i} onClick={this.onClick} />
                                           
                                         }

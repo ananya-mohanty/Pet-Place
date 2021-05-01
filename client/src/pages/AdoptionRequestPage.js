@@ -74,6 +74,34 @@ const trows1 = {
     minWidth:300
 
 }
+const trowsApproved = {
+    width: 20,
+    padding: "10px",
+    borderColor: "rgba(0,2,0,0.1)",
+    color:"green",
+    fontWeight:"bold",
+    marginTop: '10px',
+    textAlign: "center",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderCollapse: "collapse",
+    minWidth:150
+
+}
+const trowsPending = {
+    width: 20,
+    padding: "10px",
+    borderColor: "rgba(0,2,0,0.1)",
+    color:"blue",
+    fontWeight:"bold",
+    marginTop: '10px',
+    textAlign: "center",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderCollapse: "collapse",
+    minWidth:150
+
+}
 const tableStyle = {
    marginTop:"5px",
    margin:"5px",
@@ -244,7 +272,13 @@ class DisplayRequests extends Component {
                              <td style={trows1}> {this.props.adopter.userID} </td>
                        
                              <td style={trows}>{this.props.adopter.name} </td>
-                             <td style={trows}> { this.props.adopter.status} </td>
+                             {this.props.adopter.status=='Approved' &&
+                            <td style={trowsApproved} > {this.props.adopter.status} </td>
+                        }
+                       
+                        {this.props.adopter.status=='Pending' &&
+                            <td style={trowsPending} > {this.props.adopter.status} </td>
+                        }
                              <td style={trows}>
                              <Button className="foundBtn" onClick={this.onView}>View </Button>
                              </td>
