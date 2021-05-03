@@ -113,9 +113,9 @@ export class Navbar2 extends Component {
                     </NavItem> */}
                         </Nav>
 
-                        <NavbarText style={{ marginRight: 30 }}><a href="/"><i class="ti-home"></i></a></NavbarText>
+                        <NavbarText style={{ marginRight: 20 }}><a href="/"><i class="ti-home"></i></a></NavbarText>
                         <UncontrolledDropdown>
-                            <DropdownToggle nav caret style={{ fontFamily: 'muli' }}>
+                            <DropdownToggle nav /*caret*/ style={{ fontFamily: 'muli' }}>
                                 <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-bell"></i>{this.props.notifs.value && this.props.notifs.value.length > 0 ?
                                     <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.notifs.value.length}&nbsp;</span>
                                     : null}</a>
@@ -149,7 +149,7 @@ export class Navbar2 extends Component {
                             </DropdownToggle>
                         </UncontrolledDropdown>
 
-                        <NavbarText style={{ marginRight: 30 }}><a href="/chats"><i class="ti-comment"></i>
+                        <NavbarText style={{ marginRight: 30, marginLeft: -10 }}><a href="/chats"><i class="ti-comment"></i>
                             {this.props.unread_messages.value > 0 ?
                                 <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.unread_messages.value}&nbsp;</span>
                                 : null}
