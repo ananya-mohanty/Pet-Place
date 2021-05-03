@@ -82,24 +82,34 @@ export class Navbar2 extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink tag={RRNavLink} to="/" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{textDecoration: 'strong', fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}/*style={{ fontFamily: 'muli', fontSize: '16px' }}*/>Your Feed</NavLink>
+                                <NavLink tag={RRNavLink} to="/" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 510, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}/*style={{ fontFamily: 'muli', fontSize: '16px' }}*/>Your Feed</NavLink>
                             </NavItem>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink href="/donations" style={{ fontFamily: 'muli' }}>Donation Drives</NavLink>
+                                <NavLink tag={RRNavLink} to="/donations" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 510, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}>Donation Drives</NavLink>
                             </NavItem>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret style={{ fontFamily: 'muli' }}>
+                            <NavItem style={{ marginRight: 25 }}>
+                                <NavLink tag={RRNavLink} to="/lostpet" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 510, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}>Lost a Pet</NavLink>
+                            </NavItem>
+                            <NavItem style={{ marginRight: 25 }}>
+                                <NavLink tag={RRNavLink} to="/foundpet" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 510, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}>Found a Pet</NavLink>
+                            </NavItem>
+                            {/* <UncontrolledDropdown nav inNavbar>
+                                <DropdownToggle nav caret style={{ fontFamily: 'muli' }} setActiveFromChild>
                                     Lost and Found
                                     <DropdownMenu style={{ opacity:'95%'}} right >
-                                        <DropdownItem tag={Link} to="/lostpet" >
+                                        <DropdownItem /*tag={Link} to="/lostpet" >
+                                        <NavLink tag={RRNavLink} to="/lostpet" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 600, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}>
                                             Lost a Pet
+                                        </NavLink>
                                         </DropdownItem>
-                                        <DropdownItem tag={Link} to="/foundpet" >
+                                        <DropdownItem /*tag={Link} to="/foundpet" >
+                                        <NavLink tag={RRNavLink} to="/foundpet" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 600, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}>
                                             Found a Pet
+                                        </NavLink>
                                         </DropdownItem>
                                     </DropdownMenu>
                                 </DropdownToggle>
-                            </UncontrolledDropdown>
+                            </UncontrolledDropdown> */}
                             {/* <NavItem> */}
                             {/* <NavLink href="#"><i class="ti-home"></i></NavLink>
                     </NavItem>
