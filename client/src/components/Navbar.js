@@ -124,7 +124,7 @@ export class Navbar2 extends Component {
                                             return (
                                                 <div>
                                                     <DropdownItem tag={Link} to={`chat/${n.user_id}`} >
-                                                        {n.type == 'fountpet' ? <div>Looks like {n.user_name} has found your pet.</div>:
+                                                        {n.type == 'foundpet' ? <div>Looks like {n.user_name} has found your pet.</div>:
                                                             n.type == 'donation' ? <div>{n.user_name} made a donation to your drive.</div>:null}
                                                 </DropdownItem>
                                                     <Time style={{marginLeft:'22px', fontSize:'12px'}}value={n.createdAt} format="HH:mm:ss" />
@@ -164,6 +164,6 @@ export class Navbar2 extends Component {
 // export default connect()(Navbar2)
 export default connect(props => ({
     unread_messages: { url: `../api/messages/unread/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000 },
-    notifs: { url: `../api/${window.localStorage.getItem('user_type')}/notifications/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 2000 },
+    notifs: { url: `../api/${window.localStorage.getItem('user_type')}/notifications/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000 },
 }))(Navbar2)
 // export default Navbar2
