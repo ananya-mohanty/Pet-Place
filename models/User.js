@@ -42,6 +42,11 @@ const UserSchema = new Schema({
         required:false,
         default:[]       
     },
+    applied_posts: {
+        type: Array,
+        required:false,
+        default:[]       
+    },
     profile_pic:{
         type:String,
         required:false
