@@ -7,7 +7,9 @@ import {
     Container, Row, Col, Jumbotron,
     Button,
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Modal, ModalBody
+    CardTitle, CardSubtitle, Modal, ModalBody,
+    ModalBodyProps,
+    ModalHeader,
 } from 'reactstrap'
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
@@ -77,24 +79,17 @@ const spanStyle = {
 }
 
 class LostPet extends Component {
-    onClick = (e) => {
-        if (this.props.lostpet.user_type == 'ngo') {
-            const body={
-                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                'user_name': JSON.parse(window.localStorage.getItem('user')).name
-            }
-            
-            axios.post(`/api/lostpet/ngo/notify/${this.props.lostpet.user_id}`, body)
-        }
-
-        else {
-            const body = {
-                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                'user_name': JSON.parse(window.localStorage.getItem('user')).name
-            }
-            axios.post(`/api/lostpet/notify/${this.props.lostpet.user_id}`, body)
-        }
+    state = {
+        chatPanel: false,
+        makeDonation:false
     }
+    toggle = () => {
+        this.setState({ chatPanel: !this.state.chatPanel });
+    }
+    onClick = (e) => {
+        this.setState({ chatPanel: !this.state.chatPanel })
+    }
+   
     render() {
         return (
             <div style={divStyle}>
@@ -119,18 +114,9 @@ class LostPet extends Component {
                         <CardSubtitle>Location: {this.props.lostpet.location.city}</CardSubtitle>
                         <CardSubtitle>Last Seen: {this.props.lostpet.lastseen}</CardSubtitle>
                     </CardText>
-                    <Link to={`/chat/${this.props.lostpet.user_id}`}>
-                        <Button className='foundBtn' onClick={this.onClick} size='sm'>Found</Button>
-                        </Link>
+                    <Link to={`/chat/${this.props.lostpet.user_id}`}><Button className='foundBtn' onClick={this.onClick} size='sm'>Found</Button></Link>
                 </CardBody>
-                {/* <Modal
-                    style={{ float: 'right' }}
-                    isOpen={this.state.chatPanel}
-                    toggle={this.toggle}>
-                    <ModalBody>
-                        <ChatPanel user1={this.props.lostpet.user_id} />
-                    </ModalBody>
-                </Modal> */}
+                
             </div>
             // </div>
         )
@@ -139,6 +125,41 @@ class LostPet extends Component {
 
 
 class DisplayDonation extends Component {
+    state = {
+      
+        makeDonation:false
+    }
+    onDonate =(e) =>{
+        this.setState({ makeDonation: !this.state.makeDonation })
+        console.log('helllo')
+    }
+    onTextChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+    onSubmit = (e) => {
+        e.preventDefault()
+        
+
+    
+        const formData = new FormData();
+        console.log(this.state.name)
+        formData.name = this.state.name;
+        formData.contactNo = this.state.contactNo;
+        formData.emailID = this.state.emailID;
+        formData.amount = this.state.amount;
+        formData.cause = this.props.donation.description;
+        formData.donation = this.props.donation.name;
+        formData.donationID = this.props.donation._id;
+        formData.currentAmount = this.props.donation.currentAmount;
+        // formData.annualIncome = this.state.annualIncome;
+        // formData.address = this.state.address;
+ 
+        console.log(formData)
+        axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
+        window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
+        // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
+       
+    }
     render() {
         return (
             <div style={divStyle}>
@@ -158,24 +179,79 @@ class DisplayDonation extends Component {
                                    
                 </div>
                 <CardBody>
-                    {/* <CardTitle tag="h6">{this.props.donation.name} <i class="fa fa-map-marker" title={`${this.props.donation.location.city}, ${this.props.donation.location.region}, ${this.props.donation.location.country_name}`}></i></CardTitle>
-                    <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        Target Amount: {this.props.donation.targetAmount}</CardSubtitle> */}
-                    {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
+                  
                     <CardText >
                         <CardTitle tag="h6">{this.props.donation.name}</CardTitle>
-                        <CardSubtitle >Target Amount: {this.props.donation.targetAmount}</CardSubtitle>
+                        <CardSubtitle > Amount Raised: Rs. {this.props.donation.currentAmount} </CardSubtitle>
+                        <CardSubtitle >Target Amount: Rs. {this.props.donation.targetAmount}</CardSubtitle>
                         {/* </CardSubtitle> */}
                         {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
                         <CardSubtitle >Ends On: {this.props.donation.endDate}</CardSubtitle>
                         {/* </CardSubtitle> */}
                         {/* <div style={{ fontSize: 13, lineHeight: 'normal', textAlign: 'left', marginLeft: 15, width: 165 }}>{this.props.donation.description}</div></CardText> */}
                     </CardText >
-                    <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=" + this.props.donation.name}>
-                        <Button className="donateBtn" size='sm'>Donate</Button>
-                    </a>
+                    {/* <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=" + this.props.donation.name}> */}
+                        <Button  className="donateBtn" size='sm' onClick={this.onDonate} >Donate</Button>
+                    {/* </a> */}
                 </CardBody>
+                <Modal
+                    style={{}}
+                    isOpen={this.state.makeDonation}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.onDonate}>Make a Donation</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '0px',
+                        display: "flex",
+                        backgroundColor: 'white'
+                        }}>
+                        {/* <img src={profilepic} style={imageStyle}></img> */}
+                        <form>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Donor</label>
+                            <br></br>
+                            <input type='string' name='name' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='Name of the Donor' onChange={this.onTextChange}></input>
+
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Amount</label>
+                            <br></br>
+                            <input type='number' name='amount' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='(in INR)' onChange={this.onTextChange}></input>
+
+                             <br></br><br></br>
+
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Email ID</label>
+                            <br></br>
+                            <input type='email' name='emailID' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='xyz@abc.com' onChange={this.onTextChange}></input>
+                            
+                            <br></br><br></br>
+                            <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Contact Number</label>
+                            <br></br>
+                            <input type='number' name='contactNo' style={{
+                                marginLeft: '15px', position: 'relative',
+                                zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
+                            }} placeholder='10 digits' onChange={this.onTextChange}></input>
+                            <br></br><br></br>
+                     
+                            
+                            <div style={{ padding:'1rem',float: 'right', position: 'relative', marginTop: '-40px', marginLeft: '20px', zIndex: '2' }} > 
+                                
+            
+                                <br></br>
+                                    <button style={{ marginLeft: '100px', padding:'10px', backgroundColor:'#f4ca31f7' }} type="submit" onClick={this.onSubmit}>Donate</button>
+                            </div>
+                        </form>
+                    </ModalBody>
+                </Modal>
             </div>
+            
             // </div>
         )
     }
