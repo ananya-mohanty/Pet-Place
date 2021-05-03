@@ -40,6 +40,7 @@ export class Navbar2 extends Component {
 
     prev = null
     prevnotif = null
+    prevnotifsize = null
 
     componentDidUpdate() {
         // console.log(this.prev)
@@ -55,11 +56,14 @@ export class Navbar2 extends Component {
         }
         if(this.props.notifs.value!=null && this.props.notifs.value.length>0 && JSON.stringify(this.props.notifs.value[0])!=JSON.stringify(this.prevnotif) && this.prevnotif!=null)
         {
+            if(this.prevnotifsize<this.props.notifs.value.length)
             toast.info(`Looks like ${this.props.notifs.value[0].user_name} has found your pet!`)
         }
         this.prev = this.props.unread_messages.value
         if(this.props.notifs.value!=null && this.props.notifs.value.length>0)
         this.prevnotif = this.props.notifs.value[0]
+        if(this.props.notifs.value!=null)
+        this.prevnotifsize = this.props.notifs.value.length
     }
 
     render() {
