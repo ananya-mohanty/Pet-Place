@@ -56,8 +56,14 @@ export class Navbar2 extends Component {
         }
         if(this.props.notifs.value!=null && this.props.notifs.value.length>0 && JSON.stringify(this.props.notifs.value[0])!=JSON.stringify(this.prevnotif) && this.prevnotif!=null)
         {
-            if(this.prevnotifsize<this.props.notifs.value.length)
-            toast.info(`Looks like ${this.props.notifs.value[0].user_name} has found your pet!`)
+            if(this.prevnotifsize<this.props.notifs.value.length){
+                if(this.props.notifs.value[0].type == 'foundpet')
+                toast.info(`Looks like ${this.props.notifs.value[0].user_name} has found your pet!`)
+                else if(this.props.notifs.value[0].type == 'donation')
+                toast.success(`${this.props.notifs.value[0].user_name} made a donation to your drive!`)
+                else if(this.props.notifs.value[0].type == 'apply')
+                toast.warning(`${this.props.notifs.value[0].user_name} applied for adoption on your post!`)
+            }
         }
         this.prev = this.props.unread_messages.value
         if(this.props.notifs.value!=null && this.props.notifs.value.length>0)
