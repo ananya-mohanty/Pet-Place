@@ -123,7 +123,8 @@ export class Navbar2 extends Component {
                                                 <div>
                                                     <DropdownItem tag={Link} to={`chat/${n.user_id}`} >
                                                         {n.type == 'foundpet' ? <div>Looks like {n.user_name} has found your pet.</div>:
-                                                            n.type == 'donation' ? <div>{n.user_name} made a donation to your drive.</div>:null}
+                                                            n.type == 'donation' ? <div>{n.user_name} made a donation to your drive.</div>:
+                                                                n.type == 'apply' ? <div>{n.user_name} applied for adoption on your post.</div>:null}
                                                 </DropdownItem>
                                                     <Time style={{marginLeft:'22px', fontSize:'12px'}}value={n.createdAt} format="HH:mm:ss" />
                                                     {window.localStorage.getItem('user_type') == 'user' ? <Button size='sm' style={{ float: 'right', marginRight: '20px' }} onClick={() => {

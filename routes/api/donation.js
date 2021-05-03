@@ -124,20 +124,8 @@ router.delete('/:id', function (req, res) {
     })
 })
 
-router.post('/notify/:id', function (req, res) {
-    const notif = new Notif({
-        user_id: req.body.user_id,
-        user_name: req.body.user_name,
-        type: 'donation'
-    })
-    notif.save()
-    User.findById(req.params.id, (err, user) => {
-        user.notifs.push(notif)
-        user.save()
-    })
-})
-
 router.post('/ngo/notify/:id', function (req, res) {
+    console.log('here')
     const notif = new Notif({
         user_id: req.body.user_id,
         user_name: req.body.user_name,
