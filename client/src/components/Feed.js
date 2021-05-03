@@ -144,16 +144,19 @@ class DisplayDonation extends Component {
     }
     onDonate =(e) =>{
         this.setState({ makeDonation: !this.state.makeDonation })
-        console.log('helllo')
+            
+                const body = {
+                    'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                    'user_name': JSON.parse(window.localStorage.getItem('user')).name
+                }
+
+                axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
     }
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
     onSubmit = (e) => {
         e.preventDefault()
-        
-
-    
         const formData = new FormData();
         console.log(this.state.name)
         formData.name = this.state.name;

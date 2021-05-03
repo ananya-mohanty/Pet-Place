@@ -230,7 +230,22 @@ export class FeedPost extends Component {
         axios.post(`/api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}/`, {formData}
         );
         this.onApply()
-       
+        if (this.props.post.user_type == 'ngo') {
+            const body = {
+                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+            }
+
+            axios.post(`/api/post/ngo/notify/${this.props.post.user_id}`, body)
+        }
+
+        else {
+            const body = {
+                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+            }
+            axios.post(`/api/post/notify/${this.props.post.user_id}`, body)
+        }
     }
 
 
@@ -324,7 +339,7 @@ export class FeedPost extends Component {
                                         }}>
                                             <button onClick={this.onApply} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
                                                 <i class="fa fa-user"></i>
-                                            </button><span>{this.state.applicants}</span>
+                                            </button><span> {this.state.applicants}</span>
                                         </li>
                                     </ul>
                                 </div>

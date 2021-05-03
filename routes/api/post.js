@@ -14,6 +14,7 @@ var ipapi = require('ipapi.co');
 var multer = require('multer');
 const User = require('../../models/User');
 const Ngo = require('../../models/Ngo');
+const {Notif} = require('../../models/Notif')
 
 
 // var storage = multer.diskStorage({
@@ -336,6 +337,33 @@ router.get('/ngo/like/:user/:id', (req, res) => {
 
     })
 });
+
+
+router.post('/notify/:id', function (req, res) {
+    const notif = new Notif({
+        user_id: req.body.user_id,
+        user_name: req.body.user_name,
+        type: 'apply'
+    })
+    notif.save()
+    User.findById(req.params.id, (err, user) => {
+        user.notifs.push(notif)
+        user.save()
+    })
+})
+
+router.post('/ngo/notify/:id', function (req, res) {
+    const notif = new Notif({
+        user_id: req.body.user_id,
+        user_name: req.body.user_name,
+        type: 'apply'
+    })
+    notif.save()
+    Ngo.findById(req.params.id, (err, user) => {
+        user.notifs.push(notif)
+        user.save()
+    })
+})
 
 
 module.exports = router;
