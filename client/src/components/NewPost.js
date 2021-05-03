@@ -104,8 +104,8 @@ export class NewPost extends Component {
                             paddingBottom: '0px',
                             display: "flex",
                             backgroundColor: 'white'
-                        }}>
-
+                            }}>                                
+                            
                                 {window.localStorage.getItem('user_type') == 'user' ?  <a href={'http://localhost:5000/api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id}>
                                     <img src={'api/users/image/' + JSON.parse(window.localStorage.getItem('user')).id} style={imageStyle}></img>
                                 </a> :<a href={'http://localhost:5000/api/users/image/ngo/' + JSON.parse(window.localStorage.getItem('user')).id}>

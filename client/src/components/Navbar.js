@@ -75,7 +75,7 @@ export class Navbar2 extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink href="/" style={{ fontFamily: 'muli', fontSize: '16px' }}>Home</NavLink>
+                                <NavLink href="/" style={{ fontFamily: 'muli', fontSize: '16px' }}>Your Feed</NavLink>
                             </NavItem>
                             <NavItem style={{ marginRight: 25 }}>
                                 <NavLink href="/donations" style={{ fontFamily: 'muli' }}>Donation Drives</NavLink>
@@ -83,7 +83,7 @@ export class Navbar2 extends Component {
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret style={{ fontFamily: 'muli' }}>
                                     Lost and Found
-                                    <DropdownMenu right>
+                                    <DropdownMenu style={{ opacity:'95%'}} right >
                                         <DropdownItem tag={Link} to="/lostpet" >
                                             Lost a Pet
                                         </DropdownItem>
@@ -109,7 +109,7 @@ export class Navbar2 extends Component {
                     <NavLink href="#"><i class="ti-home"></i></NavLink>
                     </NavItem> */}
                         </Nav>
-                        <NavbarText style={{ marginRight: 30 }}><a href="/profile"><i class="ti-user"></i></a></NavbarText>
+                        <NavbarText style={{ marginRight: 30 }}><a href="/profile"><i class="ti-user"></i> {JSON.parse(window.localStorage.getItem('user')).name}</a></NavbarText>
                         <NavbarText style={{ marginRight: 10}}><a href="/chats"><i class="ti-comment"></i>
                             {this.props.unread_messages.value > 0 ?
                                 <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.unread_messages.value}&nbsp;</span>
