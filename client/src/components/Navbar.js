@@ -138,7 +138,7 @@ export class Navbar2 extends Component {
                                     <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.notifs.value.length}&nbsp;</span>
                                     : null}</a>
                                 </NavbarText>
-                                <DropdownMenu style={{ height: '200px', overflow: 'auto', opacity:'95%'}}>
+                                <DropdownMenu style={{ /*height: '200px', */maxHeight: '200px',overflow: 'auto', opacity:'95%'}} className="myColumn1">
                                     {this.props.notifs.value ?
                                         this.props.notifs.value.map((n, i) => {
                                             return (
