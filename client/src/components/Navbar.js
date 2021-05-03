@@ -81,10 +81,7 @@ export class Navbar2 extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink href="/" style={{ fontFamily: 'muli', fontSize: '16px' }}>Home</NavLink>
-                            </NavItem>
-                            <NavItem style={{ marginRight: 25 }}>
-                                <NavLink href="/adopt" style={{ fontFamily: 'muli' }}>Adopt</NavLink>
+                                <NavLink href="/" style={{ fontFamily: 'muli', fontSize: '16px' }}>Your Feed</NavLink>
                             </NavItem>
                             <NavItem style={{ marginRight: 25 }}>
                                 <NavLink href="/donations" style={{ fontFamily: 'muli' }}>Donation Drives</NavLink>
@@ -92,7 +89,7 @@ export class Navbar2 extends Component {
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret style={{ fontFamily: 'muli' }}>
                                     Lost and Found
-                                    <DropdownMenu right>
+                                    <DropdownMenu style={{ opacity:'95%'}} right >
                                         <DropdownItem tag={Link} to="/lostpet" >
                                             Lost a Pet
                                         </DropdownItem>
@@ -118,36 +115,32 @@ export class Navbar2 extends Component {
                     <NavLink href="#"><i class="ti-home"></i></NavLink>
                     </NavItem> */}
                         </Nav>
-
-                        <NavbarText style={{ marginRight: 20 }}><a href="/"><i class="ti-home"></i></a></NavbarText>
+                        <NavbarText style={{ marginRight: 30 }}><a href="/profile"><i class="ti-user"></i> {JSON.parse(window.localStorage.getItem('user')).name}</a></NavbarText>
+                        <NavbarText style={{ marginRight: 10}}><a href="/chats"><i class="ti-comment"></i>
+                            {this.props.unread_messages.value > 0 ?
+                                <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.unread_messages.value}&nbsp;</span>
+                                : null}
+                        </a></NavbarText>
                         <UncontrolledDropdown>
                             <DropdownToggle nav /*caret*/ style={{ fontFamily: 'muli' }}>
-                                <NavbarText style={{ marginRight: 30 }}><a href="#"><i class="ti-bell"></i>{this.props.notifs.value && this.props.notifs.value.length > 0 ?
+                                <NavbarText style={{ marginRight: 10 }}><a href="#"><i class="ti-bell"></i>{this.props.notifs.value && this.props.notifs.value.length > 0 ?
                                     <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.notifs.value.length}&nbsp;</span>
                                     : null}</a>
                                 </NavbarText>
-                                <DropdownMenu>
+                                <DropdownMenu style={{ height: '200px', overflow: 'auto', opacity:'95%'}}>
                                     {this.props.notifs.value ?
                                         this.props.notifs.value.map((n, i) => {
                                             return (
-                                                <div>
-                                                    <DropdownItem tag={Link} to={`chat/${n.user_id}`} >
+                                                    <DropdownItem onClick={() => {
+                                                        window.localStorage.getItem('user_type') == 'user' ?
+                                                            axios.delete(`/api/users/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`):
+                                                        axios.delete(`/api/ngo/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`)
+                                                    }} tag={Link} to={`chat/${n.user_id}`} >
                                                         {n.type == 'foundpet' ? <div>Looks like {n.user_name} has found your pet.</div>:
                                                             n.type == 'donation' ? <div>{n.user_name} made a donation to your drive.</div>:
                                                                 n.type == 'apply' ? <div>{n.user_name} applied for adoption on your post.</div>:null}
+                                                    <Time style={{ marginLeft: '2px', fontSize: '12px' }} value={n.createdAt} format="HH:mm:ss" />
                                                 </DropdownItem>
-                                                    <Time style={{marginLeft:'22px', fontSize:'12px'}}value={n.createdAt} format="HH:mm:ss" />
-                                                    {window.localStorage.getItem('user_type') == 'user' ? <Button size='sm' style={{ float: 'right', marginRight: '20px' }} onClick={() => {
-                                                        axios.delete(`/api/users/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`)
-                                                    }}>
-                                                        &#10003;
-                                                    </Button> : <Button size='sm' style={{ float: 'right', marginRight: '20px' }} onClick={() => {
-                                                        axios.delete(`/api/ngo/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`)
-                                                    }}>
-                                                        &#10003;
-                                                    </Button>}
-                                                    
-                                                </div>
                                                )
                                         })
                                         : null}
@@ -155,12 +148,7 @@ export class Navbar2 extends Component {
                             </DropdownToggle>
                         </UncontrolledDropdown>
 
-                        <NavbarText style={{ marginRight: 30, marginLeft: -10 }}><a href="/chats"><i class="ti-comment"></i>
-                            {this.props.unread_messages.value > 0 ?
-                                <span style={{ marginLeft: 2, fontSize: 11, color: 'white', backgroundColor: '#45b1e8', borderRadius: '50%' }}>&nbsp;{this.props.unread_messages.value}&nbsp;</span>
-                                : null}
-                        </a></NavbarText>
-                        <NavbarText style={{ marginRight: 30 }}><a href="/profile"><i class="ti-user"></i></a></NavbarText>
+                        
                         <NavbarText style={{ marginRight: 30 }}><a href="/logout"><i class="ti-power-off"></i></a></NavbarText>
                     </Collapse>
                 </Navbar>
