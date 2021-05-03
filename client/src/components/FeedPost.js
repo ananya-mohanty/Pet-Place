@@ -96,6 +96,14 @@ export class FeedPost extends Component {
                     'x-auth-token': window.localStorage.getItem('token')
                 }
             }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
+
+            axios.get(`../api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            }).then((res) => this.setState({ applied: res.data.flag, applicants: this.props.post.applicants }))
+
+
         }
 
         else {
@@ -200,7 +208,11 @@ export class FeedPost extends Component {
         // if (!this.state.applied)
             this.state.applicants = this.state.applicants + 1
 
-    
+            axios.post(`../api/post/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            })
         console.log(this.state)
         const formData = new FormData();
         console.log(this.state.name)
@@ -212,7 +224,6 @@ export class FeedPost extends Component {
         formData.address = this.state.address;
         formData.owner = this.props.post.user_name;
         formData.ownerID = this.props.post.user_id;
-
         formData.description = this.state.description;
         console.log(formData)
        

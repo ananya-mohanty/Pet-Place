@@ -26,9 +26,11 @@ router.get('/:id', (req, res) => {
                     console.log('hello')
                     // items.sort(custom_sort)
                     res.json({ 'items': items})
-                    console.log(items)
+                    // console.log(items)
 
                 }
+
+
             })
         }
     });
@@ -37,21 +39,41 @@ router.get('/:id', (req, res) => {
 
 
 router.put('/', (req, res) => {
-    // console.log(req.body.formData.donationID)
-    // let t = parseInt(req.body.formData.currentAmount) + parseInt(req.body.formData.amount);
-     Adopter.findByIdAndUpdate(req.body.formData.applicationID,{status: 'Approved'},(err,doc)=>{
-      //this will give you the document what you want to update.. then 
-     if(err){
-       console.log(err)
-     }
-     else{
-         console.log('Application approved successfully')
-   
-   }
-      });
+     if(req.body.formData.status=='Approved'){
+        Adopter.findByIdAndUpdate(req.body.formData.applicationID,{status: 'Approved'},(err,doc)=>{
+          
+           if(err){
+             console.log(err)
+           }
+           else{
+               console.log('Application approved successfully')
+         
+         }
+            });
+    }
+    else if(req.body.formData.status=='Declined'){
+        Adopter.findByIdAndUpdate(req.body.formData.applicationID,{status: 'Declined'},(err,doc)=>{
+            //this will give you the document what you want to update.. then 
+           if(err){
+             console.log(err)
+           }
+           else{
+               console.log('Application declined successfully')
+         
+         }
+            });
+    }
+     
      
 
     
 });
+router.delete('/:id', function (req, res) {
+    Adopter.findByIdAndRemove(req.params.id, function (err, out) {
+        if (err) console.log(err)
+        else res.json(out)
+    })
+})
+
 
 module.exports = router;

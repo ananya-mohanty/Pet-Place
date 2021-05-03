@@ -4,6 +4,7 @@ const path = require('path');
 const GridFsStorage = require('multer-gridfs-storage');
 //Post model
 const AdoptPet = require('../../models/Adopt');
+const Adopter = require('../../models/Adopter');
 const config = require('config');
 const crypto = require('crypto');
 // const fs = require('fs');
@@ -34,9 +35,9 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
-router.get('/', (req, res) => {
-   
-    AdoptPet.find({status: 'available'}, (err, items) => {
+router.get('/:id', (req, res) => {
+
+    Adopter.find({userID:req.params.id}, (err, items) => {
         if (err) {
             console.log(err);
             res.status(500).json("An error occured.");
@@ -45,34 +46,43 @@ router.get('/', (req, res) => {
             global.gfs.files.find().toArray(function (err, files) {
                 if (err) console.log(err);
                 else {
-                   
-                    res.json({ 'items': items, 'files': files })
+                    res.json({ 'items': items})
+                  
                 }
             })
         }
     });
+
+
+    console.log(req.params)
+    
 });
 
+router.get('/request/:id', (req, res) => {
+
+    Adopter.find({ownerID:req.params.id}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    console.log('hello')
+                    // items.sort(custom_sort)
+                    res.json({ 'items': items})
+                    console.log(items)
+
+                }
+            })
+        }
+    });
 
 
-
-// router.post('/',  (req, res) => {
-//     console.log("HELLO")
-//     const newPet = new Adopt({
-//         description: req.body.description,
-//         name: req.body.description,
-//         category: req.body.category,
-//         age: req.body.age
-
-//         // lastseen: req.body.lastseen,
-//         // time: today,
-//     })
-//     console.log(newPet)
-//      newPet.save().then(adopt => res.json(adopt));
-
-//     // ipapi.location(callback)
-
-// });
+    console.log(req.params)
+    
+});
 
 router.post('/', upload.array('files[]', 10), (req, res, next) => {
     var callback = function (resp) {
@@ -88,9 +98,6 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
         age: req.body.age
     })
 
-    // req.files.forEach(function (fileobj) {
-    //     post.files.push(fileobj.id);
-    // })
     ipapi.location(callback)
 
 });

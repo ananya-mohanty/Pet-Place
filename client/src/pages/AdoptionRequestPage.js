@@ -66,12 +66,47 @@ const trows1 = {
     padding: "10px",
     borderColor: "rgba(0,2,0,0.1)",
     // position: "relative",
-    marginTop: '10px',
+    marginTop: '10 px',
     textAlign: "center",
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
     minWidth:300
+
+}
+const trowsApproved = {
+    width: 20,
+    padding: "10px",
+    borderColor: "rgba(0,2,0,0.1)",
+    color:"green",
+    fontWeight:"bold",
+    marginTop: '10px',
+    textAlign: "center",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderCollapse: "collapse",
+    minWidth:150
+
+}
+const trowsPending = {
+    width: 20,
+    padding: "10px",
+    borderColor: "rgba(0,2,0,0.1)",
+    color:"blue",
+    fontWeight:"bold",
+    marginTop: '10px',
+    textAlign: "center",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderCollapse: "collapse",
+    minWidth:150
+
+}
+const tableStyle = {
+   marginTop:"5px",
+   margin:"5px",
+    padding: "10px",
+    
 
 }
 const imageStyle = {
@@ -99,12 +134,19 @@ const spanStyle = {
     float: "right",
     marginTop: "-1.5rem"
 }
+const fontchanges = {
+    fontWeight:'bold',
+    display:'inline'
+}
 
 class DisplayRequests extends Component {
     state = {
         chatPanel: false,
         postID:'',
-        viewApplication:false
+        viewApplication:false,
+        confirm: false,
+        approve: false,
+        decline: false
     }
    
     onChat = (e) => {
@@ -116,20 +158,51 @@ class DisplayRequests extends Component {
         // this.props.adopter.status='Approved'
         const formData = new FormData();
         formData.status = 'Approved'
-        // formData.postID = this.state.postID
         formData.applicationID = this.props.adopter._id
-        // console.log(this.state.postID)
+
         console.log(formData)
-        // axios.post(`../api/request/${this.props.adopter.userID}`, {});
-        // console.log(${JSON.parse(window.localStorage.getItem('adopter')._id)})
+         axios.put(`/api/request`, {formData}
+        );    
+        window.location.reload();
+
+    }
+    onApprove1 = (e) => {
+        this.setState({ confirm: !this.state.confirm })
+        this.setState({ approve: !this.state.approve })
+
+    }
+    onDecline1 = (e) => {
+        this.setState({ confirm: !this.state.confirm })
+        this.setState({ decline: !this.state.decline })
+    }
+    onConfirm = (e) =>{
+        if(this.state.approve){
+            this.setState({ approve: !this.state.approve })
+        }
+        else{
+            this.setState({ decline: !this.state.decline })
+        
+        }
+        this.setState({ confirm: !this.state.confirm })
+       
+
+    }
+    onDecline = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+       
+
+        const formData = new FormData();
+        formData.status = 'Declined'
+        formData.applicationID = this.props.adopter._id
+
+        console.log(formData)
+       
         axios.put(`/api/request`, {formData}
         );    
         window.location.reload();
 
     }
-    onSubmit = (e) =>{
-
-    }
+    
     onView = (e) => {
         this.setState({ viewApplication: !this.state.viewApplication })
         console.log("open form")
@@ -155,16 +228,24 @@ class DisplayRequests extends Component {
                       <div>
                       <MDBContainer gradient="sunny-morning">
                   
-                            <MDBListGroup style={{ width: "46rem" }} >
-                                <MDBListGroupItem className="block-example border-top-left-right border-warning" >Name of the Applicant : {this.props.adopter.name}  </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Age : {this.props.adopter.age} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Sex : {this.props.adopter.sex} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Marital Status : {this.props.adopter.marital_status} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Annual Income : Rs. {this.props.adopter.annualIncome} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Residential Address : {this.props.adopter.address} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right border-warning">Reason for Adoption : {this.props.adopter.description} </MDBListGroupItem>
-                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning"> Status: {this.props.adopter.status} </MDBListGroupItem>
-                            </MDBListGroup>
+                      <MDBListGroup style={{ width: "46rem" }} >
+                                <MDBListGroupItem className="block-example border-top-left-right border-warning" >Name of the Applicant : <div style={fontchanges}>{this.props.adopter.name}</div> </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Age :<div style={fontchanges}>{this.props.adopter.age}</div> </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Sex :  <div style={fontchanges}>{this.props.adopter.sex}</div></MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Marital Status : <div style={fontchanges}>{this.props.adopter.marital_status}</div> </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Annual Income : Rs. <div style={fontchanges}>{this.props.adopter.annualIncome}</div>  </MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Residential Address : <div style={fontchanges}>{this.props.adopter.address}</div></MDBListGroupItem>
+                                <MDBListGroupItem className="block-example border-left-right border-warning">Reason for Adoption : <div style={fontchanges}>{this.props.adopter.description}</div> </MDBListGroupItem>
+                               {this.props.adopter.status=='Approved' &&
+                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning" color="success"> Status: <div style={fontchanges}>{this.props.adopter.status}</div> </MDBListGroupItem>
+                            } 
+                            {this.props.adopter.status=='Pending' &&
+                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning" color="warning"> Status: <div style={fontchanges}>{this.props.adopter.status}</div></MDBListGroupItem>
+                            } 
+                            {this.props.adopter.status=='Declined' &&
+                                <MDBListGroupItem className="block-example border-left-right-bottom border-warning" color="danger"> Status: <div style={fontchanges}>{this.props.adopter.status}</div></MDBListGroupItem>
+                            } 
+                                 </MDBListGroup>
                         </MDBContainer>
 
                           
@@ -173,12 +254,61 @@ class DisplayRequests extends Component {
                                 
                                 <br></br><br></br>
                                 {this.props.adopter.status == 'Pending' &&
-                                    <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button>
+                                    <Button className="approveBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove1}>Approve Adoption</Button> 
+                                    // <Button className="foundBtn" style={{ marginLeft: '10 0px' }} type="submit" onClick={this.onApprove}>Decline Adoption</Button>
+                                }
+                                
+                                {this.props.adopter.status == 'Pending' &&
+                                    // <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
+                                    <Button className="declineBtn" style={{ marginLeft: '20px' }} type="submit" onClick={this.onDecline1}>Decline Adoption</Button>
                                 }
                             </div>
                             <br></br><br></br>
-                            {/* <br></br><br></br><br></br><br></br><br></br>                             */}
-                            
+                           
+                        </div>
+                       
+                    </ModalBody>
+                </Modal>
+                <Modal
+                size="400px"
+                    style={{ width:'900px'}}
+                    isOpen={this.state.confirm}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.onConfirm}> Confirm Decision</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '10px',
+                        display: "flex",
+                        backgroundColor: 'white'
+                        }}>
+                        {/* <img src={profilepic} style={imageStyle}></img> */}
+                      <div>
+                        Are you sure you want to : 
+                        {this.state.approve && <div style={{ display:'inline', position: 'relative'}}> APPROVE?</div> 
+                        }
+                        {this.state.decline && <div style={{ display:'inline', position: 'relative'}}> Decline?</div> 
+                        }
+
+                          
+                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                
+                                
+                                <br></br><br></br>
+                                {this.state.approve &&
+                                    <Button className="approveBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Yes, Approve!</Button> 
+                                    // <Button className="foundBtn" style={{ marginLeft: '10 0px' }} type="submit" onClick={this.onApprove}>Decline Adoption</Button>
+                                }
+                                
+                                {this.state.decline &&
+                                    // <Button className="foundBtn" style={{ marginLeft: '100px' }} type="submit" onClick={this.onApprove}>Approve Adoption</Button> 
+                                    <Button className="declineBtn" style={{ marginLeft: '20px' }} type="submit" onClick={this.onDecline}>Yes, Decline!</Button>
+                                }
+                            </div>
+                           {/* { this.setState({ decline: !this.state.decline })}
+                           { this.setState({ approve: !this.state.approve })} */}
+
+                            <br></br><br></br>
+                           
                         </div>
                        
                     </ModalBody>
@@ -187,19 +317,49 @@ class DisplayRequests extends Component {
                     <Table hover >
                          
                         <tbody>
+                        {this.props.adopter.status == 'Pending' &&
+                            <tr style={tableStyle}>
+                           
                             
-                            <tr>
-                            <td style={trows1}> {this.props.adopter._id} </td>
+                            <td style={trows1}> {this.props.adopter.userID} </td>
+                      
                             <td style={trows}>{this.props.adopter.name} </td>
-                            <td style={trows}> { this.props.adopter.status} </td>
+                            <td style={trowsPending}> { this.props.adopter.status} </td>
                             <td style={trows}>
                             <Button className="foundBtn" onClick={this.onView}>View </Button>
                             </td>
                             <td style = {trows}><Link to={`/chat/${this.props.adopter.userID}`}><Button className="foundBtn" onClick={this.onChat}>Connect</Button></Link></td>
+                    
                             </tr>
+                              }
                         </tbody>
                     </Table>
-                    
+                    <Table hover >
+                         
+                         <tbody>
+                         {this.props.adopter.status == 'Approved' &&
+                             <tr>
+                            
+                             
+                             <td style={trows1}> {this.props.adopter.userID} </td>
+                       
+                             <td style={trows}>{this.props.adopter.name} </td>
+                             {this.props.adopter.status=='Approved' &&
+                            <td style={trowsApproved} > {this.props.adopter.status} </td>
+                        }
+                       
+                        {this.props.adopter.status=='Pending' &&
+                            <td style={trowsPending} > {this.props.adopter.status} </td>
+                        }
+                             <td style={trows}>
+                             <Button className="foundBtn" onClick={this.onView}>View </Button>
+                             </td>
+                             <td style = {trows}><Link to={`/chat/${this.props.adopter.userID}`}><Button className="foundBtn" onClick={this.onChat}>Connect</Button></Link></td>
+                     
+                             </tr>
+                               }
+                         </tbody>
+                     </Table>
                     </div>
                     
                     
@@ -237,8 +397,7 @@ export class AdoptionLists extends Component {
                     <div style={{ height: "auto", margin: "0 auto", padding: 100, position: "relative", background: "white", }}> 
                         <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Applications To Your Posts</h5>
                         
-                        {/* <Button className="register" onClick={this.toggle}>View Your Application</Button> */}
-                        <span style={spanStyle}>
+                         <span style={spanStyle}>
                         </span><hr />
                       
                         
@@ -246,7 +405,7 @@ export class AdoptionLists extends Component {
 
                         <table style={customers}>
                           <tr>
-                            <th style={trows1}> Application ID</th>
+                            <th style={trows1}> User ID</th>
                             <th style={trows}> Name of Applicant</th>
                             <th style={trows}> Status of Application</th>
                             <th style={trows}> View Application</th>
@@ -258,9 +417,30 @@ export class AdoptionLists extends Component {
                                     // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
                                     return (<div>
                                         {
+                                            (adopter.status=='Pending') &&
                                             <DisplayRequests adopter={adopter} key={i}  />
+
+                                            
                                           
                                         }
+                                        
+                                        
+                                    </div>)
+                                })
+                            }
+                            <br></br>
+                            {
+                                this.state.AdoptRequests.map((adopter, i) => {
+                                    // var files = this.state.files.filter((f) => lostpet.files.includes(f._id))
+                                    return (<div>
+                                        {
+                                            (adopter.status=='Approved') &&
+                                            <DisplayRequests adopter={adopter} key={i}  />
+
+                                            
+                                          
+                                        }
+                                        
                                          
                                     </div>)
                                 })

@@ -200,6 +200,7 @@ router.post('/like/:user/:id', (req, res) => {
     })
 });
 
+
 router.get('/apply', auth, (req, res) => {
    
    console.log('HI BITCH')
@@ -211,24 +212,14 @@ router.post('/apply/:user/:id', (req, res) => {
     var callback = function (resp) {
         newAdopter.location = resp
         newAdopter.save().then(adopter => res.json(adopter));
-
-        Post.findById(req.params.id, (err, item) => {
-            if (err) {
-                console.log(err);
-                res.status(500).json("An error occured.");
-            }
-            else {
-                item.applicants++;
-                item.save()
-            }
-        }
-        )
+        updateApplicants(req, res);
+       
     };
     
     const newAdopter = new Adopter({
         userID: req.params.user,
         postID: req.params.id,
-        description:req.body.formData.description,
+        // description:req.body.formData.description,
         name: req.body.formData.name,
         marital_status:  req.body.formData.marital_status,
         age:  req.body.formData.age,
@@ -249,6 +240,23 @@ router.post('/apply/:user/:id', (req, res) => {
     const today = new Date(time)
    
 });
+function updateApplicants(req, res) {
+    User.findById(req.params.user, (err, user)=>{
+        user.applied_posts.push(req.params.id)
+        user.save().then(
+        Post.findById(req.params.id, (err, item) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json("An error occured.");
+            }
+            else {
+                item.applicants++;
+                item.save()
+            }
+        }
+        ))
+    })
+};
 
 router.post('/dislike/:user/:id', (req, res) => {
     User.findById(req.params.user, (err, user) => {
@@ -273,6 +281,14 @@ router.post('/dislike/:user/:id', (req, res) => {
 router.get('/like/:user/:id', (req, res) => {
     User.findById(req.params.user, (err, user) => {
         if(user.liked_posts.includes(req.params.id))
+        res.json({'flag':true})
+        else res.json({ 'flag': false})
+
+    })
+});
+router.get('/apply/:user/:id', (req, res) => {
+    User.findById(req.params.user, (err, user) => {
+        if(user.applied_posts.includes(req.params.id))
         res.json({'flag':true})
         else res.json({ 'flag': false})
 
