@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import FlashMessage from 'react-flash-message'
 import { connect } from 'react-redux'
 import { login, loginngo } from '../actions/authAction'
+import { Link } from 'react-router-dom'
+
 
 import logo from '../images/logo_fetch.jpeg'
 
@@ -88,6 +90,10 @@ export class Login extends Component {
                                 </div>
                                 <div style={centerStyle}>
                                     <Button onClick={() => this.setState({ showForm: true, ngoForm: true })} className='register' >Login As NGO</Button>
+                                </div>
+                                <br></br>
+                                <div style={centerStyle} >
+                                    <Link to='/register' style={{ color:'#f4ca31f7'}}>Don't have an account? Sign up!</Link>
                                 </div>
                             </div>
                             : null}
