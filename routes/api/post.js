@@ -231,10 +231,7 @@ router.post('/apply/:user/:id', (req, res) => {
 
 
        
-    });
-    console.log(req.body.formData);
-    console.log(req.body.formData.description +'hi');
-    
+    });    
     ipapi.location(callback)
     const time = Date.now()
     const today = new Date(time)

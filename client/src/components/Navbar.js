@@ -162,6 +162,6 @@ export class Navbar2 extends Component {
 // export default connect()(Navbar2)
 export default connect(props => ({
     unread_messages: { url: `../api/messages/unread/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000 },
-    notifs: { url: `../api/${window.localStorage.getItem('user_type')}/notifications/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 6000 },
+    notifs: { url: `../api/${window.localStorage.getItem('user_type')}/notifications/${JSON.parse(window.localStorage.getItem('user')).id}`, refreshInterval: 2000 },
 }))(Navbar2)
 // export default Navbar2

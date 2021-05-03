@@ -83,11 +83,24 @@ class LostPet extends Component {
         chatPanel: false,
         makeDonation:false
     }
-    toggle = () => {
-        this.setState({ chatPanel: !this.state.chatPanel });
-    }
+    
     onClick = (e) => {
-        this.setState({ chatPanel: !this.state.chatPanel })
+        if (this.props.lostpet.user_type == 'ngo') {
+            const body = {
+                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+            }
+
+            axios.post(`/api/lostpet/ngo/notify/${this.props.lostpet.user_id}`, body)
+        }
+
+        else {
+            const body = {
+                'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+            }
+            axios.post(`/api/lostpet/notify/${this.props.lostpet.user_id}`, body)
+        }
     }
    
     render() {
