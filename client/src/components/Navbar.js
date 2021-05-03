@@ -23,6 +23,7 @@ import axios from 'axios';
 import Time from 'react-time';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NavLink as RRNavLink } from 'react-router-dom';
 
 export class Navbar2 extends Component {
 
@@ -81,7 +82,7 @@ export class Navbar2 extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink href="/" style={{ fontFamily: 'muli', fontSize: '16px' }}>Your Feed</NavLink>
+                                <NavLink tag={RRNavLink} to="/" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{textDecoration: 'strong', fontFamily: 'muli', fontSize: '16px'}} exact={true}/*style={{ fontFamily: 'muli', fontSize: '16px' }}*/>Your Feed</NavLink>
                             </NavItem>
                             <NavItem style={{ marginRight: 25 }}>
                                 <NavLink href="/donations" style={{ fontFamily: 'muli' }}>Donation Drives</NavLink>
