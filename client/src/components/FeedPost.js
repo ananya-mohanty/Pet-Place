@@ -216,6 +216,20 @@ export class FeedPost extends Component {
        console.log('HELLO') 
 
     }
+    startApplicants=()=>
+    {
+       this.setState({ postStatus: !this.state.postStatus })
+       const formData = new FormData();
+       formData.status = 'Yes'
+    //    formData.applicationID = this.props.adopter._id
+
+       console.log(formData)
+        axios.put(`/api/post/${this.props.post._id}`, {formData}
+       );    
+       window.location.reload();
+       console.log('HELLO') 
+
+    }
 
     onSubmit = (e) => {
         e.preventDefault()
@@ -356,8 +370,9 @@ export class FeedPost extends Component {
                                             <button onClick={this.onApply} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
                                                 <i class="fa fa-user"></i>
                                             </button><span> {this.state.applicants}</span>
-                                            {this.props.viewer == 'me' && this.props.post.available=='Yes'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.stopApplicants}className='deleteBtn'>Stop Receiving Applicants</Button></div>
-                                    : null}
+                                            {this.props.viewer == 'me' && this.props.post.available=='Yes'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.stopApplicants}className='deleteBtn'>Stop Receiving Applicants</Button></div> : null}
+                                            {this.props.viewer == 'me' && this.props.post.available=='No'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.startApplicants}className='deleteBtn'>Resume Receiving Applicants</Button></div> : null}
+                                 
                                         </li>
                                     </ul>
                                 </div>

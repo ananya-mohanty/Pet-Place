@@ -109,19 +109,18 @@ router.put('/:id', (req, res) => {
         }
            });
    }
-//    else if(req.body.formData.status=='Yes'){
-//     Post.findByIdAndUpdate(req.params.id,{available: 'Yes'},(err,doc)=>{
+   else if(req.body.formData.status=='Yes'){
+       Post.findByIdAndUpdate(req.params.id,{available: 'Yes'},(err,doc)=>{
          
-//         if(err){
-//           console.log(err)
-//         }
-//         else{
-//             console.log('Post started accepting applicants successfully')
+        if(err){
+          console.log(err)
+        }
+        else{
+            console.log('Post started accepting applicants successfully')
       
-//       }
-//          });
-//    }
-    
+      }
+         });
+ }
     
 
    
