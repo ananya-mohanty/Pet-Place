@@ -83,10 +83,13 @@ export class MyFeed extends Component {
         Donations: [],
         filesDonations: [],
         LostPets: [],
-        fileslostpets: []
+        fileslostpets: [],
+        id:''
     }
 
     componentDidMount = () => {
+        console.log(this.props.user_id)
+       
         console.log(this.props.user_id)
         axios.get(`../api/post/${this.props.user_id}`)
             .then(res => {

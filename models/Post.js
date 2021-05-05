@@ -39,6 +39,10 @@ const PostSchema = mongoose.Schema({
     user_type:{
         type:String,
         required:false
+    },
+    available:{
+        type:String,
+        required:false
     }
 });
 

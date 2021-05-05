@@ -316,6 +316,7 @@ export class MyApplications extends Component {
 
 
     componentDidMount() {
+        console.log(this.props)
         axios.get(`../api/adoption/${this.props.user_id}`)
             .then((res) => {
 

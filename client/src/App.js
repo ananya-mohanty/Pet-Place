@@ -68,7 +68,7 @@ function App() {
           <Route exact path="/post/:id" render={(props) =>
             <div>
               <Navbar />
-              <MyFeed userID={props.match.params.id} />
+              <MyFeed user_id={props.match.params.id} />
               <Footer />
             </div>
           }></Route>

@@ -63,7 +63,8 @@ export class FeedPost extends Component {
         annualIncome:0,
         description:'',
         owner:'',
-        ownerID:''
+        ownerID:'',
+        postStatus:false
     }
     // this.showModal = this.showModal.bind(this);
     componentDidMount=()=>{
@@ -201,6 +202,20 @@ export class FeedPost extends Component {
        console.log('HELLO') 
 
     }
+    stopApplicants=()=>
+    {
+       this.setState({ postStatus: !this.state.postStatus })
+       const formData = new FormData();
+       formData.status = 'No'
+    //    formData.applicationID = this.props.adopter._id
+
+       console.log(formData)
+        axios.put(`/api/post/${this.props.post._id}`, {formData}
+       );    
+       window.location.reload();
+       console.log('HELLO') 
+
+    }
 
     onSubmit = (e) => {
         e.preventDefault()
@@ -270,7 +285,7 @@ export class FeedPost extends Component {
                             width: '550px'
                         }}>
                             <div style={{ display: 'flex', float: 'right' }}>
-                                {this.props.viewer == 'me' ? <Button onClick={this.delete}className='deleteBtn'>Delete</Button>
+                                {this.props.viewer == 'me' ? <div> <Button onClick={this.delete}className='deleteBtn'>Delete</Button></div>
                                     : null}
                             </div>
                             <div style={{ display: 'flex' }}>
@@ -285,6 +300,7 @@ export class FeedPost extends Component {
                                     <a className='linkhover' href={`/profile/${this.props.post.user_type}/${this.props.post.user_id}`}>{this.props.post.user_name}</a>
                                     <br></br>
                                     <span style={{ fontSize: '12px' }}>Published: {this.state.time}</span>
+                                    {this.props.post.available}
                                 </div>
                                 
                                
@@ -340,6 +356,8 @@ export class FeedPost extends Component {
                                             <button onClick={this.onApply} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
                                                 <i class="fa fa-user"></i>
                                             </button><span> {this.state.applicants}</span>
+                                            {this.props.viewer == 'me' && this.props.post.available=='Yes'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.stopApplicants}className='deleteBtn'>Stop Receiving Applicants</Button></div>
+                                    : null}
                                         </li>
                                     </ul>
                                 </div>

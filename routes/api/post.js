@@ -74,7 +74,9 @@ router.get('/:id', (req, res) => {
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     }
+    console.log('hii')
     Post.find({user_id:req.params.id}, (err, items) => {
+        // console.log(items)
         if (err) {
             console.log(err);
             res.status(500).json("An error occured.");
@@ -85,12 +87,45 @@ router.get('/:id', (req, res) => {
                 else {
                     items.sort(custom_sort)
                     res.json({ 'items': items, 'files': files })
+                    // console.log(items)
                 }
             })
         }
     });
 });
 
+
+router.put('/:id', (req, res) => {
+    console.log(req.body.formData.status)
+    if(req.body.formData.status=='No'){
+       Post.findByIdAndUpdate(req.params.id,{available: 'No'},(err,doc)=>{
+         
+          if(err){
+            console.log(err)
+          }
+          else{
+              console.log('Post stopped accepting applicants successfully')
+        
+        }
+           });
+   }
+//    else if(req.body.formData.status=='Yes'){
+//     Post.findByIdAndUpdate(req.params.id,{available: 'Yes'},(err,doc)=>{
+         
+//         if(err){
+//           console.log(err)
+//         }
+//         else{
+//             console.log('Post started accepting applicants successfully')
+      
+//       }
+//          });
+//    }
+    
+    
+
+   
+});
 router.delete('/:id', function (req, res) {
     Post.findByIdAndRemove(req.params.id, function (err, out) {
         if (err) console.log(err)
@@ -107,7 +142,8 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
         caption: req.body.caption,
         likes: 0,
         time: today,
-        user_type: req.body.user_type
+        user_type: req.body.user_type,
+        available:'Yes'
     })
         
     req.files.forEach(function (fileobj) {
@@ -220,7 +256,7 @@ router.post('/apply/:user/:id', (req, res) => {
     const newAdopter = new Adopter({
         userID: req.params.user,
         postID: req.params.id,
-        // description:req.body.formData.description,
+        description:req.body.formData.description,
         name: req.body.formData.name,
         marital_status:  req.body.formData.marital_status,
         age:  req.body.formData.age,
@@ -233,6 +269,7 @@ router.post('/apply/:user/:id', (req, res) => {
 
        
     });    
+    console.log(newAdopter)
     ipapi.location(callback)
     const time = Date.now()
     const today = new Date(time)
