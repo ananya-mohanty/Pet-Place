@@ -31,6 +31,7 @@ import { MyLostPetPage } from './pages/MyLostPets'
 import { MyFoundPetPage } from './pages/MyFoundPets'
 import ApplicationPage from './pages/ApplicationPage'
 import  AdoptionRequest  from './pages/AdoptionRequestPage'
+import AboutPage from './pages/AboutPage'
 
 
 function App() {
@@ -128,6 +129,13 @@ function App() {
             <div>
               <Navbar />
               <NgosPage />
+              <Footer />
+            </div>
+          }></Route>
+          <Route exact path="/about" render={() =>
+            <div>
+              <Navbar />
+              <AboutPage />
               <Footer />
             </div>
           }></Route>
