@@ -322,10 +322,10 @@ export class FeedPost extends Component {
                                     <span style={{ fontSize: '12px' }}>Published: {this.state.time}</span>
                                     
                                 </div>
-                                {this.props.post.available=='Yes'?
+                                {this.props.post.available=='Yes' && this.props.viewer != 'me' ?
                                 <div style={{ marginLeft: '200px' }}>
                                     {/* <ShadowText>hii</ShadowText> */}
-                                <span style={{color:'green', display:'inline', float:'right',fontSize:'15px', fontWeight:'bold'}}>AVAILABLE</span>
+                                <span style={{color:'green', display:'inline', float:'right',fontSize:'20px', fontWeight:'bold'}}>AVAILABLE</span>
                                </div>
                                :null}
                             </div>
@@ -385,8 +385,8 @@ export class FeedPost extends Component {
                                             </div>
                                             :null
                                             }
-                                            {this.props.viewer == 'me' && this.props.post.available=='Yes'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.stopApplicants}className='deleteBtn'>Stop Receiving Applicants</Button></div> : null}
-                                            {this.props.viewer == 'me' && this.props.post.available=='No'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.startApplicants}className='deleteBtn'>Resume Receiving Applicants</Button></div> : null}
+                                            {this.props.viewer == 'me' && this.props.post.available=='Yes'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.stopApplicants}className='declineBtn'>Stop Receiving Applicants</Button></div> : null}
+                                            {this.props.viewer == 'me' && this.props.post.available=='No'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.startApplicants}className='approveBtn'>Resume Receiving Applicants</Button></div> : null}
                                  
                                         </li>
                                     </ul>

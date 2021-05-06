@@ -10175,6 +10175,7 @@ aside.sidebar.full-style {
   -webkit-transform: scale(1.1,1.1);
 }
 
+
 @-webkit-keyframes fade {
   from {opacity: .4}
   to {opacity: 1}
