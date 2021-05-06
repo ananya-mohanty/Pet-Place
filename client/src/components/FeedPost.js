@@ -19,6 +19,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import axios from 'axios'
 import AdoptPet from './Adopt'
 
+// import ShadowText from 'react-shadow-text';
 const imageStyle = {
     width: 50,
     height: 50,
@@ -26,6 +27,11 @@ const imageStyle = {
     borderRadius: 25,
     overflow: "hidden",
     alignSelf: 'flex-start',
+}
+
+const statusFont = {
+  color: 'Red',
+  fontSize:'2rem'
 }
 
 function getDifferenceInDays(date1, date2) {
@@ -314,10 +320,14 @@ export class FeedPost extends Component {
                                     <a className='linkhover' href={`/profile/${this.props.post.user_type}/${this.props.post.user_id}`}>{this.props.post.user_name}</a>
                                     <br></br>
                                     <span style={{ fontSize: '12px' }}>Published: {this.state.time}</span>
-                                    {this.props.post.available}
+                                    
                                 </div>
-                                
-                               
+                                {this.props.post.available=='Yes'?
+                                <div style={{ marginLeft: '200px' }}>
+                                    {/* <ShadowText>hii</ShadowText> */}
+                                <span style={{color:'green', display:'inline', float:'right',fontSize:'15px', fontWeight:'bold'}}>AVAILABLE</span>
+                               </div>
+                               :null}
                             </div>
                             
                             <br></br>
@@ -367,9 +377,14 @@ export class FeedPost extends Component {
                                             display: 'inline',
                                             marginRight: '20px'
                                         }}>
+                                            {this.props.post.available=='Yes'?
+                                            <div>
                                             <button onClick={this.onApply} title="Applications" class='hover active' style={{ fontSize: '20px', width: '40px', height: '40px', borderRadius: '20px', border: '0px solid white', backgroundColor: '#77c3e7', color: 'white' }}>
                                                 <i class="fa fa-user"></i>
                                             </button><span> {this.state.applicants}</span>
+                                            </div>
+                                            :null
+                                            }
                                             {this.props.viewer == 'me' && this.props.post.available=='Yes'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.stopApplicants}className='deleteBtn'>Stop Receiving Applicants</Button></div> : null}
                                             {this.props.viewer == 'me' && this.props.post.available=='No'? <div style={{display:'inline', float:'right'}}> <Button onClick={this.startApplicants}className='deleteBtn'>Resume Receiving Applicants</Button></div> : null}
                                  

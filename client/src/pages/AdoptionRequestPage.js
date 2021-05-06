@@ -146,22 +146,47 @@ class DisplayRequests extends Component {
         viewApplication:false,
         confirm: false,
         approve: false,
-        decline: false
+        decline: false,
+        postStatus:false
     }
    
     onChat = (e) => {
         this.setState({ chatPanel: !this.state.chatPanel })
     }
+    stopApplicants=()=>
+    {
+       this.setState({ postStatus: !this.state.postStatus })
+       const formData = new FormData();
+       formData.status = 'No'
+    //    formData.applicationID = this.props.adopter._id
+
+       console.log(formData)
+        axios.put(`/api/post/${this.props.post._id}`, {formData}
+       );    
+       window.location.reload();
+       console.log('HELLO') 
+
+    }
     onApprove = (e) => {
         this.setState({ [e.target.name]: e.target.value })
         console.log('hii bitchh')
         // this.props.adopter.status='Approved'
-        const formData = new FormData();
+        let formData = new FormData();
         formData.status = 'Approved'
         formData.applicationID = this.props.adopter._id
 
         console.log(formData)
          axios.put(`/api/request`, {formData}
+        );    
+        this.setState({ postStatus: !this.state.postStatus })
+
+
+         formData = new FormData();
+        formData.status = 'No'
+     //    formData.applicationID = this.props.adopter._id
+ 
+        console.log(formData)
+         axios.put(`/api/post/${this.props.adopter.postID}`, {formData}
         );    
         window.location.reload();
 
