@@ -226,6 +226,7 @@ router.post('/notify/:id', function(req, res)
     const notif=new Notif({
         user_id: req.body.user_id,
         user_name: req.body.user_name,
+        user_type: req.body.user_type,
         type:'foundpet'
     })
     notif.save()
@@ -239,6 +240,7 @@ router.post('/ngo/notify/:id', function (req, res) {
     const notif = new Notif({
         user_id: req.body.user_id,
         user_name: req.body.user_name,
+        user_type: req.body.user_type,
         type: 'foundpet'
     })
     notif.save()

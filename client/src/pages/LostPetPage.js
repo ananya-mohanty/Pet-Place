@@ -72,7 +72,8 @@ class DisplayLostPet extends Component {
         if (this.props.lostpet.user_type == 'ngo') {
             const body = {
                 'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+                'user_type': window.localStorage.getItem('user_type')
             }
 
             axios.post(`/api/lostpet/ngo/notify/${this.props.lostpet.user_id}`, body)
@@ -81,7 +82,8 @@ class DisplayLostPet extends Component {
         else {
             const body = {
                 'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+                'user_type': window.localStorage.getItem('user_type')
             }
             axios.post(`/api/lostpet/notify/${this.props.lostpet.user_id}`, body)
         }

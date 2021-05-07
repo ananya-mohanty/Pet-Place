@@ -6,6 +6,10 @@ const NotifSchema = new Schema({
         type: String,
         required: false
     },
+    user_type:{
+        type:String,
+        required:false
+    },
     user_name: {
         type: String,
         required: false

@@ -91,6 +91,13 @@ class DisplayDonation extends Component {
     }
     onClick = (e) => {
         this.setState({ makeDonation: !this.state.makeDonation })
+        const body = {
+            'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+            'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+            'user_type': window.localStorage.getItem('user_type')
+        }
+
+        axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
     }
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })

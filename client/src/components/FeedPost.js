@@ -268,7 +268,8 @@ export class FeedPost extends Component {
         if (this.props.post.user_type == 'ngo') {
             const body = {
                 'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+                'user_type': window.localStorage.getItem('user_type')
             }
 
             axios.post(`/api/post/ngo/notify/${this.props.post.user_id}`, body)
@@ -277,7 +278,8 @@ export class FeedPost extends Component {
         else {
             const body = {
                 'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                'user_name': JSON.parse(window.localStorage.getItem('user')).name
+                'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+                'user_type': window.localStorage.getItem('user_type')
             }
             axios.post(`/api/post/notify/${this.props.post.user_id}`, body)
         }
