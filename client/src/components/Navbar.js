@@ -146,7 +146,7 @@ export class Navbar2 extends Component {
                                                         window.localStorage.getItem('user_type') == 'user' ?
                                                             axios.delete(`/api/users/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`):
                                                         axios.delete(`/api/ngo/notifications/${JSON.parse(window.localStorage.getItem('user')).id}/${n._id}`)
-                                                    }} tag={Link} to={`chat/${n.user_id}`} >
+                                                    }} tag={Link} to={`profile/user/${n.user_id}`} >
                                                         {n.type == 'foundpet' ? <div>Looks like {n.user_name} has found your pet.</div>:
                                                             n.type == 'donation' ? <div>{n.user_name} made a donation to your drive.</div>:
                                                                 n.type == 'apply' ? <div>{n.user_name} applied for adoption on your post.</div>:null}

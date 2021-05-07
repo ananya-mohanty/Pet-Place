@@ -180,7 +180,7 @@ export class ChatPanel extends Component {
                     
                 }}/>
                 
-                <div style={{marginTop: 700,background:'gray',position:'sticky', padding:'5px'}} ref={el => (this.scrollRef = el)}><form ref={el => (this.formRef = el)}>
+                <div style={{marginTop: 720,background:'gray',position:'sticky', padding:'5px'}} ref={el => (this.scrollRef = el)}><form ref={el => (this.formRef = el)}>
                 <InputGroup>
                     <Input defaultValue="" placeholder="Write something..." onChange={this.onChange}/>
                     <InputGroupAddon addonType="append" style={{backgroundColor: 'white'}}>
