@@ -470,12 +470,12 @@ export class FeedPost extends Component {
                                 name='description'
                                 onChange={this.onTextChange} />
                             {/* </input> */}
-                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
-                                
             
-                                <br></br>
-                                    <button style={{ marginLeft: '10px' }} type="submit" onClick={this.onSubmit}>Submit Application</button>
+                            <div style={{ float: 'left', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} >
+                                <br></br><br></br>
+                                    <button className='hover' style={{ marginLeft: '15px', backgroundColor:'green', borderRadius:'5px' }} type="submit" onClick={this.onSubmit}>Submit Application</button>
                             </div>
+                            <br></br><br></br>
                         </form>
                     </ModalBody>
                 </Modal>

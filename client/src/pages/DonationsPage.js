@@ -91,13 +91,7 @@ class DisplayDonation extends Component {
     }
     onClick = (e) => {
         this.setState({ makeDonation: !this.state.makeDonation })
-        const body = {
-            'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-            'user_name': JSON.parse(window.localStorage.getItem('user')).name,
-            'user_type': window.localStorage.getItem('user_type')
-        }
-
-        axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+        
     }
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
@@ -124,7 +118,13 @@ class DisplayDonation extends Component {
         axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
         window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
         // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
-       
+        const body = {
+            'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+            'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+            'user_type': window.localStorage.getItem('user_type')
+        }
+
+        axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
     }
     render() {
        
@@ -174,14 +174,8 @@ class DisplayDonation extends Component {
                                 zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
                             }} placeholder='10 digits' onChange={this.onTextChange}></input>
                             <br></br><br></br>
-                     
-                            
-                            <div style={{ float: 'right', position: 'relative', marginTop: '-40px', marginRight: '20px', zIndex: '2' }} > 
-                                
-            
-                                <br></br>
-                                    <button style={{ marginLeft: '10px', backgroundColor:'#f4ca31f7' }} type="submit" onClick={this.onSubmit}>Donate</button>
-                            </div>
+                            <button className='hover' style={{ marginLeft: '15px', borderRadius: '5px', padding: '10px', backgroundColor: 'green' }} type="submit" onClick={this.onSubmit}>Donate</button>
+                            <br></br><br></br>
                         </form>
                     </ModalBody>
                 </Modal>
@@ -203,19 +197,15 @@ class DisplayDonation extends Component {
                 </div>
                 <CardTitle tag="h5">{this.props.donation.name}</CardTitle>
                 <CardSubtitle >
-                    Amount Raised: Rs. {this.props.donation.currentAmount}<br></br> 
-                    Target Amount: Rs. {this.props.donation.targetAmount}<br></br>                
+                        Amount Raised: &#8377; {this.props.donation.currentAmount}<br></br>
+                    Target Amount: &#8377; {this.props.donation.targetAmount}<br></br>
                     Starts On: {this.props.donation.startDate}<br></br>
                     Ends On: {this.props.donation.endDate}</CardSubtitle>
-                    
                     <CardText className="myColumn1" style={{ color:'#BE8A1B',height:'100px', overflowY:'auto', overflowX:'hidden',lineHeight:'18px'}}>{this.props.donation.description}</CardText>
-                    
                     {/* <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name="+ this.props.donation.name}> */}
    {/* <Button className="foundBtn" onClick={this.onClick}>Connect</Button> */}
                     <Button  onClick={this.onClick} className="donateBtn">Donate</Button>
                     {/* </a> */}
- 
-                   
                 </div>
                 </Container>
            

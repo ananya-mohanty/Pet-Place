@@ -146,14 +146,6 @@ class DisplayDonation extends Component {
     }
     onDonate =(e) =>{
         this.setState({ makeDonation: !this.state.makeDonation })
-            
-                const body = {
-                    'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                    'user_name': JSON.parse(window.localStorage.getItem('user')).name,
-                    'user_type': window.localStorage.getItem('user_type')
-                }
-
-                axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
     }
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
@@ -173,10 +165,17 @@ class DisplayDonation extends Component {
         // formData.annualIncome = this.state.annualIncome;
         // formData.address = this.state.address;
  
-        console.log(formData)
         axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
         window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
         // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
+
+        const body = {
+            'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+            'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+            'user_type': window.localStorage.getItem('user_type')
+        }
+
+        axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
        
     }
     render() {
@@ -201,8 +200,8 @@ class DisplayDonation extends Component {
                   
                     <CardText >
                         <CardTitle tag="h6">{this.props.donation.name}</CardTitle>
-                        <CardSubtitle > Amount Raised: Rs. {this.props.donation.currentAmount} </CardSubtitle>
-                        <CardSubtitle >Target Amount: Rs. {this.props.donation.targetAmount}</CardSubtitle>
+                        <CardSubtitle > Amount Raised: &#8377; {this.props.donation.currentAmount} </CardSubtitle>
+                        <CardSubtitle >Target Amount: &#8377; {this.props.donation.targetAmount}</CardSubtitle>
                         {/* </CardSubtitle> */}
                         {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
                         <CardSubtitle >Ends On: {this.props.donation.endDate}</CardSubtitle>
@@ -258,14 +257,8 @@ class DisplayDonation extends Component {
                                 zIndex: '1', borderColor: '#eeeeee', borderRadius: '6px', borderWidth: '1px'
                             }} placeholder='10 digits' onChange={this.onTextChange}></input>
                             <br></br><br></br>
-                     
-                            
-                            <div style={{ padding:'1rem',float: 'right', position: 'relative', marginTop: '-40px', marginLeft: '20px', zIndex: '2' }} > 
-                                
-            
-                                <br></br>
-                                    <button style={{ marginLeft: '100px', padding:'10px', backgroundColor:'#f4ca31f7' }} type="submit" onClick={this.onSubmit}>Donate</button>
-                            </div>
+                            <button className='hover' style={{ marginLeft: '15px', borderRadius: '5px', padding:'10px', backgroundColor:'green' }} type="submit" onClick={this.onSubmit}>Donate</button>
+                            <br></br><br></br>
                         </form>
                     </ModalBody>
                 </Modal>

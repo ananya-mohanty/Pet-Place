@@ -167,7 +167,7 @@ export class Profile extends Component {
                                                 </Row></a><br></br>
                                             <a href={`/donations/${this.state.user.user._id}`}> <Row className='hover' style={{ backgroundColor: '#77c3e7', borderRadius: '5px', height: '40px', color: 'white', alignItems: 'center', justifyContent: 'center' }}>
 
-                                                <h5>Donation Dtives</h5>
+                                                <h5>Donation Drives</h5>
 
                                             </Row></a><br></br>
                                             <a href={`/lostpets/${this.state.user.user._id}`}> <Row className='hover' style={{ backgroundColor: '#77c3e7', borderRadius: '5px', height: '40px', color: 'white', alignItems: 'center', justifyContent: 'center' }}>
@@ -178,6 +178,12 @@ export class Profile extends Component {
                                             <a href={`/foundpets/${this.state.user.user._id}`}> <Row className='hover' style={{ backgroundColor: '#77c3e7', borderRadius: '5px', height: '40px', color: 'white', alignItems: 'center', justifyContent: 'center' }}>
 
                                                 <h5>Pets Found</h5>
+
+                                            </Row></a>
+                                            <br></br>
+                                            <a href={`/request/${this.state.user.user._id}`}> <Row className='hover' style={{ backgroundColor: '#77c3e7', borderRadius: '5px', height: '40px', color: 'white', alignItems: 'center', justifyContent: 'center' }}>
+
+                                                <h5> Applications to You</h5>
 
                                             </Row></a>
                                         </ModalBody>
