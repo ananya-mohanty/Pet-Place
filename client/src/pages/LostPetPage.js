@@ -112,7 +112,7 @@ class DisplayLostPet extends Component {
                     Location: {`${this.props.lostpet.location.city}, ${this.props.lostpet.location.region}`}<br></br>
                     Last Seen: {this.props.lostpet.lastseen}</CardSubtitle>
                 <CardBody className="myColumn1" style={{height:'100px', overflowY:'auto', overflowX:'hidden'}}>
-                    <CardText style={{ color: '#77c3e7' }}>{this.props.lostpet.description}</CardText>
+                    <CardText style={{  color: '#1A5C6D' , lineHeight:'18px' }}>{this.props.lostpet.description}</CardText>
                 </CardBody>
                 <Link to={`/chat/${this.props.lostpet.user_id}`}>
                 <Button className="foundBtn" onClick={this.onClick}>Found</Button>
