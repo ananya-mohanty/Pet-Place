@@ -343,7 +343,7 @@ export class FeedPost extends Component {
                                                     <img style={{ width: '700px', height: '400px',objectFit:'cover'}} src={'../api/post/image/' + f.filename}></img>
                                                 </a> :
                                                 f.contentType == 'video/mp4' || f.contentType == 'video/ogg' || f.contentType == 'video/webm' ?
-                                                    <video width="700px" controls><source src={'api/post/video/' + f.filename} /></video> :
+                                                    <video style={{ width: '700px', height: '400px', objectFit: 'cover' }} controls><source src={'api/post/video/' + f.filename} /></video> :
                                                     f.contentType === 'application/pdf' || f.contentType === 'application/octet-stream'
                                                         || f.contentType === 'text/plain' || f.contentType === 'application/x-zip-compressed' ?
                                                         <a href={'http://localhost:5000/api/post/document/' + f.filename}>

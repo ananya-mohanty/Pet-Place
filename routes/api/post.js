@@ -16,15 +16,6 @@ const User = require('../../models/User');
 const Ngo = require('../../models/Ngo');
 const {Notif} = require('../../models/Notif')
 
-
-// var storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads')
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, file.fieldname + '-' + Date.now())
-//     }
-// });
 const storage = new GridFsStorage({
     url: config.get('mongoURI'),
     file: (req, file) => {
@@ -33,7 +24,6 @@ const storage = new GridFsStorage({
                 if (err) {
                     return reject(err);
                 }
-                //  const filename = file.originalname;
                 const filename = buf.toString('hex') + path.extname(file.originalname);
                 const original = file.originalname;
                 const fileInfo = {
@@ -158,9 +148,7 @@ router.get('/image/:filename', function (req, res) {
                 err: 'No file exists'
             })
         }
-        //check if image
         if (file.contentType === 'image/jpeg' || file.contentType === 'image/jpg' || file.contentType === 'image/png') {
-            //read output to browser
             const readStream = gfs.createReadStream(file.filename);
             readStream.pipe(res);
         } else {
@@ -170,6 +158,7 @@ router.get('/image/:filename', function (req, res) {
         }
     })
 })
+
 
 router.get('/video/:filename', function (req, res) {
     global.gfs.files.findOne({ filename: req.params.filename }, function (err, file) {
