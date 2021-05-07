@@ -96,7 +96,7 @@ class DisplayFoundPet extends Component {
                 <div style={{ marginTop: '5px', marginBottom: '5px' }}>
 
                 <a href={'http://localhost:5000/api/post/image/' + this.props.files[0].filename}>
-                    <CardImg top width="50" src={'api/post/image/' + this.props.files[0].filename} />
+                    <CardImg  top style={{ height: "200px", width: '200px', objectFit: 'cover' }} src={'api/post/image/' + this.props.files[0].filename} />
                 </a> 
                 </div>
                 <CardTitle tag="h5">{this.props.lostpet.breed}</CardTitle>
