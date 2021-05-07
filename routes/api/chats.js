@@ -197,7 +197,7 @@ router.get('/:id', (req, res)=>{
 router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
     console.log("sent message function called")
     const t=req.body.text
-    const s = t.substring(0, Math.min(t.length, 10))
+    const s = t.substring(0, Math.min(t.length, 30))+' ...'
 
     User.findById(req.params.id)
         .then(user => {
