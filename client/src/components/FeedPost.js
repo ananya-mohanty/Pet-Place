@@ -327,7 +327,7 @@ export class FeedPost extends Component {
                                 {this.props.post.available=='Yes' && this.props.viewer != 'me' ?
                                 <div style={{ marginLeft: '200px' }}>
                                     {/* <ShadowText>hii</ShadowText> */}
-                                <span style={{color:'green', display:'inline', float:'right',fontSize:'20px', fontWeight:'bold'}}>AVAILABLE</span>
+                                <span style={{color:'green', display:'inline', float:'right',fontSize:'18px', fontWeight:'bold'}}>AVAILABLE</span>
                                </div>
                                :null}
                             </div>

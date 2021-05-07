@@ -113,7 +113,7 @@ export class NewPost extends Component {
                                 </a>}
                             <form>
                                 <textarea style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}
-                                    placeholder='write something'
+                                    placeholder='Write something...'
                                     rows="2" cols="20"
                                     name='caption'
                                     onChange={this.onTextChange} />
