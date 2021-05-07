@@ -10104,26 +10104,27 @@ aside.sidebar.full-style {
     -webkit-transform: scale(1.1,1.1);
 }
 
-.hover:active{
-    opacity: 100%;
-  transform: translateY(4px);
-}
-
 .donateBtn{
+  opacity: 80%;
   background-color: #f4ca31f7;
-  border:'0px solid white'
+  border:none;
 }
 .donateBtn:hover{
-  opacity: 70%;
-    background-color: #33b7a0;
+  opacity: 100%;
+  background-color: #f4ca31f7;
   transform: scale(1.1,1.1);
   -ms-transform: scale(1.1,1.1);
   -webkit-transform: scale(1.1,1.1);
 }
 
+.hover:active{
+    opacity: 100%;
+  transform: translateY(4px);
+}
+
 .deleteBtn{
   background-color:#ed6b75 ;
-  border:'0px solid white'
+  border:none;
 }
 .deleteBtn:hover{
     background-color: #ca212a;
@@ -10140,12 +10141,13 @@ aside.sidebar.full-style {
 }
 
 .foundBtn{
-  border:'0px solid white';
-    background-color: #77c3e7;
+  border:none;
+  background-color: #77c3e7;
+    opacity: 80%;
 }
 .foundBtn:hover{
-  opacity: 70%;
-  background-color: #33b7a0;
+  opacity: 100%;
+  background-color: #77c3e7;
   transform: scale(1.1,1.1);
   -ms-transform: scale(1.1,1.1);
   -webkit-transform: scale(1.1,1.1);
@@ -10164,11 +10166,11 @@ aside.sidebar.full-style {
 }
 
 .declineBtn{
-  border:'0px solid white';
-    background-color: #F27878;
+  border:none;
+  background-color: #F27878;
 }
 .declineBtn:hover{
-  opacity: 70%;
+  opacity: 80%;
   background-color: #F70D0D;
   transform: scale(1.1,1.1);
   -ms-transform: scale(1.1,1.1);

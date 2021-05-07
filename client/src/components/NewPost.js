@@ -148,8 +148,8 @@ export class NewPost extends Component {
                                     <label for="vid" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-video-camera" /></label>&nbsp;&nbsp;
                                     <label for="doc" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-file" /></label>&nbsp;&nbsp;
                                     {!this.state.upload ? 
-                                    <button className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#f4ca31f7', borderRadius:'5px' }} type="submit" onClick={this.onSubmit}>Post</button>
-                                    : <button disabled={true} className="hover active" style={{ fontSize:'14px', marginLeft: '10px', backgroundColor:'#FFD700', borderRadius:'5px' }} type="submit">Posting</button>}
+                                            <button className="hover active" style={{ fontSize: '14px', marginLeft: '10px', backgroundColor:'#11CD32', borderRadius:'5px' }} type="submit" onClick={this.onSubmit}>Post</button>
+                                            : <button disabled={true} className="hover active" style={{ fontSize: '14px', marginLeft: '10px', backgroundColor:'#11CD32', borderRadius:'5px' }} type="submit">Posting</button>}
                                     {/* <ToastContainer position="bottom-right" autoClose={4000}/> */}
                                 </div>
                             </form>
