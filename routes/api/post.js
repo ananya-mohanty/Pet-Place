@@ -317,6 +317,14 @@ router.get('/apply/:user/:id', (req, res) => {
 
     })
 });
+router.get('/ngo/apply/:user/:id', (req, res) => {
+    Ngo.findById(req.params.user, (err, user) => {
+        if (user.applied_posts.includes(req.params.id))
+            res.json({ 'flag': true })
+        else res.json({ 'flag': false })
+
+    })
+});
 router.post('/ngo/like/:user/:id', (req, res) => {
     Ngo.findById(req.params.user, (err, user) => {
         user.liked_posts.push(req.params.id)

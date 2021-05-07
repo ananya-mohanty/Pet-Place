@@ -78,7 +78,12 @@ const NgoSchema = new Schema({
     num_unread_messages: {
         type: Number,
         default: 0
-    }
+    },
+    applied_posts: {
+        type: Array,
+        required: false,
+        default: []
+    },
 });
 
 module.exports = Ngo = mongoose.model('ngo', NgoSchema);

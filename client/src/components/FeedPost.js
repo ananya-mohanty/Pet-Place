@@ -109,8 +109,6 @@ export class FeedPost extends Component {
                     'x-auth-token': window.localStorage.getItem('token')
                 }
             }).then((res) => this.setState({ applied: res.data.flag, applicants: this.props.post.applicants }))
-
-
         }
 
         else {
@@ -119,6 +117,12 @@ export class FeedPost extends Component {
                     'x-auth-token': window.localStorage.getItem('token')
                 }
             }).then((res) => this.setState({ liked: res.data.flag, likes: this.props.post.likes }))
+
+            axios.get(`../api/post/ngo/apply/${JSON.parse(window.localStorage.getItem('user')).id}/${this.props.post._id}`, {
+                headers: {
+                    'x-auth-token': window.localStorage.getItem('token')
+                }
+            }).then((res) => this.setState({ applied: res.data.flag, applicants: this.props.post.applicants }))
         }
     }
     showModal = () => {
