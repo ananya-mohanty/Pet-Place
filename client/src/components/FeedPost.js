@@ -407,7 +407,11 @@ export class FeedPost extends Component {
                         paddingBottom: '0px',
                         display: "flex",
                         backgroundColor: 'white'}}>
-                        <img src={profilepic} style={imageStyle}></img>
+                        {/* {this.props.post.user_type == 'user' ? <a href={'http://localhost:5000/api/users/image/' + this.props.post.user_id}>
+                                    <img src={'../api/users/image/' + this.props.post.user_id} style={imageStyle}></img>
+                                </a> : <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.post.user_id}>
+                                    <img src={'../api/users/image/ngo/' + this.props.post.user_id} style={imageStyle}></img>
+                                </a>} */}
                         <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Applicant</label>
                             <br></br>
