@@ -84,6 +84,11 @@ const NgoSchema = new Schema({
         required: false,
         default: []
     },
+    isVerified: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 });
 
 module.exports = Ngo = mongoose.model('ngo', NgoSchema);

@@ -1,4 +1,6 @@
 {
     "mongoURI": "mongodb+srv://Cheena:fetch@cluster0.iprsg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    "jwtSecret": "fetch_secret"
+    "jwtSecret": "fetch_secret",
+    "admin-email": "admin@gmail.com",
+    "admin-password": "fetch@123"
 }

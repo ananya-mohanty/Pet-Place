@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
             bcrypt.compare(password, ngo.password)
                 .then(isMatch => {
                     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
-
+                    if(!ngo.isVerified) return res.status(400).json({msg: 'NGO not verified'})
                     jwt.sign(
                         { id: ngo.id },
                         config.get('jwtSecret'),

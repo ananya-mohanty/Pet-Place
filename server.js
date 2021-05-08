@@ -67,6 +67,7 @@ app.use('/api/lostpet', require('./routes/api/lostpet'));
 app.use('/api/messages', require('./routes/api/chats'));
 app.use('/api/adoption', require('./routes/api/adoption'));
 app.use('/api/request', require('./routes/api/request'));
+app.use('/admin', require('./routes/api/admin'));
 
 app.use(express.json());
 
