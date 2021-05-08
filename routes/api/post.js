@@ -60,6 +60,27 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/available', (req, res) => {
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
+    Post.find({available:'Yes'}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
+
 router.get('/:id', (req, res) => {
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
@@ -123,6 +144,7 @@ router.delete('/:id', function (req, res) {
 })
 
 router.post('/', upload.array('files[]', 10), (req, res, next) => {
+    console.log(req.body.status)
     const time= Date.now()
     const today= new Date(time)
     var post = new Post({
@@ -132,7 +154,7 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
         likes: 0,
         time: today,
         user_type: req.body.user_type,
-        available:'Yes'
+        available: req.body.status
     })
         
     req.files.forEach(function (fileobj) {

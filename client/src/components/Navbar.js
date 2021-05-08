@@ -82,7 +82,7 @@ export class Navbar2 extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem style={{ marginRight: 25 }}>
-                                <NavLink tag={RRNavLink} to="/" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 510, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}/*style={{ fontFamily: 'muli', fontSize: '16px' }}*/>Your Feed</NavLink>
+                                <NavLink tag={RRNavLink} to="/adopt" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 510, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}/*style={{ fontFamily: 'muli', fontSize: '16px' }}*/>Adopt</NavLink>
                             </NavItem>
                             <NavItem style={{ marginRight: 25 }}>
                                 <NavLink tag={RRNavLink} to="/donations" style={{fontFamily: 'muli', fontSize: '16px'}} activeStyle={{fontWeight: 510, fontFamily: 'muli', fontSize: '16px', backgroundColor:'white'}} exact={true}>Donation Drives</NavLink>

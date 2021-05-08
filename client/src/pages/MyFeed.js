@@ -105,7 +105,7 @@ export class MyFeed extends Component {
                         var files = this.state.files.filter((f) => post.files.includes(f._id))
                         // console.log(files)
                         return (<div>
-                                <FeedPost post={post} files={files} key={i} viewer='me'  />
+                            <FeedPost post={post} files={files} key={i} viewer='me' width='550px' words='480' />
                         </div>)
                     })}
                 </div>

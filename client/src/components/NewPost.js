@@ -27,6 +27,7 @@ export class NewPost extends Component {
         caption: '',
         filetype: [],
         upload:false,
+        status: false,
     }
     onFileChange = e => {
         var prev = this.state.numfiles
@@ -56,9 +57,11 @@ export class NewPost extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData();
+        var s=this.state.status?'Yes':'No'
         formData.append('caption', this.state.caption)
         formData.append('user', window.localStorage.getItem('user'))
         formData.append('user_type', window.localStorage.getItem('user_type'))
+        formData.append('status', s)
         for (let i=0; i<this.state.numfiles;i++) {
             formData.append('files[]', this.state.files[i])
         }
@@ -78,6 +81,10 @@ export class NewPost extends Component {
         }, 2000)
     }
 
+    checkBox=()=>{
+        console.log('called')
+        this.setState({status:!this.state.status})
+    }
     render() {
         return (
             <div>
@@ -117,10 +124,11 @@ export class NewPost extends Component {
                                     rows="2" cols="20"
                                     name='caption'
                                     onChange={this.onTextChange} />
+
                                 <input type="file" name='files' id="img" accept="image/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
                                 <input type="file" name='files' id="vid" accept="video/*"style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
                                 <input type="file" name='files' id="doc" accept="application/*, text/*" style={{ visibility: 'hidden' }} onChange={this.onFileChange} multiple />
-
+                                    
                                 <div style={{ float: 'right', position: 'relative', marginTop: '-90px', marginRight: '20px', zIndex: '2' }} >
                                     {this.state.filesrc.map((src, idx) => {
                                         return (
@@ -144,7 +152,7 @@ export class NewPost extends Component {
                                                     }}  name="plugin" src={src} type="application/pdf"/>
                                     )})}
                                     <br></br>
-                                        <label for="img" className='hover' style={{fontSize:'20px'}}><i class="fa fa-image" /></label>&nbsp;&nbsp;
+                                    <label for="img" className='hover' style={{fontSize:'20px'}}><i class="fa fa-image" /></label>&nbsp;&nbsp;
                                     <label for="vid" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-video-camera" /></label>&nbsp;&nbsp;
                                     <label for="doc" className='hover' style={{ fontSize: '20px' }}><i class="fa fa-file" /></label>&nbsp;&nbsp;
                                     {!this.state.upload ? 
@@ -152,6 +160,9 @@ export class NewPost extends Component {
                                             : <button disabled={true} className="hover active" style={{ fontSize: '14px', marginLeft: '10px', backgroundColor:'#11CD32', borderRadius:'5px' }} type="submit">Posting</button>}
                                     {/* <ToastContainer position="bottom-right" autoClose={4000}/> */}
                                 </div>
+                                    <div style={{ float: 'left', marginLeft: '15px', marginTop:'-40px' }}>
+                                        Adoption Post: <input type="checkbox" onChange={this.checkBox}/>
+                                    </div>
                             </form>
                         </Jumbotron>
                     </Col>

@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import { BrowserRouter as Router, Route, useParams } from 'react-router-dom'
 import { NewPost } from './components/NewPost';
 import  Feed  from './components/Feed';
+import AdoptFeed from './pages/AdoptFeed';
 import { DonationsPage } from './pages/DonationsPage'
 import { NgosPage } from './pages/NgosPage'
 import NewDrive from './components/NewDrive'
@@ -21,8 +22,6 @@ import ChatPage from './pages/ChatPage'
 import backgroud from './images/resources/background1.jpg'
 import { Nav } from 'reactstrap'
 import  ChatPanel  from './components/ChatPanel'
-import AdoptPet from './components/Adopt'
-// import NewDonation from './components/NewDonation'
 import background from './images/resources/chat_background.jpg'
 import Profile from './pages/Profile'
 import MyFeed  from './pages/MyFeed'
@@ -116,6 +115,14 @@ function App() {
                 <Feed />
                 <Footer />
               </div> :window.location.href='/login'
+          }></Route>
+          <Route exact path="/adopt" render={(props) =>
+            window.localStorage.getItem('user') ?
+              <div>
+                <Navbar />
+                <AdoptFeed />
+                <Footer />
+              </div> : window.location.href = '/login'
           }></Route>
           <Route exact path="/donations" render={() =>
             <div>

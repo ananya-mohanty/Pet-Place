@@ -332,7 +332,7 @@ export class Feed extends Component {
                         // console.log(files)
                         return (<div>
                             {
-                                <FeedPost post={post} files={files} key={i} />
+                                <FeedPost post={post} files={files} key={i} width='550px' words='480'/>
                             }
                         </div>)
                     })}
@@ -346,7 +346,7 @@ export class Feed extends Component {
                                 var files = this.state.filesDonations.filter((f) => donation.files.includes(f._id))
                                 return (<div><Row>
                                     {
-                                        <DisplayDonation donation={donation} files={files} key={i} />
+                                        <DisplayDonation donation={donation} files={files} key={i}  />
                                     }
                                 </Row>
                                     <br></br></div>)

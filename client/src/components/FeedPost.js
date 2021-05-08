@@ -18,6 +18,8 @@ import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import axios from 'axios'
 import AdoptPet from './Adopt'
+import ShowMoreText from 'react-show-more-text';
+
 
 // import ShadowText from 'react-shadow-text';
 const imageStyle = {
@@ -70,7 +72,8 @@ export class FeedPost extends Component {
         description:'',
         owner:'',
         ownerID:'',
-        postStatus:false
+        postStatus:false,
+        flag:false
     }
     // this.showModal = this.showModal.bind(this);
     componentDidMount=()=>{
@@ -156,6 +159,9 @@ export class FeedPost extends Component {
 
     }
 
+    executeOnClick=()=>{
+        this.setState({flag:!this.state.flag})
+    }
     onLike = () => {
         var l
         if (this.state.liked)
@@ -308,7 +314,7 @@ export class FeedPost extends Component {
                         <Jumbotron style={{
                             padding: '20px',
                             backgroundColor: 'white',
-                            width: '550px'
+                            width: this.props.width
                         }}>
                             <div style={{ display: 'flex', float: 'right' }}>
                                 {this.props.viewer == 'me' ? <div> <Button onClick={this.delete}className='deleteBtn'>Delete</Button></div>
@@ -361,7 +367,18 @@ export class FeedPost extends Component {
                             : null }
                             <div style={{ paddingLeft: '10px', paddingRight: '10px', marginTop: '15px' }}>
                                 <p>
+                                    <ShowMoreText
+                                        lines={3}
+                                        more='(more)'
+                                        less='(less)'
+                                        className='content-css'
+                                        anchorClass='my-anchor-css-class'
+                                        onClick={this.executeOnClick}
+                                        expanded={this.state.flag}
+                                        width= {this.props.words}
+                                    >
                                     {this.props.post.caption}
+                                    </ShowMoreText>
                                 </p>
                                 <div>
                                     <ul>
