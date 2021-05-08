@@ -15,8 +15,10 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import ChatPanel from '../components/ChatPanel';
 import {Link} from 'react-router-dom'
 import LostPet from'../components/LostPet'
+import Select from 'react-select'
 var ipapi = require('ipapi.co');
 const Geo = require('geo-nearby');
+
 
 const mainStyle = {
     position: "relative",
@@ -132,16 +134,23 @@ export class LostPetPage extends Component {
         files: [],
         location: {},
         radius: 100000,
-        LostPetsInitial: []
+        LostPetsInitial: [],
+        options:[
+            {value:"5", label:'Within 5 km radius'},
+            { value: "10", label: 'Within 10 km radius' },
+            { value: "50", label: 'Within 50 km radius' },
+            { value: "100", label: 'Within 100 km radius' },
+            { value: "500", label: 'Within 500 km radius' },
+            { value: "1000", label: 'Within 1000 km radius' },
+            { value: "0", label: 'More than 1000 km radius' },                       
+        ],
+        selectedOption: { value: "1000", label: 'Within 1000 km radius' },
+        selectedValue: "1000"
     }
 
-
-
     componentDidMount() {
-
         ipapi.location(loc => {
             this.setState({location: loc})
-            // console.log(this.state.location)
         })
         axios.get('api/lostpet')
             .then((res) => {
@@ -172,12 +181,11 @@ export class LostPetPage extends Component {
                 this.setState({LostPets: temp})
                 console.log(this.state.LostPets)
             });
-
     }
 
-    handleChange = (e) => {
-        console.log(e.target.value)
-        var y = parseInt(e.target.value)*1000
+    
+    implementChange = () => {
+        var y = parseInt(this.state.selectedValue)*1000
         if(y == 0) {
             // console.log("idhr")
             this.setState({LostPets: this.state.LostPetsInitial})
@@ -215,6 +223,11 @@ export class LostPetPage extends Component {
 
     }
 
+    handleChange=(value)=>{
+        this.state.selectedOption= value
+        this.state.selectedValue= value.value
+        this.implementChange()
+    }
     render() {
 
         return (
@@ -223,15 +236,14 @@ export class LostPetPage extends Component {
                     <div style={{ height: "auto", margin: "0 auto", padding: 50, position: "relative", background: "white", }}>
                     <Row><Col>
                     <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Lost Pets Near Your Location</h5>
-                    </Col><Col><select onChange={this.handleChange} style={{marginLeft: -60}}>
-                        <option value="5"> Within 5 km radius</option>
-                        <option value="10">Within 10 km radius</option>
-                        <option value="50">Within 50 km radius</option>
-                        <option value="100">Within 100 km radius</option>
-                        <option value="500">Within 500 km radius</option>
-                        <option selected="selected" value="1000">Within 1000 km radius</option>
-                        <option value="0">More than 1000 km radius</option>
-                    </select></Col></Row>
+                    </Col><Col>
+                    <div style={{width:'250px'}}>
+                                    <Select style={{ marginLeft: -60 }} onChange={this.handleChange}
+                                        value={this.state.selectedOption}
+                                        options={this.state.options} />
+                    </div>
+                                
+                    </Col></Row>
                         <div style={{ display: 'flex', float: 'right', marginTop: '-80px' }}>
                             <LostPet location={this.state.location}/>
                         </div>

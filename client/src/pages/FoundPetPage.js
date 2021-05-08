@@ -14,6 +14,7 @@ import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import FoundPet from '../components/FoundPet'
 import { Link } from 'react-router-dom'
+import Select from 'react-select'
 // import { post } from '../../../routes/api/users';
 const Geo = require('geo-nearby');
 var ipapi = require('ipapi.co');
@@ -123,7 +124,18 @@ export class FoundPetPage extends Component {
         dummy: false,
         LostPetsInitial: [],
         files: [],
-        LostPets: []
+        LostPets: [],
+        options: [
+            { value: "5", label: 'Within 5 km radius' },
+            { value: "10", label: 'Within 10 km radius' },
+            { value: "50", label: 'Within 50 km radius' },
+            { value: "100", label: 'Within 100 km radius' },
+            { value: "500", label: 'Within 500 km radius' },
+            { value: "1000", label: 'Within 1000 km radius' },
+            { value: "0", label: 'More than 1000 km radius' },
+        ],
+        selectedOption: { value: "1000", label: 'Within 1000 km radius' },
+        selectedValue: "1000"
     }
 
     
@@ -166,25 +178,24 @@ export class FoundPetPage extends Component {
         
     }
 
-    handleChange = (e) => {
-        console.log(e.target.value)
-        var y = parseInt(e.target.value)*1000
-        if(y == 0) {
+    implementChange = () => {
+        var y = parseInt(this.state.selectedValue) * 1000
+        if (y == 0) {
             // console.log("idhr")
-            this.setState({LostPets: this.state.LostPetsInitial})
+            this.setState({ LostPets: this.state.LostPetsInitial })
             return
         }
-        if(this.state.LostPetsInitial.length == 0)
-        return
+        if (this.state.LostPetsInitial.length == 0)
+            return
         // console.log(this.state.LostPetsInitial)
         const data = []
-        var i=0
-        while(i<this.state.LostPetsInitial.length) {
+        var i = 0
+        while (i < this.state.LostPetsInitial.length) {
             data.push([this.state.LostPetsInitial[i].location.latitude, this.state.LostPetsInitial[i].location.longitude, this.state.LostPetsInitial[i]._id])
             i++
         }
         // console.log(this.state.LostPetsInitial)
-            // console.log(data)    
+        // console.log(data)    
         const dataSet = Geo.createCompactSet(data);
         const geo = new Geo(dataSet, { sorted: true });
         // console.log(geo)
@@ -194,16 +205,22 @@ export class FoundPetPage extends Component {
 
         var temp = []
         var ind = 0
-        while(ind<p.length) {
-                    //console.log(p[ind].i)
+        while (ind < p.length) {
+            //console.log(p[ind].i)
             temp.push(this.state.LostPetsInitial.find(x => x._id == p[ind].i))
             ind++
         }
 
-        this.setState({LostPets: temp})
+        this.setState({ LostPets: temp })
         // this.LostPets = temp
         // console.log(this.LostPets)
 
+    }
+
+    handleChange = (value) => {
+        this.state.selectedOption = value
+        this.state.selectedValue = value.value
+        this.implementChange()
     }
 
     render() {
@@ -212,15 +229,11 @@ export class FoundPetPage extends Component {
             <div className='container' style={mainStyle}>
                 <div style={containerStyle}><Row><Col>
                     <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Found Pets Near Your Location</h5>
-                    </Col><Col><select onChange={this.handleChange} style={{marginLeft: -60}}>
-                        <option value="5"> Within 5 km radius</option>
-                        <option value="10">Within 10 km radius</option>
-                        <option value="50">Within 50 km radius</option>
-                        <option value="100">Within 100 km radius</option>
-                        <option value="500">Within 500 km radius</option>
-                        <option selected="selected" value="1000">Within 1000 km radius</option>
-                        <option value="0">More than 1000 km radius</option>
-                    </select></Col></Row>
+                </Col><Col><div style={{ width: '250px' }}>
+                    <Select style={{ marginLeft: -60 }} onChange={this.handleChange}
+                        value={this.state.selectedOption}
+                        options={this.state.options} />
+                </div></Col></Row>
                     <div style={{ display: 'flex', float: 'right', marginTop: '-80px' }}>
                         <FoundPet location={this.state.location}/>
                     </div>

@@ -50,6 +50,7 @@
     "react-image-gallery": "^1.0.9",
     "react-image-video-lightbox": "^2.0.4",
     "react-refetch": "^3.0.1",
+    "react-select": "^4.3.0",
     "react-shadow-text": "^1.1.0",
     "react-show-more-text": "^1.4.6",
     "react-slideshow-image": "^3.4.5",

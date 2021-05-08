@@ -5,6 +5,11 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    tag:{
+        type: String,
+        required: true,
+        default: 'other'
+    },
     user_id: {
         type: String,
         required: true

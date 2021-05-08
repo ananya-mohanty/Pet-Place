@@ -60,11 +60,12 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/available', (req, res) => {
+router.get('/available/:tag', (req, res) => {
+    // console.log(req.params.tag)
     function custom_sort(a, b) {
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     }
-    Post.find({available:'Yes'}, (err, items) => {
+    Post.find({available:'Yes', tag:req.params.tag}, (err, items) => {
         if (err) {
             console.log(err);
             res.status(500).json("An error occured.");
@@ -74,6 +75,7 @@ router.get('/available', (req, res) => {
                 if (err) console.log(err);
                 else {
                     items.sort(custom_sort)
+                    // console.log(items)
                     res.json({ 'items': items, 'files': files })
                 }
             })
@@ -144,7 +146,7 @@ router.delete('/:id', function (req, res) {
 })
 
 router.post('/', upload.array('files[]', 10), (req, res, next) => {
-    console.log(req.body.status)
+    console.log(req.body.tag)
     const time= Date.now()
     const today= new Date(time)
     var post = new Post({
@@ -154,7 +156,8 @@ router.post('/', upload.array('files[]', 10), (req, res, next) => {
         likes: 0,
         time: today,
         user_type: req.body.user_type,
-        available: req.body.status
+        available: req.body.status,
+        tag: req.body.tag
     })
         
     req.files.forEach(function (fileobj) {
