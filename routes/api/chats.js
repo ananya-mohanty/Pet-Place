@@ -202,9 +202,7 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
     User.findById(req.params.id)
         .then(user => {
             var uservar = user
-            if(!user) {
-                Ngo.findById(req.params.id).then(ngo => {uservar = ngo})
-            }
+            if(user) {
             User.findById(req.params.id2)
                 .then(user2 => {
                     var uservar2 = user2
@@ -389,8 +387,203 @@ router.post('/:id/:id2', upload.array('files[]', 10), (req, res) => {
                                 .catch(err => console.log(err))
                         })})
                 }
-            })})
-                    .catch(err => console.log(err))})
+            })}
+            else 
+            {
+                Ngo.findById(req.params.id)
+                .then(ngo => {
+                var uservar = ngo
+                User.findById(req.params.id2)
+                .then(user2 => {
+                    var uservar2 = user2
+                    if(user2) {
+                        const { text, position, type, uri } = req.body
+                        console.log("printing uservar2")
+                        console.log(uservar2)
+                        var urivar = null
+                        var typevar = type
+                        if(type=='photo'){
+                        urivar = "http://localhost:5000/api/messages/image/" + req.files[0].filename
+                        }
+                        else if(type=='video'){
+                            // console.log(uri)
+                            // console.log(req.files[0].filename)
+                            try {  
+                            urivar = "http://localhost:5000/api/messages/video/" + req.files[0].filename
+                            } catch(err) {
+                                console.log(err)
+                            }
+                            typevar = 'file'
+                        }
+                        else if(type!='text'){
+                            // console.log("here")
+                            urivar = "http://localhost:5000/api/messages/document/" + req.files[0].filename
+                        }
+                        // console.log("idhr")
+                        const newMessage1 = new Message({
+                            sender: uservar.name,
+                            receiver: uservar2.name,
+                            text: text,
+                            position: 'right',
+                            subtitle: s,
+                            type: typevar,
+                            data: {uri: urivar}
+                        });
+                        req.files.forEach(function (fileobj) {
+                            newMessage1.files.push(fileobj.id);
+                        })
+                        newMessage1.save()
+                        console.log(newMessage1)
+                        temp = []
+
+                        if (uservar.messages.has(req.params.id2)) {
+                            temp = uservar.messages.get(req.params.id2)
+                        }
+                        temp.push(newMessage1)
+                        uservar.messages.set(req.params.id2, temp)
+                        // console.log(user.messages)
+                        uservar.markModified('messages')
+                        uservar.save()
+                            .then(()=>{
+                        const newMessage2 = new Message({
+                            sender: uservar.name,
+                            receiver: uservar2.name,
+                            text: text,
+                            position: 'left',
+                            subtitle: s,
+                            type: typevar,
+                            data: {uri: urivar}
+                        });
+                        req.files.forEach(function (fileobj) {
+                            newMessage2.files.push(fileobj.id);
+                        })
+                        newMessage2.save()
+                        temp = []
+
+                        if (uservar2.messages.has(req.params.id)) {
+                            temp = uservar2.messages.get(req.params.id)
+                        }
+                        if(uservar2.unread_messages.has(req.params.id)){
+                        // var op = uservar2.unread_messages[req.params.id]
+                        // console.log("printing value")
+                            if(uservar2.unread_messages.get(req.params.id) == 0) 
+                            {
+                                uservar2.num_unread_messages = uservar2.num_unread_messages + 1
+                            }
+                        uservar2.unread_messages.set(req.params.id, uservar2.unread_messages.get(req.params.id) + 1)
+                        // console.log(uservar2.unread_messages)
+                        }
+                        else {
+                        uservar2.unread_messages.set(req.params.id, 1)
+                        uservar2.num_unread_messages = uservar2.num_unread_messages + 1
+                        }
+                        temp.push(newMessage2)
+                        uservar2.messages.set(req.params.id, temp)
+                        // console.log(user2.messages)
+                        uservar2.markModified('messages')
+                        uservar2.save()
+                            .then(/*console.log(user2)*/)
+                            .catch(err => console.log(err))
+                    })}
+                    else {
+                        Ngo.findById(req.params.id2).then(ngo2 => {
+                            uservar2 = ngo2
+                            // console.log("girts")
+                            // console.log(uservar2)
+                            const { text, position, type, uri } = req.body
+                            // console.log("printing uservar2")
+                            // console.log(uservar2)
+                            var urivar = null
+                            var typevar = type
+                            if(type=='photo'){
+                            urivar = "http://localhost:5000/api/messages/image/" + req.files[0].filename
+                            }
+                            else if(type=='video'){
+                                // console.log(uri)
+                                // console.log(req.files[0].filename)
+                                try {  
+                                urivar = "http://localhost:5000/api/messages/video/" + req.files[0].filename
+                                } catch(err) {
+                                    console.log(err)
+                                }
+                                typevar = 'file'
+                            }
+                            else if(type!='text'){
+                                // console.log("here")
+                                urivar = "http://localhost:5000/api/messages/document/" + req.files[0].filename
+                            }
+                            // console.log("idhr")
+                            const newMessage1 = new Message({
+                                sender: uservar.name,
+                                receiver: uservar2.name,
+                                text: text,
+                                position: 'right',
+                                subtitle: s,
+                                type: typevar,
+                                data: {uri: urivar}
+                            });
+                            req.files.forEach(function (fileobj) {
+                                newMessage1.files.push(fileobj.id);
+                            })
+                            newMessage1.save()
+                            console.log(newMessage1)
+                            temp = []
+
+                            if (uservar.messages.has(req.params.id2)) {
+                                temp = uservar.messages.get(req.params.id2)
+                            }
+                            temp.push(newMessage1)
+                            uservar.messages.set(req.params.id2, temp)
+                            // console.log(user.messages)
+                            uservar.markModified('messages')
+                            uservar.save()
+                                .then(()=>{
+                            const newMessage2 = new Message({
+                                sender: uservar.name,
+                                receiver: uservar2.name,
+                                text: text,
+                                position: 'left',
+                                subtitle: s,
+                                type: typevar,
+                                data: {uri: urivar}
+                            });
+                            req.files.forEach(function (fileobj) {
+                                newMessage2.files.push(fileobj.id);
+                            })
+                            newMessage2.save()
+                            temp = []
+
+                            if (uservar2.messages.has(req.params.id)) {
+                                temp = uservar2.messages.get(req.params.id)
+                            }
+                            if(uservar2.unread_messages.has(req.params.id))
+                            {
+                                if(uservar2.unread_messages.get(req.params.id) == 0) 
+                                {
+                                    uservar2.num_unread_messages = uservar2.num_unread_messages + 1
+                                }
+                                uservar2.unread_messages.set(req.params.id, uservar2.unread_messages.get(req.params.id) + 1)
+                            }
+                            else {
+                            uservar2.unread_messages.set(req.params.id, 1)
+                            uservar2.num_unread_messages = uservar2.num_unread_messages + 1
+                            }
+                            temp.push(newMessage2)
+                            uservar2.messages.set(req.params.id, temp)
+                            // console.log(user2.messages)
+                            uservar2.markModified('messages')
+                            uservar2.save()
+                                .then(/*console.log(user2)*/)
+                                .catch(err => console.log(err))
+                        })})
+                }
+            })
+            })
+        }})})
+            
+            
+            // )
+                    // .catch(err => console.log(err))})
 
 
 
