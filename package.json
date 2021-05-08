@@ -21,9 +21,9 @@
   },
   "homepage": "https://github.com/ananya-mohanty/Pet-Place#readme",
   "dependencies": {
-    "@admin-bro/express": "^3.1.0",
-    "@admin-bro/mongoose": "^1.1.0",
-    "admin-bro": "^4.0.1",
+    "admin-bro": "^0.6.0",
+    "admin-bro-expressjs": "^0.1.5",
+    "admin-bro-mongoose": "^0.2.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.0.0",
