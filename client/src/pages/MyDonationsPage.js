@@ -153,9 +153,12 @@ class DisplayDonation extends Component {
                     Starts On: {this.props.donation.startDate}<br></br>
                     Ends On: {this.props.donation.endDate}</CardSubtitle>
 
-                <CardText className="myColumn1" style={{ color: '#f4ca31f7', height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>{this.props.donation.description}</CardText>
-                    <Button onClick={this.onClick} className="deleteBtn">Delete</Button>
-                    <a href={`/transaction/${this.props.donation._id}`}>  <Button  className="deleteBtn">View Donations</Button></a>
+                <CardText className="myColumn1" style={{ color:'#BE8A1B',height:'100px', overflowY:'auto', overflowX:'hidden',lineHeight:'18px' }}>{this.props.donation.description}</CardText>
+                 
+                    <a href={`/transaction/${this.props.donation._id}`}>  <Button  className="foundBtn">View Donations</Button></a>
+                    <br></br> 
+                    <div style={{padding:'5px'}}>  </div>
+                    <Button onClick={this.onClick} className="deleteBtn">Delete Drive</Button>
             </div>
             // </div>
         )
