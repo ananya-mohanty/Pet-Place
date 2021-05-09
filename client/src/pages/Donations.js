@@ -152,8 +152,13 @@ class DisplayRequests extends Component {
    
     
     render() {
-       
-        
+        function convert(str) {
+            var date = new Date(str),
+              mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+              day = ("0" + date.getDate()).slice(-2);
+            return [day, mnth, date.getFullYear()].join("-");
+          }
+
         return (
 
            <div>
@@ -167,11 +172,11 @@ class DisplayRequests extends Component {
                             <tr style={tableStyle}>
                            
                             
-                            <td style={trows}> {this.props.transaction.date_of_transaction} </td>
+                            <td style={trows}> {convert(this.props.transaction.date_of_transaction)} </td>
                       
                             <td style={trows}>{this.props.transaction.donor} </td>
                             <td style={trows}> { this.props.transaction.amount} </td>
-                            <td style={trows}> { this.props.transaction.emailID} </td>
+                            <td style={trows1}> { this.props.transaction.emailID} </td>
                            
                            
                             </tr>
@@ -221,7 +226,7 @@ export class AdoptionLists extends Component {
             <Container>
                 <div className='container' style={mainStyle}>
                     <div style={{ height: "auto", margin: "0 auto", padding: 100, position: "relative", background: "white", }}> 
-                        <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp;Applications To Your Posts</h5>
+                        <i class="fa fa-file-text-o fa-lg" aria-hidden="true" style={{ float: "left", marginTop: 4 }}></i><h5 style={{ fontFamily: "muli" }}> &nbsp; &nbsp; Donations to your Drive: {this.props.donationID} </h5>
                         
                          <span style={spanStyle}>
                         </span><hr />
@@ -232,7 +237,7 @@ export class AdoptionLists extends Component {
                             <th style={trows}> Name of Applicant</th>
                             
                             <th style={trows}> Amount</th>
-                            <th style={trows}> Email ID</th>
+                            <th style={trows1}> Email ID</th>
                           </tr>
                         </table>
                             {
