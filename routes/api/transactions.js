@@ -4,6 +4,7 @@ const router = express.Router();
 const Donation = require('../../models/Donation');
 const Contribute = require('../../models/Contribute');
 
+
 router.get('/:id', (req, res) => {
     Contribute.find({donationID:req.params.id}, (err, items) => {
         if (err) {
@@ -25,6 +26,12 @@ router.get('/:id', (req, res) => {
             })
         }
     });
+    
+    
+});
+
+router.get('/', (req, res) => {
+  console.log(res)
     
     
 });
