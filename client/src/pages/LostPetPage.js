@@ -136,6 +136,7 @@ export class LostPetPage extends Component {
         radius: 100000,
         LostPetsInitial: [],
         options:[
+            {value: "", label:'Select Radius'},
             {value:"5", label:'Within 5 km radius'},
             { value: "10", label: 'Within 10 km radius' },
             { value: "50", label: 'Within 50 km radius' },
@@ -144,42 +145,43 @@ export class LostPetPage extends Component {
             { value: "1000", label: 'Within 1000 km radius' },
             { value: "0", label: 'More than 1000 km radius' },                       
         ],
-        selectedOption: { value: "1000", label: 'Within 1000 km radius' },
-        selectedValue: "1000"
+        selectedOption: {value: "", label: 'Select Radius'},
+        selectedValue: ""
     }
 
     componentDidMount() {
         ipapi.location(loc => {
+            console.log(loc)
             this.setState({location: loc})
         })
         axios.get('api/lostpet')
             .then((res) => {
                 this.setState({ LostPetsInitial: res.data.items, files: res.data.files })
                 // console.log(this.state.LostPetsInitial)
-                const data = []
-                var i=0
-                while(i<this.state.LostPetsInitial.length) {
-                    data.push([this.state.LostPetsInitial[i].location.latitude, this.state.LostPetsInitial[i].location.longitude, this.state.LostPetsInitial[i]._id])
-                    i++
-                }
+                // const data = []
+                // var i=0
+                // while(i<this.state.LostPetsInitial.length) {
+                //     data.push([this.state.LostPetsInitial[i].location.latitude, this.state.LostPetsInitial[i].location.longitude, this.state.LostPetsInitial[i]._id])
+                //     i++
+                // }
                 
-                const dataSet = Geo.createCompactSet(data);
-                const geo = new Geo(dataSet, { sorted: true });
-                // console.log(geo)
-                // console.log(this.state.radius)
-                var p = geo.nearBy(this.state.location.latitude, this.state.location.longitude, this.state.radius);
-                console.log(p)
+                // const dataSet = Geo.createCompactSet(data);
+                // const geo = new Geo(dataSet, { sorted: true });
+                // // console.log(geo)
+                // // console.log(this.state.radius)
+                // var p = geo.nearBy(this.state.location.latitude, this.state.location.longitude, this.state.radius);
+                // console.log(p)
 
-                var temp = []
-                var ind = 0
-                while(ind<p.length) {
-                    // console.log(p[ind].i)
-                    temp.push(this.state.LostPetsInitial.find(x => x._id == p[ind].i))
-                    ind++
-                }
+                // var temp = []
+                // var ind = 0
+                // while(ind<p.length) {
+                //     // console.log(p[ind].i)
+                //     temp.push(this.state.LostPetsInitial.find(x => x._id == p[ind].i))
+                //     ind++
+                // }
                 
-                this.setState({LostPets: temp})
-                console.log(this.state.LostPets)
+                // this.setState({LostPets: temp})
+                // console.log(this.state.LostPets)
             });
     }
 

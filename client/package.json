@@ -15,6 +15,7 @@
     "razorpay": "^2.0.6",
     "react": "^17.0.1",
     "react-chat-elements": "^10.14.0",
+    "react-date": "^2.0.0",
     "react-dom": "^17.0.1",
     "react-flash-message": "^1.0.5",
     "react-image-video-gallery": "^0.8.18",
