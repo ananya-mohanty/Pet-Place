@@ -26,7 +26,7 @@ export class AdoptFeed extends Component {
         i:0
     }
     componentDidMount = () => {
-        axios.get(`api/post/available/:${this.state.tag}`)
+        axios.get(`api/post/available`)
             .then(res => {
                 this.setState({ posts: res.data.items, files: res.data.files })
             }).catch(res => {

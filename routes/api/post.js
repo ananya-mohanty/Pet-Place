@@ -82,6 +82,28 @@ router.get('/available/:tag', (req, res) => {
         }
     });
 });
+router.get('/available', (req, res) => {
+    // console.log(req.params.tag)
+    function custom_sort(a, b) {
+        return new Date(b.time).getTime() - new Date(a.time).getTime();
+    }
+    Post.find({available:'Yes'}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+            global.gfs.files.find().toArray(function (err, files) {
+                if (err) console.log(err);
+                else {
+                    items.sort(custom_sort)
+                    // console.log(items)
+                    res.json({ 'items': items, 'files': files })
+                }
+            })
+        }
+    });
+});
 
 router.get('/:id', (req, res) => {
     function custom_sort(a, b) {

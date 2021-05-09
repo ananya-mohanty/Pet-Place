@@ -365,8 +365,7 @@ class DisplayRequests extends Component {
                              <tr>
                             
                              
-                             {/* <td style={trows1}> {this.props.adopter.userID} </td> */}
-                       
+                             
                              <td style={trows}>{this.props.adopter.name} </td>
                              {this.props.adopter.status=='Approved' &&
                             <td style={trowsApproved} > {this.props.adopter.status} </td>
@@ -375,11 +374,12 @@ class DisplayRequests extends Component {
                         {this.props.adopter.status=='Pending' &&
                             <td style={trowsPending} > {this.props.adopter.status} </td>
                         }
+                            
                              <td style={trows}>
                              <Button className="foundBtn" onClick={this.onView}>View </Button>
                              </td>
                              <td style = {trows}><Link to={`/chat/${this.props.adopter.userID}`}><Button className="foundBtn" onClick={this.onChat}>Connect</Button></Link></td>
-                     
+
                              </tr>
                                }
                          </tbody>
@@ -429,7 +429,7 @@ export class AdoptionLists extends Component {
 
                         <table style={customers}>
                           <tr>
-                            {/* <th style={trows1}> User ID</th> */}
+                          
                             <th style={trows}> Name of Applicant</th>
                             <th style={trows}> Status of Application</th>
                             <th style={trows}> View Application</th>
