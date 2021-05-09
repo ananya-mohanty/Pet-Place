@@ -57,7 +57,7 @@ export class AdoptFeed extends Component {
 
                 </div>
                 <div style={{
-                    marginLeft:'38%', marginBottom: '20px',
+                    marginLeft:'46%', marginBottom: '20px',
                     width:'300px',
                 }}>
                     <Select 
@@ -66,7 +66,7 @@ export class AdoptFeed extends Component {
                         options={this.state.options} />
                 </div>
                 
-                <Container className="myColumn1" style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 90, marginTop: 10, height: '1300px', overflowY: 'scroll', overflowX: 'auto', position: '' }}>
+                <Container className="myColumn1" style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 90, marginTop: 10, height: '1800px', overflowY: 'scroll', overflowX: 'auto', position: '' }}>
 
                     {this.state.posts.map((post, i) => {
                         var files = this.state.files.filter((f) => post.files.includes(f._id))

@@ -331,8 +331,9 @@ export class FeedPost extends Component {
                                 <div style={{ marginLeft: '10px' }}>
                                     <a className='linkhover' href={`/profile/${this.props.post.user_type}/${this.props.post.user_id}`}>{this.props.post.user_name}</a>
                                     <br></br>
+                                    {this.props.post.user_type == 'user' ? <span style={{fontSize:'10px'}}>(General User)</span> :<span style={{fontSize:'10px'}}>(Animal Shelter)</span>}
+                                    <br></br>
                                     <span style={{ fontSize: '12px' }}>Published: {this.state.time}</span>
-                                    
                                 </div>
                                 {this.props.post.available=='Yes' && this.props.viewer != 'me' ?
                                 <div style={{ marginLeft: '200px' }}>

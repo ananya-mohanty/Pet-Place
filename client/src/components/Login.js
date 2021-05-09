@@ -86,10 +86,10 @@ export class Login extends Component {
                             <div>
                                 <div style={centerStyle}>
                                     <Button onClick={() => this.setState({ showForm: true, userForm: true })} className='register' >
-                                        Login As User</Button>
+                                        Login As General User</Button>
                                 </div>
                                 <div style={centerStyle}>
-                                    <Button onClick={() => this.setState({ showForm: true, ngoForm: true })} className='register' >Login As NGO</Button>
+                                    <Button onClick={() => this.setState({ showForm: true, ngoForm: true })} className='register' >Login As Animal Shelter</Button>
                                 </div>
                                 <br></br>
                                 <div style={centerStyle} >

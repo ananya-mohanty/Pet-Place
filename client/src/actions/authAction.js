@@ -5,6 +5,7 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
     LOGOUT_SUCCESS,
+    NGO_REGISTER_SUCCESS
 } from './types'
 
 import history from '../history'
@@ -64,7 +65,7 @@ export const registerngo = ({ name, email, password, contact, address, files, li
     axios.post('/api/ngoregister', formData, config)
         .then(res => {
             dispatch({
-                type: REGISTER_SUCCESS,
+                type: NGO_REGISTER_SUCCESS,
                 payload: { ...res.data, 'user_type': 'ngo' }
             })
             history.push('/')
@@ -84,7 +85,6 @@ export const login = ({ email, password }) => dispatch => {
             'Content-type': 'application/json'
         }
     }
-    console.log("huaa")
     const body = JSON.stringify({ email, password })
     console.log(email)
     axios.post('/api/auth', body, config)

@@ -130,10 +130,10 @@ export class Register extends Component {
                         <div>
                             <div style={centerStyle}>
                                 <Button onClick={() => this.setState({ showForm: true, userForm:true })} className='register' >
-                                    Register As User</Button>
+                                    Register As General User</Button>
                             </div>
                                 <div style={centerStyle}>
-                                <Button onClick={() => this.setState({ showForm: true , ngoForm:true})} className='register' >Register As NGO</Button>
+                                <Button onClick={() => this.setState({ showForm: true , ngoForm:true})} className='register' >Register As Animal Shelter</Button>
                             </div>
                         </div>
                         :null}

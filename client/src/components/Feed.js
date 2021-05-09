@@ -116,6 +116,7 @@ class LostPet extends Component {
                     </a>}
                     <div style={{ marginLeft: '5px', marginTop: '5px' }}>
                         <a className='linkhover' href={`/profile/${this.props.lostpet.user_type}/${this.props.lostpet.user_id}`}><h6>{this.props.lostpet.user_name}</h6></a>
+                        
                     </div>
                 </div>
                 <div style={{ marginTop: '5px' }} >
@@ -187,6 +188,7 @@ class DisplayDonation extends Component {
                     </a>
                     <div style={{ marginLeft: '5px', marginTop: '5px' }}>
                         <a className='linkhover' href={`/profile/ngo/${this.props.donation.user_id}`}><h6>{this.props.donation.user_name}</h6></a>
+                        {/* {this.props.donation.user_type == 'user' ? <span style={{ fontSize: '10px', marginLeft: '5px', marginTop: '-100px' }}>(General User)</span> : <span style={{ fontSize: '10px', marginLeft: '5px', marginTop: '-100px' }}>(Animal Shelter)</span>} */}
                     </div>
                 </div>
 

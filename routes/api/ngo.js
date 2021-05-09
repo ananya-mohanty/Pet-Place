@@ -96,8 +96,6 @@ router.post('/', upload.array('files[]', 10), (req, res) => {
                                     });
                                 }
                             )
-
-
                         });
                 })
             })

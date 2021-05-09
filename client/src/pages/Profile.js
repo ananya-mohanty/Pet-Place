@@ -60,7 +60,9 @@ export class Profile extends Component {
                         {this.state.user ?
                             <Row>
                                 <Col></Col>
+
                                 <Col style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                    <h1 style={{marginLeft:'35px'}}>General User</h1>
                                     {this.props.viewer == 'me' ?
                                         <div><img src={'/api/users/image/' + this.props.user_id} style={imageStyle}></img>
                                             <Button onClick={this.toggle1} className='register' style={{ marginLeft: '130px' }}>View</Button></div>
@@ -129,6 +131,7 @@ export class Profile extends Component {
                             <Row>
                                 <Col></Col>
                                 <Col >
+                                    <h1 style={{ marginLeft: '35px' }}>Animal Shelter</h1>
                                     {this.props.viewer == 'me' ?
                                         <div><img src={'/api/users/image/ngo/' + this.props.user_id} style={imageStyle}></img>
                                             <Button onClick={this.toggle} className='register' style={{ marginLeft: '130px' }}>View</Button></div>
@@ -137,7 +140,7 @@ export class Profile extends Component {
                                         </div>}
 
                                     <Form>
-                                        <Label>NGO Name</Label>
+                                        <Label>Animal Shelter Name</Label>
                                         <Input placeholder={this.state.user.user.name} disabled='true'></Input>
                                         <br></br>
                                         <Label>License ID</Label>
@@ -149,12 +152,8 @@ export class Profile extends Component {
                                         </Row>
 
                                         <br></br>
-
                                         <Label>Address</Label>
-
-
-                                        <Input placeholder={`${this.state.user.user.hno}, ${this.state.user.user.street},
-                                            ${this.state.user.user.city}, ${this.state.user.user.pincode}, ${this.state.user.user.state}`} disabled='true'></Input>
+                                        <Input placeholder={`${this.state.user.user.hno}, ${this.state.user.user.street}, ${this.state.user.user.city}`} disabled='true'></Input>
                                     </Form>
 
                                     <Modal isOpen={this.state.ngomodal} toggle={this.toggle}>
