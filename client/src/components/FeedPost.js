@@ -20,7 +20,7 @@ import axios from 'axios'
 import AdoptPet from './Adopt'
 import ShowMoreText from 'react-show-more-text';
 
-
+import logo from '../images/AVAILABLE.png'
 // import ShadowText from 'react-shadow-text';
 const imageStyle = {
     width: 50,
@@ -335,15 +335,25 @@ export class FeedPost extends Component {
                                     <br></br>
                                     <span style={{ fontSize: '12px' }}>Published: {this.state.time}</span>
                                 </div>
-                                {this.props.post.available=='Yes' && this.props.viewer != 'me' ?
-                                <div style={{ marginLeft: '200px' }}>
+                               
+                                {this.props.post.available=='Yes' && this.props.viewer != 'me' && this.props.width=='700px' ?
+                                    <div style={{ marginLeft: '300px' }}>
                                     {/* <ShadowText>hii</ShadowText> */}
-                                <span style={{color:'green', display:'inline', float:'right',fontSize:'18px', fontWeight:'bold'}}>AVAILABLE</span>
-                               </div>
-                               :null}
-                            </div>
-                            
+                                    <img src={logo} style={{ display:'inline', float:'right', height: 40 }} />
+                                {/* <span style={{color:'green', display:'inline', float:'right',fontSize:'18px', fontWeight:'bold'}}>AVAILABLE</span> */}
+                              </div>
+                               :
+                               <div style={{ marginLeft: '200px' }}>
+                               {/* <ShadowText>hii</ShadowText> */}
+                               <img src={logo} style={{ display:'inline', float:'right', height: 40 }} />
+                           {/* <span style={{color:'green', display:'inline', float:'right',fontSize:'18px', fontWeight:'bold'}}>AVAILABLE</span> */}
+                         </div>
+                               
+                               }
+                               
                             <br></br>
+                            </div>
+                           
                             { this.props.files.length>0 ?
                             <AliceCarousel disableButtonsControls={true} mouseTracking={true} controlsStrategy='responsive' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 {this.props.files.map((f, i) => {
