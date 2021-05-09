@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 import { connect, PromiseState } from 'react-refetch'
 import axios from 'axios';
 import Time from 'react-time';
+import Date from 'react-date';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NavLink as RRNavLink } from 'react-router-dom';
@@ -150,6 +151,7 @@ export class Navbar2 extends Component {
                                                         {n.type == 'foundpet' ? <div>Looks like {n.user_name} has found your pet.</div>:
                                                             n.type == 'donation' ? <div>{n.user_name} made a donation to your drive.</div>:
                                                                 n.type == 'apply' ? <div>{n.user_name} applied for adoption on your post.</div>:null}
+                                                    <Time style={{ marginLeft: '2px', fontSize: '12px' }} value={n.createdAt} format="DD/MM/YYYY"/>
                                                     <Time style={{ marginLeft: '2px', fontSize: '12px' }} value={n.createdAt} format="HH:mm:ss" />
                                                 </DropdownItem>
                                                )

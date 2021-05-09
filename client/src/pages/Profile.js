@@ -62,7 +62,7 @@ export class Profile extends Component {
                                 <Col></Col>
 
                                 <Col style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                    <h1 style={{marginLeft:'35px'}}>General User</h1>
+                                    <h1 style={{marginLeft:'40px'}}>General User</h1>
                                     {this.props.viewer == 'me' ?
                                         <div><img src={'/api/users/image/' + this.props.user_id} style={imageStyle}></img>
                                             <Button onClick={this.toggle1} className='register' style={{ marginLeft: '130px' }}>View</Button></div>
