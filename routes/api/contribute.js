@@ -11,8 +11,6 @@ var instance = new Razorpay({
     key_secret: 'wOSIYB6DIw8rM8pa4z3eoS1K'
   });
 
-
-
 router.post('/:id',  (req, res) => {
 
 
@@ -26,7 +24,8 @@ router.post('/:id',  (req, res) => {
         user_ID: req.body.formData.userID,
         donationDrive: req.body.formData.donation,
         contactNo:  req.body.formData.contactNo,
-        emailID:  req.body.formData.emailID
+        emailID:  req.body.formData.emailID,
+        donationID: req.body.formData.donationID
 
    
     });
@@ -40,6 +39,7 @@ router.post('/:id',  (req, res) => {
     newContribute.save().then(contribute => res.json(contribute));
     updateStatus(req,res);
 });
+
 
 
 router.post('/orders', (req, res) => {
@@ -88,15 +88,12 @@ function updateStatus(req, res) {
     console.log(err)
   }
   else{
-  // doc.currentAmount = doc.currentAmount + parseInt(req.body.formData.amount)
-  // doc.save(function(err,doc){
-  //   console.log(req.body)
-  
   console.log('cureent' + doc.currentAmount + ' ' + req.body.formData.amount )
   // });
 }
    });
   
+   console.log('HELLO')
 
 
   }

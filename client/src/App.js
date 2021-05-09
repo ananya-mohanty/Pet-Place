@@ -31,6 +31,7 @@ import { MyFoundPetPage } from './pages/MyFoundPets'
 import ApplicationPage from './pages/ApplicationPage'
 import  AdoptionRequest  from './pages/AdoptionRequestPage'
 import AboutPage from './pages/AboutPage'
+import Donations from './pages/Donations'
 
 
 function App() {
@@ -84,6 +85,14 @@ function App() {
               <Navbar />
               {/* <ApplicationPage user_id={props.match.params.id} /> */}
               <AdoptionRequest user_id={props.match.params.id} />
+              <Footer />
+            </div>
+          }></Route>
+          <Route exact path="/transaction/:id" render={(props) =>
+            <div>
+              <Navbar />
+              {/* <ApplicationPage user_id={props.match.params.id} /> */}
+              <Donations donationID={props.match.params.id}/>
               <Footer />
             </div>
           }></Route>

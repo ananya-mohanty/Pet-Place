@@ -11,6 +11,7 @@ var ipapi = require('ipapi.co');
 const { Notif } = require('../../models/Notif');
 const User = require('../../models/User')
 const Ngo = require('../../models/Ngo');
+const Contribute = require('../../models/Contribute')
 // const fs = require('fs');
 // //file upload
 var multer = require('multer');

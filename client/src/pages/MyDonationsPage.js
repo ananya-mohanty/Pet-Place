@@ -7,7 +7,8 @@ import {
     Row,
     Col,
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, ListGroup, ListGroupItem, CardHeader
+    CardTitle, CardSubtitle, ListGroup, ListGroupItem, CardHeader,
+    Modal, ModalBody, ModalHeader
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -16,7 +17,9 @@ import white from '../images/white.png'
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import NewDrive from '../components/NewDrive';
-
+import { MDBListGroup, MDBListGroupItem, MDBContainer } from "mdbreact"
+// import Donations from '../components/Donations'
+// import Donation from '../../../models/Donation';
 const mainStyle = {
     position: "relative",
     padding: "3rem"
@@ -80,15 +83,55 @@ const dpStyle = {
 }
 
 class DisplayDonation extends Component {
+
+    state = {
+        viewDonations: false,
+        donor:[]
+       
+    }
     onClick = (e) => {
         // console.log(this.props.lostpet._id)
         axios.delete(`../api/donations/${this.props.donation._id}`)
             .then(window.location.reload())
     }
-    render() {
+   
+       
 
+
+    
+    render() {
+        
+    // let buttonList = this.props.item.map( item => {
+    //     return (<button onClick={() => this.openModalWithItem(item)}>{item.name}</button>
+    // })
         return (
+            
             <div style={divStyle}>
+                  <Modal
+                size="lg"
+                    style={{}}
+                    isOpen={this.state.viewDonations}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.onView}> Current Donations</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '0px',
+                        display: "flex",
+                        backgroundColor: 'white'}}>
+                        {/* <img src={profilepic} style={imageStyle}></img>  */}
+                      <div>
+                      <MDBContainer gradient="sunny-morning">
+                  
+                      <MDBListGroup style={{ width: "46rem" }} >
+                             <MDBListGroupItem className="block-example border-top-left-right border-warning" >Name of the Applicant :blah</MDBListGroupItem>
+                                 </MDBListGroup>
+                        </MDBContainer>
+                            <br></br><br></br>
+                           
+                        </div>
+                       
+                    </ModalBody>
+                </Modal> 
                 <div style={{ display: 'flex' }}>
                     <a href={'http://localhost:5000/api/users/image/ngo/' + this.props.donation.user_id}>
                         <img src={'../api/users/image/ngo/' + this.props.donation.user_id} style={dpStyle}></img>
@@ -112,6 +155,7 @@ class DisplayDonation extends Component {
 
                 <CardText className="myColumn1" style={{ color: '#f4ca31f7', height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>{this.props.donation.description}</CardText>
                     <Button onClick={this.onClick} className="deleteBtn">Delete</Button>
+                    <a href={`/transaction/${this.props.donation._id}`}>  <Button  className="deleteBtn">View Donations</Button></a>
             </div>
             // </div>
         )
@@ -126,6 +170,7 @@ export class MyDonationsPage extends Component {
     state = {
         Donations: [],
         files: [],
+        Contributes:[]
     }
 
     componentDidMount() {
@@ -140,11 +185,24 @@ export class MyDonationsPage extends Component {
                 // this.helper(res.data)
             });
 
+            axios.get(`../api/contributes/${this.props._id}`)
+            .then((res) => {
+                // console.log(res.data)
+                console.log("heloo")
+                // console.log(this.state.Donations)
+                console.log(res.data.items)
+                this.setState({ Contributes: res.data.items })
+                // console.log(this.state.Donations)
+                // this.helper(res.data)
+            });
+
     }
 
     render() {
 
+
         return (
+            
             <div className='container' style={mainStyle}>
                 <div style={containerStyle}>
                     <div >
@@ -169,7 +227,20 @@ export class MyDonationsPage extends Component {
                                     }
                                 </div>)
                             })
-                        }</Row></div>
+                        }
+{/*                   
+                {
+                    this.state.Contributes.map((contributes, i) => {
+                        // var files = this.state.files.filter((f) => donation.files.includes(f._id))
+                         return (<div>
+                            {
+                              <Donations donor={contributes}  />
+                            }
+                        </div>)
+                    })
+                } */}
+                </Row>
+                </div>
             </div>
         )
     }

@@ -9,6 +9,7 @@ const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const app = express();
+
 app.use(express.json());
 global.gfs;
 
@@ -68,6 +69,7 @@ app.use('/api/messages', require('./routes/api/chats'));
 app.use('/api/adoption', require('./routes/api/adoption'));
 app.use('/api/request', require('./routes/api/request'));
 app.use('/admin', require('./routes/api/admin'));
+app.use('/api/transaction', require('./routes/api/transactions'));
 
 app.use(express.json());
 
