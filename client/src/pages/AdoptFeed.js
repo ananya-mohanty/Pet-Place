@@ -57,7 +57,7 @@ export class AdoptFeed extends Component {
 
                 </div>
                 <div style={{
-                    marginLeft:'46%', marginBottom: '20px',
+                    marginLeft:'38%', marginBottom: '20px',
                     width:'300px',
                 }}>
                     <Select 

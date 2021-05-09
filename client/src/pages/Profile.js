@@ -68,7 +68,6 @@ export class Profile extends Component {
                                             <Button onClick={this.toggle1} className='register' style={{ marginLeft: '130px' }}>View</Button></div>
                                         : <div>
                                             <img src={'../../api/users/image/' + this.props.user_id} style={imageStyle}></img>                                            <Link to={`/chat/${this.props.user_id}`}> <Button className='register' style={{ marginLeft: '110px' }}>Message</Button></Link>
-
                                         </div>
                                     }
                                     <br></br>
