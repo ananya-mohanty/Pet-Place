@@ -58,7 +58,7 @@ const trows = {
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
-    minWidth:150
+    minWidth:180
 
 }
 const trows1 = {
@@ -85,7 +85,7 @@ const trowsApproved = {
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
-    minWidth:150
+    minWidth:180
 
 }
 const trowsPending = {
@@ -99,7 +99,7 @@ const trowsPending = {
     borderStyle: "solid",
     borderWidth: 1,
     borderCollapse: "collapse",
-    minWidth:150
+    minWidth:180
 
 }
 const tableStyle = {
@@ -329,8 +329,7 @@ class DisplayRequests extends Component {
                                     <Button className="declineBtn" style={{ marginLeft: '20px' }} type="submit" onClick={this.onDecline}>Yes, Decline!</Button>
                                 }
                             </div>
-                           {/* { this.setState({ decline: !this.state.decline })}
-                           { this.setState({ approve: !this.state.approve })} */}
+                         
 
                             <br></br><br></br>
                            
@@ -346,7 +345,7 @@ class DisplayRequests extends Component {
                             <tr style={tableStyle}>
                            
                             
-                            <td style={trows1}> {this.props.adopter.userID} </td>
+                            {/* <td style={trows1}> {this.props.adopter.userID} </td> */}
                       
                             <td style={trows}>{this.props.adopter.name} </td>
                             <td style={trowsPending}> { this.props.adopter.status} </td>
@@ -366,7 +365,7 @@ class DisplayRequests extends Component {
                              <tr>
                             
                              
-                             <td style={trows1}> {this.props.adopter.userID} </td>
+                             {/* <td style={trows1}> {this.props.adopter.userID} </td> */}
                        
                              <td style={trows}>{this.props.adopter.name} </td>
                              {this.props.adopter.status=='Approved' &&
@@ -430,7 +429,7 @@ export class AdoptionLists extends Component {
 
                         <table style={customers}>
                           <tr>
-                            <th style={trows1}> User ID</th>
+                            {/* <th style={trows1}> User ID</th> */}
                             <th style={trows}> Name of Applicant</th>
                             <th style={trows}> Status of Application</th>
                             <th style={trows}> View Application</th>
