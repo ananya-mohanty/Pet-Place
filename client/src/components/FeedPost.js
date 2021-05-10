@@ -342,14 +342,15 @@ export class FeedPost extends Component {
                                     <img src={logo} style={{ display:'inline', float:'right', height: 40 }} />
                                 {/* <span style={{color:'green', display:'inline', float:'right',fontSize:'18px', fontWeight:'bold'}}>AVAILABLE</span> */}
                               </div>
-                               :
+                               :null}
+                               { this.props.post.available=='Yes' && this.props.viewer != 'me'  ?
                                <div style={{ marginLeft: '200px' }}>
                                {/* <ShadowText>hii</ShadowText> */}
                                <img src={logo} style={{ display:'inline', float:'right', height: 40 }} />
                            {/* <span style={{color:'green', display:'inline', float:'right',fontSize:'18px', fontWeight:'bold'}}>AVAILABLE</span> */}
                          </div>
                                
-                               }
+                              :null }
                                
                             <br></br>
                             </div>
