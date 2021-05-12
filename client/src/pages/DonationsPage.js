@@ -96,6 +96,7 @@ class DisplayDonation extends Component {
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
+    
     onSubmit = (e) => {
         e.preventDefault()
         
@@ -116,6 +117,7 @@ class DisplayDonation extends Component {
  
         console.log(formData)
         axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
+       
         window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
         // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
         const body = {
@@ -123,7 +125,7 @@ class DisplayDonation extends Component {
             'user_name': JSON.parse(window.localStorage.getItem('user')).name,
             'user_type': window.localStorage.getItem('user_type')
         }
-
+       
         axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
     }
     render() {
