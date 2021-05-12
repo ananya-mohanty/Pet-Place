@@ -17,79 +17,6 @@ var instance = new Razorpay({
       .catch(next);
   };
 
-// router.post('/:id',   (req, res, next) =>{
-
-
-//   console.log(req.body)
-//     const newContribute = new Contribute({
-    
-
-//         donor: req.body.formData.name,
-//         cause: req.body.formData.cause,
-//         amount: req.body.formData.amount,
-//         user_ID: req.body.formData.userID,
-//         donationDrive: req.body.formData.donation,
-//         contactNo:  req.body.formData.contactNo,
-//         emailID:  req.body.formData.emailID,
-//         donationID: req.body.formData.donationID
-
-   
-//     });
-
-//     const time = Date.now()
-//     const today = new Date(time)
-//     newContribute.date_of_transaction = today;
-
-//     console.log(newContribute);
-//     var options = {
-//       amount: newContribute.amount*100,  // amount in the smallest currency unit
-//       currency: "INR",
-//       receipt: "order_rcptid",
-//       key_id: instance.key_id,
-//       key_secret: instance.key_secret
-//     };
-//      instance.orders.create(options,  function(err, order) {
-//       // console.log(order.id);
-//       // // await wait(5 * 1000);
-//       // newContribute.order_ID = order.id;
-//       // console.log(newContribute.order_ID);
-//       // newContribute.save().then(contribute => res.json(contribute));
-//     });   
-
-//     // res.render('./../../index.html')
-//     // var rzp1 = new Razorpay(options);
-//     // let rzp1 = new window.Razorpay(options);
-//     // await wait(5 * 1000);
-//     // newContribute.save().then(contribute => res.json(contribute));
-//     // updateStatus(req,res);
-// });
-
-
-
-// router.post('/orders', (req, res) => {
-//     const newContribute = new Contribute({
-        
-//         donor: req.body.donor,
-//         cause_ID: req.body.cause_ID,
-//         amount: req.body.amount,
-//         user_ID: req.body.user_ID,
-//         order_ID: 0
-//     });
-//     var options = {
-//         amount: 500,  // amount in the smallest currency unit
-//         currency: "INR",
-//         receipt: "order_rcptid" 
-//       };
-//       instance.orders.create(options, function(err, order) {
-//         console.log(order.id);
-//         newContribute.order_ID = order.id;
-//         console.log(newContribute.order_ID);
-//         newContribute.save().then(contribute => res.json(contribute));
-//       });     
-//       updateStatus(req,res);
-
-
-// });
 router.route("/update").put(function(req, res) {
   myteam.updateOne({ name: "Sadio Mane" }, { country: "Senegal" }, function(
     err,
@@ -145,6 +72,9 @@ router.route("/update").put(function(req, res) {
 
         const order = await instance.orders.create(options);
         newContribute.orderID = order.id
+        const time = Date.now()
+        const today = new Date(time)
+        newContribute.date_of_transaction = today;
         console.log(newContribute)
         newContribute.save().then(contribute => res.json(contribute));
 
@@ -181,34 +111,35 @@ router.post("/success", async (req, res) => {
       if (digest !== razorpaySignature)
           return res.status(400).json({ msg: "Transaction not legit!" });
 
-      // THE PAYMENT IS LEGIT & VERIFIED
-      // YOU CAN SAVE THE DETAILS IN YOUR DATABASE IF YOU WANT
+  } catch (error) {
+      res.status(500).send(error);
+  }
 
-      // res.json({
-      //     msg: "success",
-      //     orderId: razorpayOrderId,
-      //     paymentId: razorpayPaymentId,
-      // });
+  
+  updateStatus(req,res);
+  updateCurrentAmount(req,res);
+});
+
+
+
+router.post("/invoices", async (req, res) => {
+  try {
+    console.log("HERE")
+      
+      console.log(req.body)
+
+      const order = await instance.invoices.create(req.body);
+
+      console.log(order)
      
-    //   Contribute.findOneAndUpdate({orderID:req.body.razorpayOrderId},{status:'SUCCESS'}, (err, items) => {
-    //     if (err) {
-    //         console.log(err);
-    //         res.status(500).json("An error occured.");
-    //     }
-    //     else {
-    //        console.log('success bitch')
-    //                 res.json({ 'items': items})
-                  
-          
-    //     }
-    // });
 
   } catch (error) {
       res.status(500).send(error);
   }
-  updateStatus(req,res);
-  updateCurrentAmount(req,res);
+
+  
 });
+
 
 
 function updateStatus(req, res) {
@@ -243,4 +174,6 @@ function updateCurrentAmount(req, res) {
     });
 
 }
+
+
 module.exports = router;

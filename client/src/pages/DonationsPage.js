@@ -87,7 +87,8 @@ const dpStyle = {
 
 class DisplayDonation extends Component {
     state ={
-        makeDonation: false
+        makeDonation: false,
+        order_id:''
     }
     onClick = (e) => {
         this.setState({ makeDonation: !this.state.makeDonation })
@@ -138,7 +139,7 @@ class DisplayDonation extends Component {
         }
 
         const { amount, id: order_id, currency } = result.data;
-
+        this.state.order_id = result.data.order_id
         const options = {
             key: "rzp_test_vD3ROTXl5eQm7N", // Enter the Key ID generated from the Dashboard
             amount: amount.toString(),
@@ -184,16 +185,71 @@ class DisplayDonation extends Component {
                 address: "Fetch!",
             },
             theme: {
-                color: "#61dafb",
+                color: "#D4A537",
             },
         };
 
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
+    
         this.setState({ makeDonation: !this.state.makeDonation })
         axios.get(`/api/post`)
+
+        this.getReceipt()
     }
-    
+    async getReceipt(){
+
+        // const res1 =  await this.loadScript("https://checkout.razorpay.com/v1/invoices");
+        const options1 ={
+            handler: async function (response) {
+                const data= {
+                    "type": "invoice",
+                    "description": this.props.donation.description,
+                    "partial_payment": true,
+                    "customer": {
+                        "name": this.state.name,
+                        "contact": this.state.contactNo,
+                        "email": this.state.emailID,
+                        "billing_address": this.state.address,
+                        
+                    },
+                    "line_items": [
+                        {
+                            "name": this.props.donation.name,
+                            "description": "Crate of sea weed.",
+                            "amount": this.state.amount,
+                            "currency": "INR"
+                        },
+                        {
+                            "item_id": this.state.order_id
+                        }
+                    ],
+                    "sms_notify": 1,
+                    "email_notify": 1,
+                    "draft": "1",
+                    "date": 1588076279,
+                    "expire_by": 1924991999,
+                    "receipt": "Receipt No. 1",
+                    "comment": "Fresh sea weed mowed this morning",
+                    "terms": "No Returns; No Refunds",
+                    "notes": {
+                        "notes_key_1": "Tea, Earl Grey, Hot",
+                        "notes_key_2": "Tea, Earl Grey… decaf."
+                    }
+            }
+            const result1 = await axios.post(`https://checkout.razorpay.com/v1/invoices`, data);
+            console.log(result1)
+            }
+          
+            // const result1 = await axios.post(`/api/contribute/invoices`, data);
+
+
+
+        };
+        
+        const paymentObject1 = new window.Razorpay(options1);
+        paymentObject1.open();
+    }
     onSubmit = (e) => {
         e.preventDefault()
         

@@ -202,7 +202,7 @@ class DisplayDonation extends Component {
             amount: amount.toString(),
             currency: currency,
             name: this.props.donation.name,
-            description:  this.props.donation.description,
+            // description:  this.props.donation.description,
             donation_ID:  this.props.donation._id,
             current_Amount: this.props.donation.currentAmount,
             
@@ -243,7 +243,7 @@ class DisplayDonation extends Component {
                 address: "Fetch!",
             },
             theme: {
-                color: "#61dafb",
+                color: "#D4A537",
             },
         };
 

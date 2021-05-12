@@ -169,6 +169,7 @@ class DisplayRequests extends Component {
                          
                         <tbody>
                       
+                      {this.props.transaction.status=='SUCCESS' &&
                             <tr style={tableStyle}>
                            
                             
@@ -180,7 +181,7 @@ class DisplayRequests extends Component {
                            
                            
                             </tr>
-                              
+                              }
                         </tbody>
                     </Table>
                    
@@ -236,7 +237,7 @@ export class AdoptionLists extends Component {
                           <th style={trows}> Date of Transaction</th>
                             <th style={trows}> Name of Applicant</th>
                             
-                            <th style={trows}> Amount</th>
+                            <th style={trows}> Amount (in INR)</th>
                             <th style={trows1}> Email ID</th>
                           </tr>
                         </table>
