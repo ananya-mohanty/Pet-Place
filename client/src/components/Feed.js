@@ -222,6 +222,8 @@ class DisplayDonation extends Component {
               
                 axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
                 // alert(result.data.msg);
+               
+
             },
             prefill: {
                 name:  this.state.name,
@@ -238,6 +240,8 @@ class DisplayDonation extends Component {
 
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
+        this.setState({ makeDonation: !this.state.makeDonation })
+        axios.get(`/api/post`)
     }
     onSubmit = (e) => {
         e.preventDefault()

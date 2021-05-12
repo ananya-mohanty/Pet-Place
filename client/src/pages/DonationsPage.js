@@ -96,6 +96,95 @@ class DisplayDonation extends Component {
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
+    loadScript= (src) => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    }
+
+    async displayRazorpay() {
+        const formData = new FormData();
+        console.log(this.state.name)
+        formData.name = this.state.name;
+        formData.contactNo = this.state.contactNo;
+        formData.emailID = this.state.emailID;
+        formData.amount = this.state.amount;
+        formData.cause = this.props.donation.description;
+        formData.donation = this.props.donation.name;
+        formData.donationID = this.props.donation._id;
+        formData.currentAmount = this.props.donation.currentAmount;
+
+        console.log('displayy')
+        const res =  this.loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+        if (!res) {
+            alert("Razorpay SDK failed to load. Are you online?");
+            return;
+        }
+
+        const result = await axios.post('../api/contribute/orders', {formData});
+
+        if (!result) {
+            alert("Server error. Are you online?");
+            return;
+        }
+
+        const { amount, id: order_id, currency } = result.data;
+
+        const options = {
+            key: "rzp_test_vD3ROTXl5eQm7N", // Enter the Key ID generated from the Dashboard
+            amount: amount.toString(),
+            currency: currency,
+            name: this.props.donation.name,
+            description:  this.props.donation.description,
+            // image: { logo },
+            order_id: order_id,
+            handler: async function (response) {
+                const data = {
+                    orderCreationId: order_id,
+                    razorpayPaymentId: response.razorpay_payment_id,
+                    razorpayOrderId: response.razorpay_order_id,
+                    razorpaySignature: response.razorpay_signature,
+                };
+
+                const result = await axios.post(`/api/contribute/success`, data);
+                const body = {
+                    'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+                    'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+                    'user_type': window.localStorage.getItem('user_type')
+                }
+              
+                axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+                // alert(result.data.msg);
+               
+
+            },
+            prefill: {
+                name:  this.state.name,
+                email:  this.state.emailID,
+                contact:  this.state.contactNo,
+            },
+            notes: {
+                address: "Fetch!",
+            },
+            theme: {
+                color: "#61dafb",
+            },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+        this.setState({ makeDonation: !this.state.makeDonation })
+        axios.get(`/api/post`)
+    }
     
     onSubmit = (e) => {
         e.preventDefault()
@@ -116,17 +205,17 @@ class DisplayDonation extends Component {
         // formData.address = this.state.address;
  
         console.log(formData)
-        axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
+        // axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
+        this.displayRazorpay();
+        // window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
+        // // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
+        // const body = {
+        //     'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+        //     'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+        //     'user_type': window.localStorage.getItem('user_type')
+        // }
        
-        window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
-        // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
-        const body = {
-            'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-            'user_name': JSON.parse(window.localStorage.getItem('user')).name,
-            'user_type': window.localStorage.getItem('user_type')
-        }
-       
-        axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+        // axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
     }
     render() {
        
