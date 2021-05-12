@@ -203,6 +203,9 @@ class DisplayDonation extends Component {
             currency: currency,
             name: this.props.donation.name,
             description:  this.props.donation.description,
+            donation_ID:  this.props.donation._id,
+            current_Amount: this.props.donation.currentAmount,
+            
             // image: { logo },
             order_id: order_id,
             handler: async function (response) {
@@ -211,6 +214,11 @@ class DisplayDonation extends Component {
                     razorpayPaymentId: response.razorpay_payment_id,
                     razorpayOrderId: response.razorpay_order_id,
                     razorpaySignature: response.razorpay_signature,
+                    amount: options.amount,
+                    donationID: options.donation_ID,
+                    currentAmount: options.current_Amount,
+ 
+
                 };
 
                 const result = await axios.post(`/api/contribute/success`, data);
@@ -219,6 +227,7 @@ class DisplayDonation extends Component {
                     'user_name': JSON.parse(window.localStorage.getItem('user')).name,
                     'user_type': window.localStorage.getItem('user_type')
                 }
+              
               
                 axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
                 // alert(result.data.msg);

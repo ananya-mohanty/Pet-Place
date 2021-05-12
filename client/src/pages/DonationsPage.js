@@ -145,6 +145,9 @@ class DisplayDonation extends Component {
             currency: currency,
             name: this.props.donation.name,
             description:  this.props.donation.description,
+            donation_ID:  this.props.donation._id,
+            current_Amount: this.props.donation.currentAmount,
+            
             // image: { logo },
             order_id: order_id,
             handler: async function (response) {
@@ -153,6 +156,11 @@ class DisplayDonation extends Component {
                     razorpayPaymentId: response.razorpay_payment_id,
                     razorpayOrderId: response.razorpay_order_id,
                     razorpaySignature: response.razorpay_signature,
+                    amount: options.amount,
+                    donationID: options.donation_ID,
+                    currentAmount: options.current_Amount
+
+
                 };
 
                 const result = await axios.post(`/api/contribute/success`, data);

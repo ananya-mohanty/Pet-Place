@@ -165,6 +165,9 @@ router.post("/success", async (req, res) => {
           razorpayPaymentId,
           razorpayOrderId,
           razorpaySignature,
+          amount, 
+          currentAmount, 
+          donationID
       } = req.body;
       console.log(req.body)
      
@@ -204,6 +207,7 @@ router.post("/success", async (req, res) => {
       res.status(500).send(error);
   }
   updateStatus(req,res);
+  updateCurrentAmount(req,res);
 });
 
 
@@ -215,13 +219,28 @@ function updateStatus(req, res) {
             res.status(500).json("An error occured.");
         }
         else {
-           console.log('success bitch')
-                    // res.json({ 'items': items})
+           console.log('success')
+          
                   
           
         }
     });
-//  console.log(req.body.formData.donationID)
-//  let t = parseInt(req.body.formData.currentAmount) + parseInt(req.body.formData.amount);
+
+}
+
+function updateCurrentAmount(req, res) {
+  console.log("NGO DRIVE: tring to update")
+  Donation.findOneAndUpdate({_id:req.body.donationID},{currentAmount:parseInt(req.body.currentAmount)+ (parseInt(req.body.amount)/100) }, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json("An error occured.");
+        }
+        else {
+           console.log('success')
+                  
+          
+        }
+    });
+
 }
 module.exports = router;
