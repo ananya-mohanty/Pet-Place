@@ -20,7 +20,8 @@ import white from '../images/white.png'
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import NewDrive from '../components/NewDrive';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const mainStyle = {
     position: "relative",
@@ -88,7 +89,8 @@ const dpStyle = {
 class DisplayDonation extends Component {
     state ={
         makeDonation: false,
-        order_id:''
+        order_id:'',
+        success:false
     }
     onClick = (e) => {
         this.setState({ makeDonation: !this.state.makeDonation })
@@ -112,6 +114,7 @@ class DisplayDonation extends Component {
     }
 
     async displayRazorpay() {
+       
         const formData = new FormData();
         console.log(this.state.name)
         formData.name = this.state.name;
@@ -140,6 +143,7 @@ class DisplayDonation extends Component {
 
         const { amount, id: order_id, currency } = result.data;
         this.state.order_id = result.data.order_id
+        this.setState({ makeDonation: !this.state.makeDonation })
         const options = {
             key: "rzp_test_vD3ROTXl5eQm7N", // Enter the Key ID generated from the Dashboard
             amount: amount.toString(),
@@ -165,6 +169,8 @@ class DisplayDonation extends Component {
                 };
 
                 const result = await axios.post(`/api/contribute/success`, data);
+               
+                this.setState({ success: !this.state.success })
                 const body = {
                     'user_id': JSON.parse(window.localStorage.getItem('user')).id,
                     'user_name': JSON.parse(window.localStorage.getItem('user')).name,
@@ -172,6 +178,7 @@ class DisplayDonation extends Component {
                 }
               
                 axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+                toast.success("Donating...");
                 // alert(result.data.msg);
                
 
@@ -192,64 +199,12 @@ class DisplayDonation extends Component {
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
     
-        this.setState({ makeDonation: !this.state.makeDonation })
-        axios.get(`/api/post`)
+       
+        // axios.get(`/api/post`)
 
-        this.getReceipt()
+        // this.getReceipt()
     }
-    async getReceipt(){
 
-        // const res1 =  await this.loadScript("https://checkout.razorpay.com/v1/invoices");
-        const options1 ={
-            handler: async function (response) {
-                const data= {
-                    "type": "invoice",
-                    "description": this.props.donation.description,
-                    "partial_payment": true,
-                    "customer": {
-                        "name": this.state.name,
-                        "contact": this.state.contactNo,
-                        "email": this.state.emailID,
-                        "billing_address": this.state.address,
-                        
-                    },
-                    "line_items": [
-                        {
-                            "name": this.props.donation.name,
-                            "description": "Crate of sea weed.",
-                            "amount": this.state.amount,
-                            "currency": "INR"
-                        },
-                        {
-                            "item_id": this.state.order_id
-                        }
-                    ],
-                    "sms_notify": 1,
-                    "email_notify": 1,
-                    "draft": "1",
-                    "date": 1588076279,
-                    "expire_by": 1924991999,
-                    "receipt": "Receipt No. 1",
-                    "comment": "Fresh sea weed mowed this morning",
-                    "terms": "No Returns; No Refunds",
-                    "notes": {
-                        "notes_key_1": "Tea, Earl Grey, Hot",
-                        "notes_key_2": "Tea, Earl Grey… decaf."
-                    }
-            }
-            const result1 = await axios.post(`https://checkout.razorpay.com/v1/invoices`, data);
-            console.log(result1)
-            }
-          
-            // const result1 = await axios.post(`/api/contribute/invoices`, data);
-
-
-
-        };
-        
-        const paymentObject1 = new window.Razorpay(options1);
-        paymentObject1.open();
-    }
     onSubmit = (e) => {
         e.preventDefault()
         
@@ -285,6 +240,30 @@ class DisplayDonation extends Component {
        
         return (
             <Container>
+                 <Modal
+                size="400px"
+                    style={{ width:'900px'}}
+                    isOpen={this.state.success}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.success}> Confirm Decision</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '10px',
+                        display: "flex",
+                        backgroundColor: 'white'
+                        }}>
+                      
+                      <div>
+                     
+                         
+                        SUCCESS!
+                            
+                           
+                        </div>
+                       
+                    </ModalBody>
+                </Modal>
+
                  <Modal
                     style={{}}
                     isOpen={this.state.makeDonation}
