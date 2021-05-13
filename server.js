@@ -9,6 +9,7 @@ const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const app = express();
+const nodemailer = require('nodemailer');
 
 app.use(express.json());
 global.gfs;
@@ -73,6 +74,37 @@ app.use('/api/transaction', require('./routes/api/transactions'));
 
 
 app.use(express.json());
+// sendMail();
+// function sendMail() {
+//     let transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         type: 'OAuth2',
+//         user: "flash24news7@gmail.com",
+//         pass: "rohinimc123",
+//         clientId: "209620419831-bsbiom12plh9vj8knep0vckplbh4gt8g.apps.googleusercontent.com",
+//         clientSecret: "Oeb21GDqKHp-tjD29tVOV6oc",
+//         refreshToken: "1//04JA4EUtza34kCgYIARAAGAQSNwF-L9IrSjQsZYBAbImB7aa_uDMwYG3p9B5VENAxYO6rTGk1qT3p7OQNzS43vAO5gQmRi1eB_wQ"
+//       }
+//     });
+
+//     let mailOptions = {
+//       from: "flash24news7@gmail.com",
+//       to: "iit2018045@iiita.ac.in",
+//       subject: 'ProjectChecker - Website Is Down',
+//       text: 'HIIII'
+//     };
+
+//     transporter.sendMail(mailOptions, function(err, data) {
+//       if (err) {
+//         console.log("Error " + err);
+//       } else {
+        
+//       }
+//     });
+
+//   }
+
 
 
 const port = process.env.PORT || 5000;
