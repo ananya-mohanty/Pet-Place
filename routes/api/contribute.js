@@ -144,8 +144,8 @@ function sendMail(items) {
   let mailOptions = {
     from: "flash24news7@gmail.com",
     to: items.emailID,
-    subject: 'Fetch: RECEIPT',
-    text: 'Thank you so much for donating INR ' + items.amount +" to the nobel cause " + items.donationDrive +" today.",
+    subject: 'Fetch: Donation of INR ' + items.amount +" to " + items.donationDrive ,
+    // text: 'Dear' + items.donor + ', thank you so much donating INR ' + items.amount +" to the nobel cause ' " + items.donationDrive +"' today. Your love is a contributing force for us to work harder to make",
     html:`<html>
     <head>
       <meta charset="utf-8" />
@@ -153,7 +153,7 @@ function sendMail(items) {
   
       <style>
         .invoice-box {
-          max-width: 800px;
+          max-width: 700px;
           margin: auto;
           padding: 30px;
           border: 1px solid #eee;
@@ -163,7 +163,12 @@ function sendMail(items) {
           font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
           color: #555;
         }
-  
+        .details{
+            font-size: 22px;
+          line-height: 24px;
+          font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+          color: #555;
+        }
         .invoice-box table {
           width: 100%;
           line-height: inherit;
@@ -201,8 +206,15 @@ function sendMail(items) {
   
         .invoice-box table tr.details td {
           padding-bottom: 20px;
+          font-size: 16px;
+          line-height: 24px;
+          font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+          color: #555;
+
         }
-  
+        .bold{
+            font-weight: bold;
+        }
         .invoice-box table tr.item td {
           border-bottom: 1px solid #eee;
         }
@@ -255,59 +267,37 @@ function sendMail(items) {
                 <tr>
                 
                   <td class="title">
-                    <img src="https://i.ibb.co/gwT3frr/fetchlogo.png" style="width: 100%; max-width: 300px" />
+                  <img src="https://i.ibb.co/gwT3frr/fetchlogo.png" style="float: center; width: 100%; max-width: 300px" alt="fetchlogo" border="0">
                   </td>
   
-                   <td>
-                   Payment receipt <br />
+                  <td>
+
+                    SUCCESS: Donation at Fetch <br />
+
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
   
+         <tr>
+             <td class="details">
+               <p> Your love is what drives us to make this world a better place for animals.</p>
+               <p class="bold"> Fetch promises:</p>
+               <p>
+                We shall ensure that your contribution reaches the receiver without the involvement of any third party and is used for the cause it is meant for. 
+                </p>
+                </td>
+           
+         </tr>
+  
+          <tr class="item">
+            <td><img src="https://i.ibb.co/mSMgD7k/thanks.png" style="width: 100%; max-width: 700px"alt="thanks" border="0"></td>
+  
+           
+          </tr>
+  
          
-          <tr class="heading">
-            <td>Payment Method</td>
-  
-            <td>Check #</td>
-          </tr>
-  
-          <tr class="details">
-            <td>Check</td>
-  
-            <td>1000</td>
-          </tr>
-  
-          <tr class="heading">
-            <td>Item</td>
-  
-            <td>Price</td>
-          </tr>
-  
-          <tr class="item">
-            <td>Website design</td>
-  
-            <td>$300.00</td>
-          </tr>
-  
-          <tr class="item">
-            <td>Hosting (3 months)</td>
-  
-            <td>$75.00</td>
-          </tr>
-  
-          <tr class="item last">
-            <td>Domain name (1 year)</td>
-  
-            <td>$10.00</td>
-          </tr>
-  
-          <tr class="total">
-            <td></td>
-  
-            <td>Total: $385.00</td>
-          </tr>
         </table>
       </div>
     </body>
