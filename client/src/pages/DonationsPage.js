@@ -152,6 +152,9 @@ class DisplayDonation extends Component {
             description:  this.props.donation.description,
             donation_ID:  this.props.donation._id,
             current_Amount: this.props.donation.currentAmount,
+            userID: JSON.parse(window.localStorage.getItem('user')).id,
+            user_name: JSON.parse(window.localStorage.getItem('user')).name,
+            user_type: window.localStorage.getItem('user_type'),
             
             // image: { logo },
             order_id: order_id,
@@ -163,7 +166,10 @@ class DisplayDonation extends Component {
                     razorpaySignature: response.razorpay_signature,
                     amount: options.amount,
                     donationID: options.donation_ID,
-                    currentAmount: options.current_Amount
+                    currentAmount: options.current_Amount,
+                    userID : options.userID,
+                    user_name: options.user_name,
+                    user_type: options.user_type,
 
 
                 };
@@ -177,8 +183,8 @@ class DisplayDonation extends Component {
                     'user_type': window.localStorage.getItem('user_type')
                 }
               
-                axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
-                toast.success("Donating...");
+              await axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+              
                 // alert(result.data.msg);
                
 
@@ -199,11 +205,19 @@ class DisplayDonation extends Component {
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
     
-       
+      
+       const body = {
+        'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+        'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+        'user_type': window.localStorage.getItem('user_type')
+       }
+  
+    axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+}
         // axios.get(`/api/post`)
 
         // this.getReceipt()
-    }
+    
 
     onSubmit = (e) => {
         e.preventDefault()

@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const config = require('config');
 const nodemailer = require('nodemailer');
 const Donation = require('../../models/Donation');
 const Contribute = require('../../models/Contribute');
-
+const { Notif } = require('../../models/Notif');
 var Razorpay = require('razorpay');
+const Ngo = require('../../models/Ngo');
 var key_secret= 'WPxl0fvyGeV0d9t0Q4JkmHOu';
 var instance = new Razorpay({
     key_id: 'rzp_test_vD3ROTXl5eQm7N',
@@ -97,7 +99,10 @@ router.post("/success", async (req, res) => {
           razorpaySignature,
           amount, 
           currentAmount, 
-          donationID
+          donationID, 
+          userID,
+          user_name,
+          user_type
       } = req.body;
       console.log(req.body)
      
@@ -119,11 +124,28 @@ router.post("/success", async (req, res) => {
   }
 
   
+console.log("IDHAT")  
   updateStatus(req,res);
+  // sendNotif(req, res);
   updateCurrentAmount(req,res);
   
 });
 
+// function sendNotif(req, res){
+//   console.log("INSIDE NOTIF")
+//   console.log(req.body)
+//   const notif = new Notif({
+//     user_id: req.body.userID,
+//     user_name: req.body.user_name,
+//     user_type: req.body.user_type,
+//     type: 'donation'
+// })
+// notif.save()
+// Ngo.findById(req.body.userID, (err, user) => {
+//     user.notifs.push(notif)
+//     user.save()
+// })
+// }
 function sendMail(items) {
 
   // console.log(req.body);
@@ -133,11 +155,11 @@ function sendMail(items) {
     service: 'gmail',
     auth: {
       type: 'OAuth2',
-      user: "flash24news7@gmail.com",
-      pass: "rohinimc123",
-      clientId: "209620419831-bsbiom12plh9vj8knep0vckplbh4gt8g.apps.googleusercontent.com",
-      clientSecret: "Oeb21GDqKHp-tjD29tVOV6oc",
-      refreshToken: "1//04JA4EUtza34kCgYIARAAGAQSNwF-L9IrSjQsZYBAbImB7aa_uDMwYG3p9B5VENAxYO6rTGk1qT3p7OQNzS43vAO5gQmRi1eB_wQ"
+      user: config.get('nodemailer-email'),
+      pass:config.get('nodemailer-password'),
+      clientId: config.get('nodemailer-clientID'),
+      clientSecret: config.get('nodemailer-secret'),
+      refreshToken: config.get('nodemailer-refreshToken'),
     }
   });
 
