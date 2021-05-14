@@ -34,25 +34,7 @@ router.route("/update").put(function(req, res) {
   });
 });
 
-// function updateStatus(req, res) {
-//  console.log(req.body.formData.donationID)
-//  let t = parseInt(req.body.formData.currentAmount) + parseInt(req.body.formData.amount);
-//   Donation.findByIdAndUpdate(req.body.formData.donationID,{currentAmount: t},(err,doc)=>{
-//    //this will give you the document what you want to update.. then 
-//   if(err){
-//     console.log(err)
-//   }
-//   else{
-//   console.log('cureent' + doc.currentAmount + ' ' + req.body.formData.amount )
-//   // });
-// }
-//    });
-  
-//    console.log('HELLO')
-
-
-//   }
-
+//RAZORPAY: CREATE ORDER
   router.post("/orders", async (req, res) => {
     try {
       const newContribute = new Contribute({
@@ -90,10 +72,11 @@ router.route("/update").put(function(req, res) {
     }
 });
 
+//RAZORPAY: HANDLE SUCCESS AND FAILURE AFTER MATCHING HASH VALUES
 router.post("/success", async (req, res) => {
   try {
     console.log("HERE")
-      // getting the details back from our font-end
+  
       const {
           orderCreationId,
           razorpayPaymentId,
@@ -127,14 +110,13 @@ router.post("/success", async (req, res) => {
       console.log(error)
   }
 
-  
-console.log("IDHAT")  
   updateStatus(req,res);
   sendNotif(req, res);
   updateCurrentAmount(req,res);
   
 });
 
+//SEND NOTIF TO NGO ON SUCCESSFUL DONATION
 function sendNotif(req, res){
   console.log("INSIDE NOTIF")
   console.log(req.body)
@@ -150,10 +132,10 @@ Ngo.findById(req.body.ngoID, (err, user) => {
     user.save()
 })
 }
+
+ //SEND MAIL (RECEIPT) TO DONOR
 function sendMail(items) {
 
-  // console.log(req.body);
-  // console.log(res);
 
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -339,6 +321,8 @@ function sendMail(items) {
   });
 
 }
+
+//UPDATE TRANSACTION TO "SUCESS" FROM "IN TRANSIT"
 async function updateStatus(req, res) {
   console.log("tring to update")
   console.log(req.body)
@@ -362,6 +346,8 @@ async function updateStatus(req, res) {
     });
 
 }
+
+//UPDATE CURRENT AMOUNT (MONEY RAISED) TO CORRESPONDING DONATION
 
 function updateCurrentAmount(req, res) {
   console.log("NGO DRIVE: tring to update")

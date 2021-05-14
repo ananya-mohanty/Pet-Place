@@ -202,15 +202,12 @@ class DisplayDonation extends Component {
             amount: amount.toString(),
             currency: currency,
             name: this.props.donation.name,
-            // description:  this.props.donation.description,
             donation_ID:  this.props.donation._id,
             current_Amount: this.props.donation.currentAmount, 
             userID: JSON.parse(window.localStorage.getItem('user')).id,
             user_name: JSON.parse(window.localStorage.getItem('user')).name,
             user_type: window.localStorage.getItem('user_type'),
-            
-            
-            // image: { logo },
+            ngoID: this.props.donation.user_id,
             order_id: order_id,
             handler: async function (response) {
                 const data = {
@@ -224,19 +221,13 @@ class DisplayDonation extends Component {
                     userID : options.userID,
                     user_name: options.user_name,
                     user_type: options.user_type,
+                    ngoID : options.ngoID
  
 
                 };
 
                 const result = await axios.post(`/api/contribute/success`, data);
-                const body = {
-                    'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                    'user_name': JSON.parse(window.localStorage.getItem('user')).name,
-                    'user_type': window.localStorage.getItem('user_type')
-                }
-              
-              await axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
-              
+               
 
             },
             prefill: {
@@ -305,15 +296,13 @@ class DisplayDonation extends Component {
                         <CardTitle tag="h6">{this.props.donation.name}</CardTitle>
                         <CardSubtitle > Amount Raised: &#8377; {this.props.donation.currentAmount} </CardSubtitle>
                         <CardSubtitle >Target Amount: &#8377; {this.props.donation.targetAmount}</CardSubtitle>
-                        {/* </CardSubtitle> */}
-                        {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
+        
                         <CardSubtitle >Ends On: {this.props.donation.endDate}</CardSubtitle>
-                        {/* </CardSubtitle> */}
-                        {/* <div style={{ fontSize: 13, lineHeight: 'normal', textAlign: 'left', marginLeft: 15, width: 165 }}>{this.props.donation.description}</div></CardText> */}
+                       
                     </CardText >
-                    {/* <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=" + this.props.donation.name}> */}
+                   
                         <Button  className="donateBtn" size='sm' onClick={this.onDonate} >Donate</Button>
-                    {/* </a> */}
+                
                 </CardBody>
                 <Modal
                     style={{}}
@@ -326,7 +315,7 @@ class DisplayDonation extends Component {
                         display: "flex",
                         backgroundColor: 'white'
                         }}>
-                        {/* <img src={profilepic} style={imageStyle}></img> */}
+                        
                         <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Donor</label>
                             <br></br>
@@ -393,12 +382,9 @@ export class Feed extends Component {
 
         axios.get('api/donations/')
             .then((res) => {
-                // console.log(res.data)
-                // console.log("heloo")
-                // console.log(this.state.Donations)
+               
                 this.setState({ Donations: res.data.items, filesDonations: res.data.files })
-                // console.log(this.state.Donations)
-                // this.helper(res.data)
+              
             });
 
         axios.get('api/lostpet/')
@@ -414,7 +400,7 @@ export class Feed extends Component {
             <Container style={{ justifyContent: 'center', alignItems: 'center', marginLeft: '90px',  }}><Row>
                 <Col className="myColumn1" style={{ marginBottom: 90, marginRight: -20, marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX: 'auto',  }}xs={'auto'}/*style={{width: 30}}*/>
                     <div style={{/*marginLeft: -135, *//* marginLeft: -80*/ }}>
-                        {/* <div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div> */}
+                      
                         {
                             this.state.LostPets.map((lostpet, i) => {
                                 var files = this.state.fileslostpets.filter((f) => lostpet.files.includes(f._id))
@@ -443,7 +429,7 @@ export class Feed extends Component {
                 </Col>
                 <Col className="myColumn1" style={{ marginBottom: 90, marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX:'auto', position:''}}xs={'auto'}>
                     <div style={{  }}>
-                        {/* <div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div> */}
+                        
                         {
                             this.state.Donations.map((donation, i) => {
                                 var files = this.state.filesDonations.filter((f) => donation.files.includes(f._id))
