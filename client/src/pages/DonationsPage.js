@@ -155,6 +155,7 @@ class DisplayDonation extends Component {
             userID: JSON.parse(window.localStorage.getItem('user')).id,
             user_name: JSON.parse(window.localStorage.getItem('user')).name,
             user_type: window.localStorage.getItem('user_type'),
+            ngoID: this.props.donation.user_id,
             
             // image: { logo },
             order_id: order_id,
@@ -170,20 +171,22 @@ class DisplayDonation extends Component {
                     userID : options.userID,
                     user_name: options.user_name,
                     user_type: options.user_type,
+                    ngoID : options.ngoID
 
 
                 };
+                console.log("USER ID: " + data.userID);
 
                 const result = await axios.post(`/api/contribute/success`, data);
                
                 this.setState({ success: !this.state.success })
-                const body = {
-                    'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-                    'user_name': JSON.parse(window.localStorage.getItem('user')).name,
-                    'user_type': window.localStorage.getItem('user_type')
-                }
+            //     const body = {
+            //         'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+            //         'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+            //         'user_type': window.localStorage.getItem('user_type')
+            //     }
               
-              await axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+            //   await axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
               
                 // alert(result.data.msg);
                
@@ -206,13 +209,13 @@ class DisplayDonation extends Component {
         paymentObject.open();
     
       
-       const body = {
-        'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-        'user_name': JSON.parse(window.localStorage.getItem('user')).name,
-        'user_type': window.localStorage.getItem('user_type')
-       }
+    //    const body = {
+    //     'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+    //     'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+    //     'user_type': window.localStorage.getItem('user_type')
+    //    }
   
-    axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+    // axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
 }
         // axios.get(`/api/post`)
 

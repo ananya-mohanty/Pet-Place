@@ -204,7 +204,11 @@ class DisplayDonation extends Component {
             name: this.props.donation.name,
             // description:  this.props.donation.description,
             donation_ID:  this.props.donation._id,
-            current_Amount: this.props.donation.currentAmount,
+            current_Amount: this.props.donation.currentAmount, 
+            userID: JSON.parse(window.localStorage.getItem('user')).id,
+            user_name: JSON.parse(window.localStorage.getItem('user')).name,
+            user_type: window.localStorage.getItem('user_type'),
+            
             
             // image: { logo },
             order_id: order_id,
@@ -217,6 +221,9 @@ class DisplayDonation extends Component {
                     amount: options.amount,
                     donationID: options.donation_ID,
                     currentAmount: options.current_Amount,
+                    userID : options.userID,
+                    user_name: options.user_name,
+                    user_type: options.user_type,
  
 
                 };
@@ -228,10 +235,8 @@ class DisplayDonation extends Component {
                     'user_type': window.localStorage.getItem('user_type')
                 }
               
+              await axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
               
-                axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
-                // alert(result.data.msg);
-               
 
             },
             prefill: {

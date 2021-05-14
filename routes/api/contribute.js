@@ -4,6 +4,8 @@ const config = require('config');
 const nodemailer = require('nodemailer');
 const Donation = require('../../models/Donation');
 const Contribute = require('../../models/Contribute');
+
+const User = require('../../models/User')
 const { Notif } = require('../../models/Notif');
 var Razorpay = require('razorpay');
 const Ngo = require('../../models/Ngo');
@@ -62,7 +64,7 @@ router.route("/update").put(function(req, res) {
                 donationDrive: req.body.formData.donation,
                 contactNo:  req.body.formData.contactNo,
                 emailID:  req.body.formData.emailID,
-                donationID: req.body.formData.donationID,
+                donationID: req.body.formData.donationID, 
                 status:'In Transit'
             });
         const options = {
@@ -102,7 +104,8 @@ router.post("/success", async (req, res) => {
           donationID, 
           userID,
           user_name,
-          user_type
+          user_type,
+          ngoID
       } = req.body;
       console.log(req.body)
      
@@ -121,31 +124,32 @@ router.post("/success", async (req, res) => {
 
   } catch (error) {
       res.status(500).send(error);
+      console.log(error)
   }
 
   
 console.log("IDHAT")  
   updateStatus(req,res);
-  // sendNotif(req, res);
+  sendNotif(req, res);
   updateCurrentAmount(req,res);
   
 });
 
-// function sendNotif(req, res){
-//   console.log("INSIDE NOTIF")
-//   console.log(req.body)
-//   const notif = new Notif({
-//     user_id: req.body.userID,
-//     user_name: req.body.user_name,
-//     user_type: req.body.user_type,
-//     type: 'donation'
-// })
-// notif.save()
-// Ngo.findById(req.body.userID, (err, user) => {
-//     user.notifs.push(notif)
-//     user.save()
-// })
-// }
+function sendNotif(req, res){
+  console.log("INSIDE NOTIF")
+  console.log(req.body)
+  const notif = new Notif({
+    user_id: req.body.userID,
+    user_name: req.body.user_name,
+    user_type: req.body.user_type,
+    type: 'donation'
+})
+notif.save()
+Ngo.findById(req.body.ngoID, (err, user) => {
+    user.notifs.push(notif)
+    user.save()
+})
+}
 function sendMail(items) {
 
   // console.log(req.body);
