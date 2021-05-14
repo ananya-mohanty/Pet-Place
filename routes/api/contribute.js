@@ -111,13 +111,14 @@ router.post("/success", async (req, res) => {
   }
 
   updateStatus(req,res);
-  sendNotif(req, res);
+  sendNotifToNgo(req, res);
+  sendSuccessNotif(req, res);
   updateCurrentAmount(req,res);
   
 });
 
 //SEND NOTIF TO NGO ON SUCCESSFUL DONATION
-function sendNotif(req, res){
+function sendNotifToNgo(req, res){
   console.log("INSIDE NOTIF")
   console.log(req.body)
   const notif = new Notif({
@@ -133,6 +134,21 @@ Ngo.findById(req.body.ngoID, (err, user) => {
 })
 }
 
+function sendSuccessNotif(req, res){
+  console.log("INSIDE NOTIF")
+  console.log(req.body)
+  const notif = new Notif({
+    user_id: req.body.userID,
+    user_name: req.body.user_name,
+    user_type: req.body.user_type,
+    type: 'donated'
+})
+notif.save()
+User.findById(req.body.userID, (err, user) => {
+    user.notifs.push(notif)
+    user.save()
+})
+}
  //SEND MAIL (RECEIPT) TO DONOR
 function sendMail(items) {
 
