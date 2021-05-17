@@ -149,7 +149,7 @@ class DisplayDonation extends Component {
             amount: amount.toString(),
             currency: currency,
             name: this.props.donation.name,
-            description:  this.props.donation.description,
+            // description:  this.props.donation.description,
             donation_ID:  this.props.donation._id,
             current_Amount: this.props.donation.currentAmount,
             userID: JSON.parse(window.localStorage.getItem('user')).id,
@@ -175,11 +175,11 @@ class DisplayDonation extends Component {
 
 
                 };
-                console.log("USER ID: " + data.userID);
+                // console.log("USER ID: " + data.userID);
 
                 const result = await axios.post(`/api/contribute/success`, data);
                
-                this.setState({ success: !this.state.success })
+                // this.setState({ success: !this.state.success })
             //     const body = {
             //         'user_id': JSON.parse(window.localStorage.getItem('user')).id,
             //         'user_name': JSON.parse(window.localStorage.getItem('user')).name,
@@ -208,7 +208,8 @@ class DisplayDonation extends Component {
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
     
-      
+        this.setState({ makeDonation: !this.state.makeDonation })
+        axios.get(`/api/post`)
     //    const body = {
     //     'user_id': JSON.parse(window.localStorage.getItem('user')).id,
     //     'user_name': JSON.parse(window.localStorage.getItem('user')).name,
