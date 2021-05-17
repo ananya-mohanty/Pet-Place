@@ -11,8 +11,8 @@ const adminBro = new AdminBro({
     resources: [{
         resource: ngo,
         options: {
-            listProperties: ['name', 'email', 'register_date', 'contact', 'isVerified'],
-            showProperties: ['name', 'email', 'contact', 'register_date', 'hno', 'street', 'city', 'pincode', 'state', 'licence', 'isVerified'],
+            listProperties: ['name', 'email', 'register_date', 'contact', 'license', 'isVerified'],
+            showProperties: ['name', 'email', 'contact', 'register_date', 'hno', 'street', 'city', 'pincode', 'state', 'license', 'isVerified'],
             editProperties: ['isVerified'],
             properties: {
                 // name: {
@@ -48,7 +48,7 @@ const adminBro = new AdminBro({
                 state: {
                     isVisible: { list: false, filter: false, show: true, edit: false },
                 },
-                licence: {
+                license: {
                     isVisible: { list: false, filter: false, show: true, edit: false },
                 },
                 profile_pic: {
