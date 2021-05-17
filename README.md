@@ -15,4 +15,4 @@ IIT2018087  Rohini Mishra <br />
 4. Run 'npm run dev'. This command starts the backend server on
    localhost:5000 and the frontend on localhost:3000 concurrently.
 5. The project tab will run in your browser automatically. If not, run 
-   the url 'https://localhost:3000' on your browser.
+   the url 'http://localhost:3000' on your browser.
