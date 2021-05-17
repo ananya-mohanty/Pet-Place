@@ -20,7 +20,8 @@ import white from '../images/white.png'
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 import NewDrive from '../components/NewDrive';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const mainStyle = {
     position: "relative",
@@ -87,7 +88,9 @@ const dpStyle = {
 
 class DisplayDonation extends Component {
     state ={
-        makeDonation: false
+        makeDonation: false,
+        order_id:'',
+        success:false
     }
     onClick = (e) => {
         this.setState({ makeDonation: !this.state.makeDonation })
@@ -96,6 +99,129 @@ class DisplayDonation extends Component {
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
+    loadScript= (src) => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    }
+
+    async displayRazorpay() {
+       
+        const formData = new FormData();
+        console.log(this.state.name)
+        formData.name = this.state.name;
+        formData.contactNo = this.state.contactNo;
+        formData.emailID = this.state.emailID;
+        formData.amount = this.state.amount;
+        formData.cause = this.props.donation.description;
+        formData.donation = this.props.donation.name;
+        formData.donationID = this.props.donation._id;
+        formData.currentAmount = this.props.donation.currentAmount;
+
+        console.log('displayy')
+        const res =  this.loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+        if (!res) {
+            alert("Razorpay SDK failed to load. Are you online?");
+            return;
+        }
+
+        const result = await axios.post('../api/contribute/orders', {formData});
+
+        if (!result) {
+            alert("Server error. Are you online?");
+            return;
+        }
+
+        const { amount, id: order_id, currency } = result.data;
+        this.state.order_id = result.data.order_id
+        this.setState({ makeDonation: !this.state.makeDonation })
+        const options = {
+            key: "rzp_test_vD3ROTXl5eQm7N", // Enter the Key ID generated from the Dashboard
+            amount: amount.toString(),
+            currency: currency,
+            name: this.props.donation.name,
+            description:  this.props.donation.description,
+            donation_ID:  this.props.donation._id,
+            current_Amount: this.props.donation.currentAmount,
+            userID: JSON.parse(window.localStorage.getItem('user')).id,
+            user_name: JSON.parse(window.localStorage.getItem('user')).name,
+            user_type: window.localStorage.getItem('user_type'),
+            ngoID: this.props.donation.user_id,
+            
+            // image: { logo },
+            order_id: order_id,
+            handler: async function (response) {
+                const data = {
+                    orderCreationId: order_id,
+                    razorpayPaymentId: response.razorpay_payment_id,
+                    razorpayOrderId: response.razorpay_order_id,
+                    razorpaySignature: response.razorpay_signature,
+                    amount: options.amount,
+                    donationID: options.donation_ID,
+                    currentAmount: options.current_Amount,
+                    userID : options.userID,
+                    user_name: options.user_name,
+                    user_type: options.user_type,
+                    ngoID : options.ngoID
+
+
+                };
+                console.log("USER ID: " + data.userID);
+
+                const result = await axios.post(`/api/contribute/success`, data);
+               
+                this.setState({ success: !this.state.success })
+            //     const body = {
+            //         'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+            //         'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+            //         'user_type': window.localStorage.getItem('user_type')
+            //     }
+              
+            //   await axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+              
+                // alert(result.data.msg);
+               
+
+            },
+            prefill: {
+                name:  this.state.name,
+                email:  this.state.emailID,
+                contact:  this.state.contactNo,
+            },
+            notes: {
+                address: "Fetch!",
+            },
+            theme: {
+                color: "#D4A537",
+            },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+    
+      
+    //    const body = {
+    //     'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+    //     'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+    //     'user_type': window.localStorage.getItem('user_type')
+    //    }
+  
+    // axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+}
+        // axios.get(`/api/post`)
+
+        // this.getReceipt()
+    
+
     onSubmit = (e) => {
         e.preventDefault()
         
@@ -115,21 +241,46 @@ class DisplayDonation extends Component {
         // formData.address = this.state.address;
  
         console.log(formData)
-        axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
-        window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
-        // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
-        const body = {
-            'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-            'user_name': JSON.parse(window.localStorage.getItem('user')).name,
-            'user_type': window.localStorage.getItem('user_type')
-        }
-
-        axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
+        // axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
+        this.displayRazorpay();
+        // window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
+        // // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
+        // const body = {
+        //     'user_id': JSON.parse(window.localStorage.getItem('user')).id,
+        //     'user_name': JSON.parse(window.localStorage.getItem('user')).name,
+        //     'user_type': window.localStorage.getItem('user_type')
+        // }
+       
+        // axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
     }
     render() {
        
         return (
             <Container>
+                 <Modal
+                size="400px"
+                    style={{ width:'900px'}}
+                    isOpen={this.state.success}
+                    toggle={this.toggle}>
+                         <ModalHeader toggle={this.success}> Confirm Decision</ModalHeader>
+                    <ModalBody style={{
+                        paddingTop: '20px',
+                        paddingBottom: '10px',
+                        display: "flex",
+                        backgroundColor: 'white'
+                        }}>
+                      
+                      <div>
+                     
+                         
+                        SUCCESS!
+                            
+                           
+                        </div>
+                       
+                    </ModalBody>
+                </Modal>
+
                  <Modal
                     style={{}}
                     isOpen={this.state.makeDonation}

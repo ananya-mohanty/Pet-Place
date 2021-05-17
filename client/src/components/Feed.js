@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import FeedPost from '../components/FeedPost'
 import NewPost from '../components/NewPost'
+import razor from '../components/razor'
 import {
     Container, Row, Col, Jumbotron,
     Button,
@@ -78,6 +79,8 @@ const spanStyle = {
     marginTop: "-1.5rem"
 }
 
+
+ 
 class LostPet extends Component {
     state = {
         chatPanel: false,
@@ -151,6 +154,100 @@ class DisplayDonation extends Component {
     onTextChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
+    loadScript= (src) => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    }
+
+    async displayRazorpay() {
+        const formData = new FormData();
+        console.log(this.state.name)
+        formData.name = this.state.name;
+        formData.contactNo = this.state.contactNo;
+        formData.emailID = this.state.emailID;
+        formData.amount = this.state.amount;
+        formData.cause = this.props.donation.description;
+        formData.donation = this.props.donation.name;
+        formData.donationID = this.props.donation._id;
+        formData.currentAmount = this.props.donation.currentAmount;
+
+        console.log('displayy')
+        const res =  this.loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+        if (!res) {
+            alert("Razorpay SDK failed to load. Are you online?");
+            return;
+        }
+
+        const result = await axios.post('../api/contribute/orders', {formData});
+
+        if (!result) {
+            alert("Server error. Are you online?");
+            return;
+        }
+
+        const { amount, id: order_id, currency } = result.data;
+
+        const options = {
+            key: "rzp_test_vD3ROTXl5eQm7N", // Enter the Key ID generated from the Dashboard
+            amount: amount.toString(),
+            currency: currency,
+            name: this.props.donation.name,
+            donation_ID:  this.props.donation._id,
+            current_Amount: this.props.donation.currentAmount, 
+            userID: JSON.parse(window.localStorage.getItem('user')).id,
+            user_name: JSON.parse(window.localStorage.getItem('user')).name,
+            user_type: window.localStorage.getItem('user_type'),
+            ngoID: this.props.donation.user_id,
+            order_id: order_id,
+            handler: async function (response) {
+                const data = {
+                    orderCreationId: order_id,
+                    razorpayPaymentId: response.razorpay_payment_id,
+                    razorpayOrderId: response.razorpay_order_id,
+                    razorpaySignature: response.razorpay_signature,
+                    amount: options.amount,
+                    donationID: options.donation_ID,
+                    currentAmount: options.current_Amount,
+                    userID : options.userID,
+                    user_name: options.user_name,
+                    user_type: options.user_type,
+                    ngoID : options.ngoID
+ 
+
+                };
+
+                const result = await axios.post(`/api/contribute/success`, data);
+               
+
+            },
+            prefill: {
+                name:  this.state.name,
+                email:  this.state.emailID,
+                contact:  this.state.contactNo,
+            },
+            notes: {
+                address: "Fetch!",
+            },
+            theme: {
+                color: "#D4A537",
+            },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+        this.setState({ makeDonation: !this.state.makeDonation })
+        axios.get(`/api/post`)
+    }
     onSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData();
@@ -166,19 +263,14 @@ class DisplayDonation extends Component {
         // formData.annualIncome = this.state.annualIncome;
         // formData.address = this.state.address;
  
-        axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
-        window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
+        // axios.post(`/api/contribute/${this.props.donation._id}`, {formData});
+        // window.location.href=`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?amount=` + this.state.amount+ `&name=` + this.state.name + `&donation_drive_name=` + this.props.donation.name  + `&phone=` + this.state.contactNo + `&email=` + this.state.emailID + `&cause=` + this.props.donation.description;
         // axios.post({`https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=` + this.props.donation.name});
 
-        const body = {
-            'user_id': JSON.parse(window.localStorage.getItem('user')).id,
-            'user_name': JSON.parse(window.localStorage.getItem('user')).name,
-            'user_type': window.localStorage.getItem('user_type')
-        }
-
-        axios.post(`/api/donations/ngo/notify/${this.props.donation.user_id}`, body)
-       
-    }
+        
+       this.displayRazorpay();
+  
+}
     render() {
         return (
             <div style={divStyle}>
@@ -204,15 +296,13 @@ class DisplayDonation extends Component {
                         <CardTitle tag="h6">{this.props.donation.name}</CardTitle>
                         <CardSubtitle > Amount Raised: &#8377; {this.props.donation.currentAmount} </CardSubtitle>
                         <CardSubtitle >Target Amount: &#8377; {this.props.donation.targetAmount}</CardSubtitle>
-                        {/* </CardSubtitle> */}
-                        {/* <CardSubtitle className="mb-2 text-muted" tag="h6"> */}
+        
                         <CardSubtitle >Ends On: {this.props.donation.endDate}</CardSubtitle>
-                        {/* </CardSubtitle> */}
-                        {/* <div style={{ fontSize: 13, lineHeight: 'normal', textAlign: 'left', marginLeft: 15, width: 165 }}>{this.props.donation.description}</div></CardText> */}
+                       
                     </CardText >
-                    {/* <a href={"https://pages.razorpay.com/pl_H2rkPEYsi0hLnB/view?donation_drive_name=" + this.props.donation.name}> */}
+                   
                         <Button  className="donateBtn" size='sm' onClick={this.onDonate} >Donate</Button>
-                    {/* </a> */}
+                
                 </CardBody>
                 <Modal
                     style={{}}
@@ -225,7 +315,7 @@ class DisplayDonation extends Component {
                         display: "flex",
                         backgroundColor: 'white'
                         }}>
-                        {/* <img src={profilepic} style={imageStyle}></img> */}
+                        
                         <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Donor</label>
                             <br></br>
@@ -292,12 +382,9 @@ export class Feed extends Component {
 
         axios.get('api/donations/')
             .then((res) => {
-                // console.log(res.data)
-                // console.log("heloo")
-                // console.log(this.state.Donations)
+               
                 this.setState({ Donations: res.data.items, filesDonations: res.data.files })
-                // console.log(this.state.Donations)
-                // this.helper(res.data)
+              
             });
 
         axios.get('api/lostpet/')
@@ -313,7 +400,7 @@ export class Feed extends Component {
             <Container style={{ justifyContent: 'center', alignItems: 'center', marginLeft: '90px',  }}><Row>
                 <Col className="myColumn1" style={{ marginBottom: 90, marginRight: -20, marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX: 'auto',  }}xs={'auto'}/*style={{width: 30}}*/>
                     <div style={{/*marginLeft: -135, *//* marginLeft: -80*/ }}>
-                        {/* <div style={{marginLeft: 130, marginBottom: -20}}>Lost Pets</div> */}
+                      
                         {
                             this.state.LostPets.map((lostpet, i) => {
                                 var files = this.state.fileslostpets.filter((f) => lostpet.files.includes(f._id))
@@ -342,7 +429,7 @@ export class Feed extends Component {
                 </Col>
                 <Col className="myColumn1" style={{ marginBottom: 90, marginTop: 90, height: '1300px', overflowY: 'scroll', overflowX:'auto', position:''}}xs={'auto'}>
                     <div style={{  }}>
-                        {/* <div style={{marginTop: 90, marginLeft: 90, marginBottom: -15}}>Donation Drives</div> */}
+                        
                         {
                             this.state.Donations.map((donation, i) => {
                                 var files = this.state.filesDonations.filter((f) => donation.files.includes(f._id))

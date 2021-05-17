@@ -65,6 +65,8 @@ export class Navbar2 extends Component {
                 toast.success(`${this.props.notifs.value[0].user_name} made a donation to your drive!`)
                 else if(this.props.notifs.value[0].type == 'apply')
                 toast.warning(`${this.props.notifs.value[0].user_name} applied for adoption on your post!`)
+                else if(this.props.notifs.value[0].type == 'donated')
+                toast.success(`You have successfully donated!`)
             }
         }
         this.prev = this.props.unread_messages.value
@@ -150,7 +152,10 @@ export class Navbar2 extends Component {
                                                     }} tag={Link} to={`profile/${n.user_type}/${n.user_id}`} >
                                                         {n.type == 'foundpet' ? <div>Looks like {n.user_name} has found your pet.</div>:
                                                             n.type == 'donation' ? <div>{n.user_name} made a donation to your drive.</div>:
-                                                                n.type == 'apply' ? <div>{n.user_name} applied for adoption on your post.</div>:null}
+                                                                n.type == 'apply' ? <div>{n.user_name} applied for adoption on your post.</div>:  
+                                                                n.type == 'donated' ? <div>You have successfully donated!</div>:
+                                                                
+                                                                null}
                                                     <Time style={{ marginLeft: '2px', fontSize: '12px' }} value={n.createdAt} format="DD/MM/YYYY"/>
                                                     <Time style={{ marginLeft: '2px', fontSize: '12px' }} value={n.createdAt} format="HH:mm:ss" />
                                                 </DropdownItem>

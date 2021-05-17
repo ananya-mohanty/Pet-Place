@@ -32,7 +32,7 @@ import ApplicationPage from './pages/ApplicationPage'
 import  AdoptionRequest  from './pages/AdoptionRequestPage'
 import AboutPage from './pages/AboutPage'
 import Donations from './pages/Donations'
-
+import razor from './components/razor'
 
 function App() {
   return (
@@ -122,9 +122,11 @@ function App() {
               <div>
                 <Navbar />
                 <Feed />
+                {/* <razor /> */}
                 <Footer />
               </div> :window.location.href='/login'
           }></Route>
+
           <Route exact path="/adopt" render={(props) =>
             window.localStorage.getItem('user') ?
               <div>

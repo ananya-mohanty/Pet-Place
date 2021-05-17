@@ -29,7 +29,13 @@ const ContributeSchema = new Schema({
     },
     contactNo:{
         type: Number
-    } 
+    },
+    orderID:{
+        type: String
+    },
+    status:{
+        type: String
+    }
 
 });
 
