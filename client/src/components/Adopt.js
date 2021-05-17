@@ -4,7 +4,6 @@ import axios from 'axios'
 import {
     Modal, ModalBody, ModalHeader,Button, Row, Col
 } from 'reactstrap'
-import profilepic from '../images/resources/friend-avatar10.jpg'
 
 const mainStyle = {
     position: "relative",
@@ -103,7 +102,7 @@ export class NewPost extends Component{
                         paddingBottom: '0px',
                         display: "flex",
                         backgroundColor: 'white'}}>
-                        <img src={profilepic} style={imageStyle}></img>
+                        
                         <form>
                             <label style={{ marginLeft: '15px', position: 'relative', zIndex: '1' }}>Name of the Applicant</label>
                             <br></br>

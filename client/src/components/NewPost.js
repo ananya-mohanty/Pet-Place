@@ -7,7 +7,6 @@ import {
     Col,
     Jumbotron, Modal, ModalHeader, 
 } from 'reactstrap'
-import profilepic from '../images/resources/friend-avatar10.jpg'
 import FlashMessage from 'react-flash-message'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
