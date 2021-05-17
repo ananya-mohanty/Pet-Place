@@ -4,7 +4,6 @@ import axios from 'axios'
 import {
     Modal, ModalBody, ModalHeader, Button, Row, Col
 } from 'reactstrap'
-import profilepic from '../images/resources/friend-avatar10.jpg'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

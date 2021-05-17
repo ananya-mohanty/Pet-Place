@@ -11,7 +11,6 @@ import {
     ModalBodyProps,
     ModalHeader
 } from 'reactstrap'
-import profilepic from '../images/resources/friend-avatar10.jpg'
 import doc from '../images/document.png'
 import { SRLWrapper } from "simple-react-lightbox"
 import AliceCarousel from 'react-alice-carousel';
